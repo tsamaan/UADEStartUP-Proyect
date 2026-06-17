@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Entorno local Docker - UADE StartUP</title>
+    <style>
+      :root { --bg:#f7f8fb; --surface:#fff; --text:#1d2433; --muted:#5f6b7a; --border:#d8dee8; --accent:#146c94; --accent-soft:#e7f5fb; --warn:#9a6a12; }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.6; }
+      main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:36px 0 64px; }
+      header, section { margin-bottom:20px; padding:28px; border:1px solid var(--border); border-radius:8px; background:var(--surface); }
+      h1,h2,h3 { line-height:1.2; }
+      h1 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+      h2 { margin:0 0 16px; }
+      h3 { margin:20px 0 8px; }
+      p { margin:0 0 14px; color:var(--muted); }
+      ul,ol { margin-top:0; padding-left:24px; }
+      li + li { margin-top:6px; }
+      pre { overflow-x:auto; padding:16px; border-radius:8px; background:#111827; color:#f9fafb; }
+      code { padding:2px 5px; border-radius:5px; background:#eef1f6; font-family:"Cascadia Code",Consolas,monospace; }
+      pre code { padding:0; background:transparent; color:inherit; }
+      table { width:100%; border-collapse:collapse; margin-top:12px; font-size:.95rem; }
+      th,td { padding:10px 12px; border:1px solid var(--border); text-align:left; vertical-align:top; }
+      th { background:var(--accent-soft); color:var(--accent); }
+      .note { padding:14px 16px; border-left:4px solid var(--accent); background:var(--accent-soft); color:var(--text); }
+      .warn { border-left-color:var(--warn); background:#fff7e6; }
+      @media (max-width:800px) { main { width:min(100% - 20px,720px); } header,section { padding:20px; overflow-x:auto; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Entorno local Docker - UADE StartUP</h1>
+        <p>Guia para levantar UADE StartUP en cualquier PC usando este repo de infraestructura.</p>
+      </header>
+
+      <section>
+        <h2>Objetivo</h2>
+        <p>Este repositorio no esta pensado para desplegarse en CapRover. Su objetivo es permitir que una persona clone los repos del proyecto y levante un entorno local reproducible con Docker.</p>
+      </section>
+
+      <section>
+        <h2>Estructura esperada</h2>
+        <pre><code>proyectosTeo/
+  UADEStartUP-Proyect/   # infra + docs
+  UADEStartUP-Backend/   # backend Express
+  UADEStartUP-Frontend/  # futuro frontend Next.js</code></pre>
+        <p>Por defecto, el Compose busca el backend en <code>../UADEStartUP-Backend</code>. Si esta en otra ruta, cambiar <code>BACKEND_PATH</code> en <code>.env</code>.</p>
+      </section>
+
+      <section>
+        <h2>Primer uso</h2>
+        <ol>
+          <li>Entrar al repo de infra.</li>
+          <li>Copiar variables de ejemplo.</li>
+          <li>Levantar servicios base.</li>
+          <li>Levantar backend.</li>
+        </ol>
+        <pre><code>cd C:\Users\bond\Desktop\proyectosTeo\UADEStartUP-Proyect
+Copy-Item .env.example .env
+docker compose up -d postgres minio minio-init
+docker compose --profile app up backend</code></pre>
+        <p>Tambien se pueden usar los scripts incluidos:</p>
+        <pre><code>.\scripts\dev-up.ps1
+.\scripts\dev-up.ps1 -WithBackend</code></pre>
+      </section>
+
+      <section>
+        <h2>Servicios</h2>
+        <table>
+          <thead>
+            <tr><th>Servicio</th><th>URL / puerto</th><th>Uso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Backend</td><td><code>http://localhost:3000</code></td><td>API Express.</td></tr>
+            <tr><td>Healthcheck</td><td><code>http://localhost:3000/health</code></td><td>Verificar API.</td></tr>
+            <tr><td>PostgreSQL</td><td><code>localhost:5432</code></td><td>Base de datos local.</td></tr>
+            <tr><td>MinIO API</td><td><code>http://localhost:9000</code></td><td>Storage compatible S3.</td></tr>
+            <tr><td>MinIO Console</td><td><code>http://localhost:9001</code></td><td>Panel web de MinIO.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Verificacion rapida</h2>
+        <pre><code>Invoke-RestMethod http://localhost:3000/health
+Invoke-RestMethod http://localhost:3000/editions
+Invoke-RestMethod http://localhost:3000/editions/edicion-2026</code></pre>
+      </section>
+
+      <section>
+        <h2>Comandos utiles</h2>
+        <table>
+          <thead>
+            <tr><th>Comando</th><th>Descripcion</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>docker compose ps</code></td><td>Ver servicios activos.</td></tr>
+            <tr><td><code>docker compose logs -f backend</code></td><td>Ver logs del backend.</td></tr>
+            <tr><td><code>docker compose logs -f postgres</code></td><td>Ver logs de PostgreSQL.</td></tr>
+            <tr><td><code>docker compose down</code></td><td>Apagar contenedores sin borrar datos.</td></tr>
+            <tr><td><code>docker compose down -v</code></td><td>Apagar y borrar volumenes. Reinicia la base desde cero.</td></tr>
+            <tr><td><code>.\scripts\dev-logs.ps1 backend</code></td><td>Ver logs de un servicio con script.</td></tr>
+            <tr><td><code>.\scripts\dev-down.ps1</code></td><td>Apagar el entorno con script.</td></tr>
+            <tr><td><code>.\scripts\dev-reset.ps1</code></td><td>Resetear volumenes con confirmacion.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Puertos ocupados</h2>
+        <p>Si ya hay otro PostgreSQL, MinIO o backend corriendo en la PC, puede haber conflicto de puertos. Hay dos caminos:</p>
+        <ul>
+          <li>Apagar el entorno anterior con <code>docker compose down</code> desde el repo que lo levanto.</li>
+          <li>Cambiar puertos en <code>.env</code>, por ejemplo <code>POSTGRES_PORT=5433</code> o <code>BACKEND_PORT=3001</code>.</li>
+        </ul>
+        <div class="note">
+          <strong>Tip:</strong> si se usa este repo de infra como entrada principal, conviene levantar PostgreSQL y MinIO solo desde aca para evitar duplicados.
+        </div>
+      </section>
+
+      <section>
+        <h2>Datos persistentes</h2>
+        <p>PostgreSQL y MinIO usan volumenes Docker. Los datos sobreviven a <code>docker compose down</code>, pero se borran con <code>docker compose down -v</code>.</p>
+        <div class="note warn">
+          <strong>Atencion:</strong> este entorno es para desarrollo local. Las credenciales de <code>.env.example</code> no deben usarse como secretos reales de produccion.
+        </div>
+      </section>
+
+      <section>
+        <h2>Cuando exista frontend</h2>
+        <p>Se agregara un servicio <code>frontend</code> al Compose para levantar Next.js desde el repo <code>UADEStartUP-Frontend</code>.</p>
+      </section>
+    </main>
+  </body>
+</html>
