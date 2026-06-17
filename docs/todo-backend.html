@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3 y Sprint 4 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna y administracion inicial de usuarios/equipos ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4 y Sprint 5 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial y proyectos/publicacion ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -148,22 +148,25 @@
         <p>Objetivo: crear, editar, revisar y publicar proyectos.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear modelo <code>projects</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /projects</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>PATCH /projects/:id</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /projects/:id</code> publico.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /editions/:slug/projects</code> publico.</label></li>
-          <li><label><input type="checkbox" />Implementar estados: <code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/submit</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/publish</code> solo admin.</label></li>
-          <li><label><input type="checkbox" />Validar campos obligatorios iniciales: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>PATCH /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /projects/:id</code> publico.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /editions/:slug/projects</code> publico.</label></li>
+          <li><label><input type="checkbox" checked />Implementar estados: <code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /projects/:id/submit</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /projects/:id/publish</code> solo admin.</label></li>
+          <li><label><input type="checkbox" checked />Validar campos obligatorios iniciales: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
-          <li>Expositor puede cargar proyecto.</li>
-          <li>Admin puede publicarlo.</li>
-          <li>Publico puede ver proyectos publicados sin login.</li>
+          <li><label><input type="checkbox" checked />Expositor puede cargar proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Admin puede publicarlo.</label></li>
+          <li><label><input type="checkbox" checked />Publico puede ver proyectos publicados sin login.</label></li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo crear proyecto como expositor, confirmar que no sea publico en borrador, enviarlo a revision, publicarlo como admin y consultarlo desde feed/detalle publico sin login.
+        </div>
       </section>
 
       <section class="sprint">
