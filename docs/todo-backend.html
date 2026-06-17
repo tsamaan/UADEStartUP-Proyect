@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2 y Sprint 3 completos. Base tecnica, PostgreSQL/Prisma/ediciones y auth interna con roles ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3 y Sprint 4 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna y administracion inicial de usuarios/equipos ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -126,18 +126,21 @@
         <p>Objetivo: que el admin pueda gestionar usuarios internos, roles, equipos y expositores.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Implementar <code>GET /admin/users</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>PATCH /admin/users/:id/role</code>.</label></li>
-          <li><label><input type="checkbox" />Crear modelo <code>teams</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /admin/exhibitors</code>.</label></li>
-          <li><label><input type="checkbox" />Asociar equipo a edicion y usuario expositor responsable.</label></li>
-          <li><label><input type="checkbox" />Validar que solo admin pueda dar de alta expositores.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /admin/users</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>PATCH /admin/users/:id/role</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>teams</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /admin/exhibitors</code>.</label></li>
+          <li><label><input type="checkbox" checked />Asociar equipo a edicion y usuario expositor responsable.</label></li>
+          <li><label><input type="checkbox" checked />Validar que solo admin pueda dar de alta expositores.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
-          <li>Admin puede crear/habilitar expositores.</li>
-          <li>Equipos quedan vinculados a una edicion.</li>
+          <li><label><input type="checkbox" checked />Admin puede crear/habilitar expositores.</label></li>
+          <li><label><input type="checkbox" checked />Equipos quedan vinculados a una edicion.</label></li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo listado de usuarios con admin, alta de expositor/equipo, login del expositor creado y bloqueo 403 al intentar acceder a rutas admin con rol expositor.
+        </div>
       </section>
 
       <section class="sprint">
