@@ -62,6 +62,7 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 3000
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://uade_startup:uade_startup@postgres:5432/uade_startup?schema=public}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}

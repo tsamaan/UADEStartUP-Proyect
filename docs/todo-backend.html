@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1 y Sprint 2 completos. Prisma, PostgreSQL local, migracion inicial, seed y endpoints publicos de ediciones ya fueron verificados contra la base real.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2 y Sprint 3 completos. Base tecnica, PostgreSQL/Prisma/ediciones y auth interna con roles ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -102,20 +102,23 @@
         <p>Objetivo: permitir login interno para administradores, expositores y jurados, con permisos por rol.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Implementar hash de passwords.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /auth/login</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar sesion o JWT.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /me</code>.</label></li>
-          <li><label><input type="checkbox" />Crear middleware <code>requireAuth</code>.</label></li>
-          <li><label><input type="checkbox" />Crear middleware <code>requireRole</code>.</label></li>
-          <li><label><input type="checkbox" />Probar accesos por admin, jurado y expositor.</label></li>
+          <li><label><input type="checkbox" checked />Implementar hash de passwords.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /auth/login</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar sesion o JWT.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /me</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear middleware <code>requireAuth</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear middleware <code>requireRole</code>.</label></li>
+          <li><label><input type="checkbox" checked />Probar accesos por admin, jurado y expositor.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
-          <li>Login interno funcional.</li>
-          <li>Rutas protegidas por rol.</li>
-          <li>Invitados siguen pudiendo ver contenido publico sin login.</li>
+          <li><label><input type="checkbox" checked />Login interno funcional.</label></li>
+          <li><label><input type="checkbox" checked />Rutas protegidas por rol.</label></li>
+          <li><label><input type="checkbox" checked />Invitados siguen pudiendo ver contenido publico sin login.</label></li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo <code>POST /auth/login</code> con usuarios seed admin, jurado y expositor; tambien <code>GET /auth/me</code> con Bearer token y <code>GET /editions</code> sin login.
+        </div>
       </section>
 
       <section class="sprint">

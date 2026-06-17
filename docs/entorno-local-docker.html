@@ -87,6 +87,17 @@ docker compose --profile app up backend</code></pre>
         <pre><code>Invoke-RestMethod http://localhost:3000/health
 Invoke-RestMethod http://localhost:3000/editions
 Invoke-RestMethod http://localhost:3000/editions/edicion-2026</code></pre>
+        <p>Login interno de desarrollo:</p>
+        <pre><code>Invoke-RestMethod -Method Post `
+  -Uri http://localhost:3000/auth/login `
+  -ContentType "application/json" `
+  -Body '{"email":"admin@uadestartup.local","password":"admin123"}'</code></pre>
+        <p>Usuarios demo internos:</p>
+        <ul>
+          <li><code>admin@uadestartup.local</code> / <code>admin123</code></li>
+          <li><code>jurado@uadestartup.local</code> / <code>admin123</code></li>
+          <li><code>expositor@uadestartup.local</code> / <code>admin123</code></li>
+        </ul>
       </section>
 
       <section>
