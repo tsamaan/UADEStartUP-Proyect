@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plan para aprobacion - UADE StartUP</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #1d2433;
+        --muted: #5f6b7a;
+        --border: #d8dee8;
+        --accent: #146c94;
+        --accent-soft: #e7f5fb;
+        --ok: #2f7d4f;
+        --warn: #9a6a12;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0 64px; }
+      header, section { margin-bottom: 20px; padding: 28px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+      h1, h2, h3 { line-height: 1.2; }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+      h2 { margin: 0 0 16px; }
+      h3 { margin: 20px 0 8px; }
+      p { margin: 0 0 14px; color: var(--muted); }
+      ul { margin-top: 0; padding-left: 24px; }
+      li + li { margin-top: 6px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.95rem; }
+      th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .card { padding: 18px; border: 1px solid var(--border); border-radius: 8px; background: #fbfcfe; }
+      .note { padding: 14px 16px; border-left: 4px solid var(--accent); background: var(--accent-soft); color: var(--text); }
+      .ok { border-left-color: var(--ok); background: #edf8f1; }
+      .warn { border-left-color: var(--warn); background: #fff7e6; }
+      code { padding: 2px 5px; border-radius: 5px; background: #eef1f6; font-family: "Cascadia Code", Consolas, monospace; }
+      @media (max-width: 800px) { main { width: min(100% - 20px, 720px); } .grid { grid-template-columns: 1fr; } header, section { padding: 20px; overflow-x: auto; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Plan para aprobacion - UADE StartUP</h1>
+        <p>Resumen ejecutivo del MVP, decisiones cerradas, riesgos y entregables necesarios para aprobar el inicio del desarrollo.</p>
+      </header>
+
+      <section>
+        <h2>Resumen ejecutivo</h2>
+        <p>UADE StartUP sera una plataforma web para mostrar proyectos por edicion, permitir votacion publica en tiempo real y registrar evaluaciones privadas de jurados. El producto queda preparado para crecer por ediciones, por ejemplo Edicion 2026, y conservar historicos consultables.</p>
+        <div class="note ok">
+          <strong>Propuesta MVP:</strong> una app publica para ver proyectos y ranking en vivo, un login con Google solo para votar, paneles para expositores/jurados/admin, backend Express, frontend Next.js, deploy en CapRover y archivos en MinIO.
+        </div>
+      </section>
+
+      <section>
+        <h2>Alcance MVP</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Publico e invitados</h3>
+            <ul>
+              <li>Acceso por QR publico a la edicion activa.</li>
+              <li>Ver proyectos, detalles y ranking sin login.</li>
+              <li>Google Login solo al votar.</li>
+              <li>Un voto activo por invitado y edicion, con posibilidad de cambiarlo.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Expositores</h3>
+            <ul>
+              <li>Alta gestionada por administrador.</li>
+              <li>Carga y edicion de proyecto.</li>
+              <li>Logo, imagenes, links y descripcion del proyecto.</li>
+              <li>Envio a revision/publicacion.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Jurados</h3>
+            <ul>
+              <li>Login interno.</li>
+              <li>Evaluacion con 1 a 5 estrellas.</li>
+              <li>Comentario privado opcional.</li>
+              <li>Edicion de calificacion hasta cierre de evaluacion.</li>
+              <li>Todos los jurados evaluan todos los proyectos de la edicion.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Administracion</h3>
+            <ul>
+              <li>Gestion de ediciones.</li>
+              <li>Gestion de usuarios, roles y equipos.</li>
+              <li>Moderacion de proyectos.</li>
+              <li>Resultados publicos y ranking de jurado privado.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Decisiones cerradas</h2>
+        <table>
+          <thead>
+            <tr><th>Area</th><th>Decision</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Frontend</td><td>Next.js.</td></tr>
+            <tr><td>Backend</td><td>Node.js con Express.</td></tr>
+            <tr><td>Infraestructura</td><td>CapRover con frontend y backend como apps separadas. El dominio final queda pendiente; se usara el patron <code>nombreapp.dominio.com</code>.</td></tr>
+            <tr><td>Archivos</td><td>MinIO autohosteado dentro de CapRover, con volumen persistente y backups.</td></tr>
+            <tr><td>Base de datos</td><td>PostgreSQL dentro de CapRover.</td></tr>
+            <tr><td>Votacion</td><td>Ranking publico en tiempo real por WebSockets.</td></tr>
+            <tr><td>Login invitado</td><td>No requiere login para mirar; Google Login solo para votar.</td></tr>
+            <tr><td>Ranking publico</td><td>Orden por mayor cantidad de votos; empate por quien llego antes a esa cantidad.</td></tr>
+            <tr><td>Ranking jurado</td><td>Promedio de estrellas, visible solo para administradores.</td></tr>
+            <tr><td>Evaluacion jurado</td><td>Todos los jurados evaluan todos los proyectos de la edicion.</td></tr>
+            <tr><td>Ventana de votacion</td><td>Configurable por el administrador en cada edicion.</td></tr>
+            <tr><td>Historico</td><td>Soporte por ediciones/versiones desde el modelo inicial.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Fuera del MVP</h2>
+        <ul>
+          <li>Notificaciones por email.</li>
+          <li>Asignacion avanzada de jurados.</li>
+          <li>Reportes PDF.</li>
+          <li>Comentarios publicos.</li>
+          <li>App mobile nativa.</li>
+          <li>Analitica avanzada de comportamiento.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Riesgos y mitigaciones</h2>
+        <table>
+          <thead>
+            <tr><th>Riesgo</th><th>Impacto</th><th>Mitigacion</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Disponibilidad del servidor durante la muestra</td><td>Alto</td><td>Prueba de carga previa, monitoreo basico, reinicio controlado de apps y backups.</td></tr>
+            <tr><td>MinIO autohosteado sin backups</td><td>Alto</td><td>Volumen persistente, backup programado y prueba de restauracion antes del evento.</td></tr>
+            <tr><td>Problemas con Google OAuth el dia del evento</td><td>Medio</td><td>Configurar credenciales y dominio final con anticipacion; probar desde celulares y redes distintas.</td></tr>
+            <tr><td>Ranking en tiempo real con muchos usuarios</td><td>Medio</td><td>WebSockets con eventos chicos, contador desnormalizado y prueba de concurrencia.</td></tr>
+            <tr><td>Datos de jurado expuestos por error</td><td>Alto</td><td>Autorizacion por rol en backend y pruebas especificas de permisos.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Faltantes antes de aprobar desarrollo</h2>
+        <ul>
+          <li>Confirmar dominio final. Mientras tanto, planificar subdominios con el patron CapRover <code>nombreapp.dominio.com</code>, por ejemplo frontend, backend y MinIO.</li>
+          <li>Confirmar datos obligatorios finales del formulario de proyecto. Propuesta inicial: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto del equipo.</li>
+          <li>Definir fecha estimada de la Edicion 2026.</li>
+          <li>Preparar credenciales Google OAuth para ambiente de desarrollo y produccion.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Entregables tecnicos ya documentados</h2>
+        <ul>
+          <li><a href="primer-documento-tecnico.html">Primer documento tecnico</a></li>
+          <li><a href="modelo-entidad-relacion.html">Modelo entidad-relacion</a></li>
+          <li><a href="contratos-api.html">Contratos de API</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

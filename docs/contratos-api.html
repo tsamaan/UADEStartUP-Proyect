@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contratos de API - UADE StartUP</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #1d2433;
+        --muted: #5f6b7a;
+        --border: #d8dee8;
+        --accent: #146c94;
+        --accent-soft: #e7f5fb;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0 64px; }
+      header, section { margin-bottom: 20px; padding: 28px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+      h1, h2, h3 { line-height: 1.2; }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+      h2 { margin: 0 0 16px; }
+      h3 { margin: 22px 0 8px; }
+      p { margin: 0 0 14px; color: var(--muted); }
+      code { padding: 2px 5px; border-radius: 5px; background: #eef1f6; font-family: "Cascadia Code", Consolas, monospace; }
+      pre { overflow-x: auto; padding: 16px; border-radius: 8px; background: #111827; color: #f9fafb; }
+      pre code { padding: 0; background: transparent; color: inherit; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.95rem; }
+      th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); }
+      .endpoint { border-left: 4px solid var(--accent); }
+      .note { padding: 14px 16px; border-left: 4px solid var(--accent); background: var(--accent-soft); color: var(--text); }
+      @media (max-width: 800px) { main { width: min(100% - 20px, 720px); } section, header { padding: 20px; overflow-x: auto; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Contratos de API - UADE StartUP</h1>
+        <p>Contratos iniciales REST + WebSocket para el MVP. Base pensada para backend Node.js con Express y frontend Next.js.</p>
+      </header>
+
+      <section>
+        <h2>Convenciones</h2>
+        <table>
+          <tbody>
+            <tr><th>Base URL</th><td><code>/api/v1</code></td></tr>
+            <tr><th>Formato</th><td>JSON.</td></tr>
+            <tr><th>Auth interna</th><td>Sesion HTTP-only o Bearer token para admin, jurado y expositor.</td></tr>
+            <tr><th>Auth invitados</th><td>No se requiere login para ver ediciones, proyectos y ranking publico. Google Login solo es obligatorio para votar.</td></tr>
+            <tr><th>Errores</th><td><code>{ "error": { "code": "string", "message": "string", "details": {} } }</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Auth</h2>
+        <article class="endpoint">
+          <h3>POST /auth/login</h3>
+          <p>Login para usuarios internos: admin, jurado y expositor.</p>
+<pre><code>{
+  "email": "admin@uade.edu.ar",
+  "password": "********"
+}</code></pre>
+<pre><code>{
+  "user": {
+    "id": "uuid",
+    "name": "Admin",
+    "email": "admin@uade.edu.ar",
+    "role": "admin"
+  }
+}</code></pre>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /auth/google</h3>
+          <p>Redirecciona al flujo OAuth de Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /auth/google/callback</h3>
+          <p>Callback OAuth. Crea o recupera usuario invitado y lo deja autenticado.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /me</h3>
+          <p>Devuelve usuario actual.</p>
+<pre><code>{
+  "id": "uuid",
+  "name": "Invitado",
+  "email": "persona@gmail.com",
+  "role": "guest"
+}</code></pre>
+        </article>
+      </section>
+
+      <section>
+        <h2>Ediciones</h2>
+        <article class="endpoint">
+          <h3>GET /editions</h3>
+          <p>Lista ediciones publicas e historicas. No requiere login.</p>
+<pre><code>{
+  "items": [
+    {
+      "id": "uuid",
+      "name": "Edicion 2026",
+      "year": 2026,
+      "slug": "edicion-2026",
+      "status": "active"
+    }
+  ]
+}</code></pre>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /editions/:slug</h3>
+          <p>Detalle de una edicion. No requiere login.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /editions/:slug/projects</h3>
+          <p>Proyectos publicados de una edicion, ordenados por ranking publico si la edicion esta activa. No requiere login.</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Proyectos</h2>
+        <article class="endpoint">
+          <h3>GET /projects/:id</h3>
+          <p>Detalle publico de proyecto. No requiere login.</p>
+<pre><code>{
+  "id": "uuid",
+  "title": "Proyecto Demo",
+  "team": { "id": "uuid", "name": "Equipo Demo" },
+  "shortSummary": "Resumen corto",
+  "description": "Descripcion completa",
+  "category": "Impacto social",
+  "logoUrl": "https://cdn.example.com/logo.png",
+  "voteCount": 27,
+  "currentUserVoted": false
+}</code></pre>
+        </article>
+
+        <article class="endpoint">
+          <h3>POST /projects</h3>
+          <p>Crea proyecto. Rol: expositor o admin.</p>
+<pre><code>{
+  "editionId": "uuid",
+  "teamId": "uuid",
+  "title": "Proyecto Demo",
+  "shortSummary": "Resumen corto",
+  "description": "Descripcion completa",
+  "problem": "Problema",
+  "solution": "Solucion",
+  "category": "Categoria",
+  "stage": "mvp"
+}</code></pre>
+        </article>
+
+        <article class="endpoint">
+          <h3>PATCH /projects/:id</h3>
+          <p>Edita proyecto. Rol: expositor propietario o admin.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>POST /projects/:id/submit</h3>
+          <p>Envia proyecto a revision.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>POST /projects/:id/publish</h3>
+          <p>Publica proyecto. Rol: admin.</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Votos</h2>
+        <article class="endpoint">
+          <h3>POST /projects/:id/vote</h3>
+          <p>Emite o cambia el voto activo del invitado autenticado con Google para la edicion del proyecto. Requiere Google Login.</p>
+<pre><code>{
+  "previousProjectId": "uuid-or-null",
+  "currentProjectId": "uuid",
+  "ranking": [
+    { "projectId": "uuid", "voteCount": 28, "position": 1 },
+    { "projectId": "uuid", "voteCount": 27, "position": 2 }
+  ]
+}</code></pre>
+          <p>Reglas: requiere edicion con <code>voting_open = true</code>. Ejecutar cambio en transaccion y emitir evento WebSocket.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /rankings/public?editionSlug=edicion-2026</h3>
+          <p>Ranking publico visible para todos.</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Jurado</h2>
+        <article class="endpoint">
+          <h3>GET /jury/projects?editionId=uuid</h3>
+          <p>Lista proyectos para evaluar. Rol: jurado.</p>
+        </article>
+
+        <article class="endpoint">
+          <h3>POST /jury/projects/:id/evaluation</h3>
+          <p>Crea o actualiza evaluacion de jurado.</p>
+<pre><code>{
+  "score": 5,
+  "privateComment": "Muy buena presentacion."
+}</code></pre>
+        </article>
+
+        <article class="endpoint">
+          <h3>GET /admin/rankings/jury?editionId=uuid</h3>
+          <p>Ranking consolidado de jurado. Rol: admin.</p>
+<pre><code>{
+  "items": [
+    {
+      "projectId": "uuid",
+      "projectTitle": "Proyecto Demo",
+      "averageScore": 4.5,
+      "evaluationsCount": 4,
+      "position": 1
+    }
+  ]
+}</code></pre>
+        </article>
+      </section>
+
+      <section>
+        <h2>Admin</h2>
+        <table>
+          <thead><tr><th>Endpoint</th><th>Uso</th></tr></thead>
+          <tbody>
+            <tr><td><code>POST /admin/editions</code></td><td>Crear edicion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Editar estado, fechas y ventana de votacion.</td></tr>
+            <tr><td><code>GET /admin/users</code></td><td>Listar usuarios.</td></tr>
+            <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Asignar rol.</td></tr>
+            <tr><td><code>POST /admin/exhibitors</code></td><td>Dar de alta expositor/equipo.</td></tr>
+            <tr><td><code>GET /admin/results?editionId=uuid</code></td><td>Resultados publicos y de jurado.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Archivos</h2>
+        <article class="endpoint">
+          <h3>POST /files/presign</h3>
+          <p>Genera URL firmada para subir archivos a MinIO. MinIO usa API compatible con S3.</p>
+<pre><code>{
+  "editionId": "uuid",
+  "projectId": "uuid",
+  "fileName": "logo.png",
+  "mimeType": "image/png",
+  "sizeBytes": 120000
+}</code></pre>
+<pre><code>{
+  "fileId": "uuid",
+  "uploadUrl": "https://minio.uadestartup.example.com/...",
+  "objectKey": "editions/2026/projects/uuid/logo.png"
+}</code></pre>
+        </article>
+      </section>
+
+      <section>
+        <h2>Realtime</h2>
+        <article class="endpoint">
+          <h3>WS /realtime</h3>
+          <p>Canal WebSocket para eventos de ranking publico.</p>
+<pre><code>{
+  "type": "ranking.updated",
+  "editionId": "uuid",
+  "changedProjects": [
+    { "projectId": "uuid", "voteCount": 28, "position": 1 },
+    { "projectId": "uuid", "voteCount": 27, "position": 2 }
+  ]
+}</code></pre>
+        </article>
+        <p class="note">El cliente Next.js debe actualizar el feed sin refrescar la pagina cuando recibe <code>ranking.updated</code>.</p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Primer documento tecnico - UADE StartUP</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #1d2433;
+        --muted: #5f6b7a;
+        --border: #d8dee8;
+        --accent: #146c94;
+        --accent-soft: #e7f5fb;
+        --success: #2f7d4f;
+        --warning: #9a6a12;
+        --shadow: 0 18px 45px rgba(21, 31, 46, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 64px;
+      }
+
+      .hero {
+        padding: 40px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 820px;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+      }
+
+      .lead {
+        max-width: 760px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 28px;
+        margin-top: 28px;
+      }
+
+      .toc {
+        position: sticky;
+        top: 20px;
+        align-self: start;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .toc h2 {
+        margin: 0 0 12px;
+        font-size: 1rem;
+      }
+
+      .toc ol {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .content {
+        display: grid;
+        gap: 20px;
+      }
+
+      section {
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      h2 {
+        margin: 0 0 16px;
+        font-size: 1.6rem;
+      }
+
+      h3 {
+        margin: 24px 0 10px;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 14px;
+      }
+
+      ul,
+      ol {
+        margin-top: 0;
+        padding-left: 24px;
+      }
+
+      li + li {
+        margin-top: 5px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fbfcfe;
+      }
+
+      .card h3 {
+        margin-top: 0;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        margin: 0 8px 8px 0;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      .note {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .success {
+        border-left-color: var(--success);
+        background: #edf8f1;
+      }
+
+      .warning {
+        border-left-color: var(--warning);
+        background: #fff7e6;
+      }
+
+      code {
+        padding: 2px 5px;
+        border-radius: 5px;
+        background: #eef1f6;
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          width: min(100% - 20px, 720px);
+          padding-top: 20px;
+        }
+
+        .hero,
+        section {
+          padding: 22px;
+        }
+
+        .layout,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .toc {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Infraestructura y documentacion</p>
+        <h1>Primer documento tecnico - UADE StartUP</h1>
+        <p class="lead">
+          Base inicial para pensar una plataforma de muestra de proyectos con votacion publica, evaluacion de jurados, gestion de expositores y administracion del evento.
+        </p>
+      </header>
+
+      <div class="layout">
+        <nav class="toc" aria-label="Indice del documento">
+          <h2>Indice</h2>
+          <ol>
+            <li><a href="#objetivo">Objetivo</a></li>
+            <li><a href="#repositorios">Repositorios</a></li>
+            <li><a href="#roles">Roles</a></li>
+            <li><a href="#entidades">Entidades</a></li>
+            <li><a href="#flujos">Flujos</a></li>
+            <li><a href="#ranking">Ranking</a></li>
+            <li><a href="#frontend">Frontend</a></li>
+            <li><a href="#api">API</a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#infra">Infra</a></li>
+            <li><a href="#mvp">MVP</a></li>
+            <li><a href="#decisiones">Decisiones</a></li>
+          </ol>
+        </nav>
+
+        <div class="content">
+          <section id="objetivo">
+            <h2>1. Objetivo</h2>
+            <p>Construir una plataforma para una muestra de proyectos donde:</p>
+            <ul>
+              <li>Los equipos expositores registran y publican sus proyectos.</li>
+              <li>Los invitados pueden votar su proyecto favorito con un voto positivo tipo Reddit.</li>
+              <li>El feed de proyectos se ordena dinamicamente segun popularidad.</li>
+              <li>Los jurados evaluan presentaciones con una calificacion del 1 al 5.</li>
+              <li>Los administradores gestionan usuarios, roles, proyectos, codigos de acceso y configuracion de cada edicion.</li>
+              <li>El producto mantiene historico por ediciones, por ejemplo Edicion 2026, para consultar resultados y proyectos anteriores.</li>
+            </ul>
+            <p>Este repositorio funcionara como base de infraestructura y documentacion. El frontend y el backend viviran en repositorios separados para mantener responsabilidades claras.</p>
+          </section>
+
+          <section id="repositorios">
+            <h2>2. Repositorios propuestos</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Infra/documentacion</h3>
+                <p>Repositorio actual. Contendra documentacion tecnica, diagramas, variables de entorno de ejemplo, Docker Compose, scripts de setup local y documentacion de despliegue.</p>
+              </article>
+              <article class="card">
+                <h3>Frontend</h3>
+                <p>Aplicacion web en Next.js para invitados, expositores, jurados y administradores. Incluye feed, paneles por rol, votacion, rankings y actualizacion en tiempo real.</p>
+              </article>
+              <article class="card">
+                <h3>Backend</h3>
+                <p>Backend en Node.js con Express, API, autenticacion, autorizacion, reglas de negocio, persistencia, gestion de votos, evaluaciones, proyectos y eventos en tiempo real.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="roles">
+            <h2>3. Roles iniciales</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Invitado</h3>
+                <ul>
+                  <li>Ver feed de proyectos publicados.</li>
+                  <li>Ver detalle de un proyecto.</li>
+                  <li>Votar positivamente proyectos.</li>
+                  <li>Cambiar su voto activo a otro proyecto.</li>
+                </ul>
+                <p>Accede al feed escaneando un QR publico del evento. Puede ver proyectos sin login, pero para votar debe ingresar con Google.</p>
+              </article>
+              <article class="card">
+                <h3>Expositor</h3>
+                <ul>
+                  <li>Crear o editar el perfil de su proyecto.</li>
+                  <li>Subir logo e imagenes.</li>
+                  <li>Completar datos del equipo.</li>
+                  <li>Ver estadisticas basicas.</li>
+                </ul>
+                <p>Su alta y rol son asignados por un administrador.</p>
+              </article>
+              <article class="card">
+                <h3>Jurado</h3>
+                <ul>
+                  <li>Ver todos los proyectos de la edicion.</li>
+                  <li>Calificar presentacion del 1 al 5.</li>
+                  <li>Agregar comentario privado opcional.</li>
+                  <li>Modificar su calificacion hasta el cierre de evaluacion.</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Administrador</h3>
+                <ul>
+                  <li>Gestionar usuarios y roles.</li>
+                  <li>Dar de alta equipos expositores.</li>
+                  <li>Crear codigos de registro.</li>
+                  <li>Aprobar, editar, ocultar o eliminar proyectos.</li>
+                  <li>Abrir/cerrar votaciones y exportar resultados.</li>
+                </ul>
+              </article>
+            </div>
+            <div class="note">
+              <strong>Decision MVP:</strong> el QR publico permite entrar a la edicion activa y ver proyectos/ranking. Para votar, el invitado debe ingresar con Google. De esta forma el acceso sigue siendo simple y el voto se limita por cuenta.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> los expositores son dados de alta por un administrador. El admin crea o habilita el usuario/equipo expositor y le asigna el rol correspondiente.
+            </div>
+          </section>
+
+          <section id="entidades">
+            <h2>4. Entidades principales</h2>
+            <h3>Usuario</h3>
+            <p><span class="tag">id</span><span class="tag">nombre</span><span class="tag">email</span><span class="tag">rol</span><span class="tag">estado</span><span class="tag">fecha_creacion</span></p>
+
+            <h3>Equipo expositor</h3>
+            <p><span class="tag">id</span><span class="tag">nombre_equipo</span><span class="tag">integrantes</span><span class="tag">institucion</span><span class="tag">usuario_responsable_id</span></p>
+
+            <h3>Edicion</h3>
+            <p><span class="tag">id</span><span class="tag">nombre</span><span class="tag">anio</span><span class="tag">slug</span><span class="tag">estado</span><span class="tag">fecha_inicio</span><span class="tag">fecha_fin</span><span class="tag">votacion_abierta</span></p>
+            <p>Representa una version anual o periodica de UADE StartUP, por ejemplo Edicion 2026. Proyectos, votos, jurados, evaluaciones y resultados quedan asociados a una edicion.</p>
+
+            <h3>Proyecto</h3>
+            <p><span class="tag">edicion_id</span><span class="tag">titulo</span><span class="tag">resumen_corto</span><span class="tag">descripcion</span><span class="tag">problema</span><span class="tag">solucion</span><span class="tag">categoria</span><span class="tag">logo_url</span><span class="tag">demo_url</span><span class="tag">estado</span></p>
+            <p>Datos adicionales valiosos: impacto esperado, modelo de negocio, competidores, necesidades del proyecto, contacto publico, redes sociales y tags.</p>
+
+            <h3>Voto de invitado</h3>
+            <p><span class="tag">guest_user_id</span><span class="tag">edicion_id</span><span class="tag">proyecto_id</span><span class="tag">valor: 1</span><span class="tag">estado</span><span class="tag">fecha_creacion</span><span class="tag">fecha_actualizacion</span></p>
+            <p>Cada invitado autenticado con Google puede tener un solo voto activo por edicion. Si vota a otro proyecto, el sistema mueve su voto anterior al nuevo proyecto.</p>
+
+            <h3>Evaluacion de jurado</h3>
+            <p><span class="tag">jurado_id</span><span class="tag">proyecto_id</span><span class="tag">puntaje: 1 a 5</span><span class="tag">comentario_privado</span></p>
+
+            <h3>Codigo de registro</h3>
+            <p><span class="tag">codigo</span><span class="tag">tipo</span><span class="tag">usos_maximos</span><span class="tag">fecha_expiracion</span><span class="tag">estado</span></p>
+
+            <h3>Identidad social de invitado</h3>
+            <p><span class="tag">provider: google</span><span class="tag">provider_user_id</span><span class="tag">email</span><span class="tag">nombre</span><span class="tag">fecha_ultimo_acceso</span></p>
+            <p>Identidad usada para votar. El invitado puede navegar sin login, pero al votar entra con Google, sin crear contrasena, y el sistema limita el voto por cuenta y edicion.</p>
+          </section>
+
+          <section id="flujos">
+            <h2>5. Flujos principales</h2>
+            <h3>Registro de expositor</h3>
+            <ol>
+              <li>El administrador crea o habilita el usuario expositor.</li>
+              <li>El administrador crea el equipo expositor o vincula al usuario responsable con un equipo.</li>
+              <li>El expositor recibe acceso a la plataforma.</li>
+              <li>Completa o revisa los datos del equipo.</li>
+              <li>Carga el proyecto en estado borrador.</li>
+              <li>Envia el proyecto a revision o lo publica si las reglas lo permiten.</li>
+            </ol>
+
+            <h3>Carga de proyecto</h3>
+            <ol>
+              <li>Completa titulo, resumen y descripcion.</li>
+              <li>Carga logo e imagenes.</li>
+              <li>Agrega links opcionales: demo, video, repositorio o deck.</li>
+              <li>Define categoria y tags.</li>
+              <li>Guarda borrador o envia a revision.</li>
+              <li>El administrador aprueba la publicacion.</li>
+            </ol>
+
+            <h3>Votacion de invitados</h3>
+            <ol>
+              <li>El invitado escanea el QR publico del evento o entra al link de votacion.</li>
+              <li>Puede navegar proyectos sin login.</li>
+              <li>Explora proyectos.</li>
+              <li>Cuando quiere votar con la flecha hacia arriba, si no esta autenticado se solicita Google Login.</li>
+              <li>El backend verifica si esa cuenta Google ya tiene un voto activo en la edicion.</li>
+              <li>Si no tenia voto, el proyecto elegido aumenta su score.</li>
+              <li>Si ya tenia voto en otro proyecto, el voto se resta del proyecto anterior y se suma al nuevo.</li>
+              <li>El backend publica el cambio por un canal en tiempo real.</li>
+              <li>El feed de todos los usuarios conectados actualiza votos y orden sin refrescar la pagina.</li>
+            </ol>
+          </section>
+
+          <section id="ranking">
+            <h2>6. Ranking y ordenamiento</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Ranking publico</h3>
+                <ol>
+                  <li>Mayor cantidad de votos.</li>
+                  <li>Si hay empate, queda primero el proyecto que llego antes a esa cantidad de votos.</li>
+                </ol>
+              </article>
+              <article class="card">
+                <h3>Ranking de jurado</h3>
+                <ol>
+                  <li>Mayor promedio de estrellas, de 1 a 5.</li>
+                  <li>Si hay empate, mayor cantidad de evaluaciones.</li>
+                  <li>Si sigue el empate, orden alfabetico por proyecto.</li>
+                </ol>
+                <p>Visible solo para administradores. Cada jurado puede ver sus propias evaluaciones cargadas.</p>
+              </article>
+            </div>
+            <div class="note">
+              <strong>Requisito en tiempo real:</strong> cuando un invitado vota o cambia su voto, el nuevo score y la posicion de los proyectos afectados deben reflejarse automaticamente en los clientes conectados. La primera opcion tecnica sugerida es WebSockets; Server-Sent Events puede evaluarse si solo se necesita comunicacion servidor-cliente.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> durante el evento, todos los usuarios pueden ver como cambia la posicion de los proyectos/equipos en tiempo real. El ranking publico es parte visible de la experiencia.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> el ranking publico se ordena por mayor cantidad de votos. En caso de empate, queda primero el proyecto que llego antes a esa cantidad de votos.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> el ranking de jurado se calcula por promedio de estrellas de 1 a 5. Solo los administradores ven el ranking y las calificaciones consolidadas.
+            </div>
+          </section>
+
+          <section id="frontend">
+            <h2>7. Pantallas iniciales del frontend</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Publico/invitado</h3>
+                <p>Feed de proyectos de la edicion activa, detalle, acceso por QR publico, login con Google para votar, ranking publico y consulta de ediciones anteriores.</p>
+              </article>
+              <article class="card">
+                <h3>Expositor</h3>
+                <p>Dashboard del equipo, formulario de proyecto, vista previa y estado de revision/publicacion.</p>
+              </article>
+              <article class="card">
+                <h3>Jurado</h3>
+                <p>Lista de todos los proyectos de la edicion, detalle, formulario de evaluacion 1 a 5 y progreso.</p>
+              </article>
+              <article class="card">
+                <h3>Administrador</h3>
+                <p>Dashboard, gestion de ediciones, usuarios, roles, codigos, moderacion, resultados y configuracion.</p>
+              </article>
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> UADE StartUP tendra ediciones/versiones consultables, como Edicion 2026. La pantalla publica podra mostrar la edicion activa y permitir navegar historicos cuando existan.
+            </div>
+          </section>
+
+          <section id="api">
+            <h2>8. API inicial tentativa</h2>
+            <ul>
+              <li><code>POST /auth/register</code></li>
+              <li><code>POST /auth/login</code></li>
+              <li><code>GET /auth/google</code></li>
+              <li><code>GET /auth/google/callback</code></li>
+              <li><code>GET /me</code></li>
+              <li><code>GET /editions</code></li>
+              <li><code>GET /editions/:slug</code></li>
+              <li><code>GET /editions/:slug/projects</code></li>
+              <li><code>GET /projects</code></li>
+              <li><code>POST /projects</code></li>
+              <li><code>GET /projects/:id</code></li>
+              <li><code>PATCH /projects/:id</code></li>
+              <li><code>POST /projects/:id/vote</code></li>
+              <li><code>GET /rankings/public</code></li>
+              <li><code>WS /realtime</code> para eventos de votos y ranking</li>
+              <li><code>GET /jury/projects</code></li>
+              <li><code>POST /jury/projects/:id/evaluation</code></li>
+              <li><code>PATCH /admin/users/:id/role</code></li>
+              <li><code>POST /admin/editions</code></li>
+              <li><code>PATCH /admin/editions/:id</code></li>
+              <li><code>POST /admin/exhibitors</code></li>
+              <li><code>POST /admin/registration-codes</code></li>
+              <li><code>GET /admin/results</code></li>
+            </ul>
+          </section>
+
+          <section id="stack">
+            <h2>9. Stack tecnico definido</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Frontend</h3>
+                <p>Next.js como framework de frontend. Permite construir la experiencia publica, paneles por rol y rutas de ediciones con una base React productiva.</p>
+              </article>
+              <article class="card">
+                <h3>Backend</h3>
+                <p>Node.js con Express para la API REST, autenticacion, reglas de negocio y eventos en tiempo real.</p>
+              </article>
+              <article class="card">
+                <h3>Tiempo real</h3>
+                <p>WebSockets como opcion principal para publicar cambios de votos y ranking en vivo a todos los clientes conectados.</p>
+              </article>
+              <article class="card">
+                <h3>Base de datos</h3>
+                <p>PostgreSQL dentro de CapRover para usuarios, proyectos, votos, evaluaciones y auditoria.</p>
+              </article>
+              <article class="card">
+                <h3>Archivos</h3>
+                <p>MinIO autohosteado en el servidor con CapRover para logos, imagenes, videos livianos, decks y otros adjuntos de proyectos.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="infra">
+            <h2>10. Infraestructura y despliegue</h2>
+            <div class="grid">
+              <article class="card">
+                <h3>Servidor</h3>
+                <p>El proyecto se alojara en un servidor administrado con CapRover para desplegar y operar las aplicaciones.</p>
+              </article>
+              <article class="card">
+                <h3>Aplicaciones</h3>
+                <p>Frontend y backend se subiran como aplicaciones separadas en CapRover, manteniendo repositorios y pipelines independientes. El dominio final todavia no esta definido; se usara el patron de CapRover <code>nombreapp.dominio.com</code>.</p>
+              </article>
+              <article class="card">
+                <h3>Base de datos</h3>
+                <p>PostgreSQL correra como servicio dentro de CapRover.</p>
+              </article>
+              <article class="card">
+                <h3>Storage MinIO</h3>
+                <p>Los archivos se guardaran en MinIO, desplegado dentro del servidor administrado con CapRover. MinIO expone API compatible con S3.</p>
+              </article>
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> CapRover sera la plataforma de despliegue del proyecto. El frontend y el backend se desplegaran como apps separadas.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> PostgreSQL se desplegara dentro de CapRover.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> la ventana de votacion se configura desde el panel administrador para cada edicion.
+            </div>
+            <div class="note">
+              <strong>Decision tomada:</strong> los archivos de proyectos no se guardaran dentro del contenedor de la app. Se usara MinIO en CapRover, con volumen persistente, para evitar perdida de archivos en redeploys.
+            </div>
+            <div class="note warning">
+              <strong>Recomendacion operativa:</strong> MinIO necesita volumen persistente, credenciales seguras, bucket privado por defecto y una estrategia de backups. Al estar autohosteado, la responsabilidad de disponibilidad y recuperacion queda en el servidor.
+            </div>
+          </section>
+
+          <section id="mvp">
+            <h2>11. MVP propuesto</h2>
+            <div class="note success">
+              <strong>Alcance recomendado:</strong> frontend en Next.js, backend en Node.js con Express, deploy en CapRover, MinIO autohosteado para archivos, soporte por ediciones, registro/login para perfiles internos, QR publico para entrar a la edicion activa y ver proyectos sin login, Google Login solo para votar como invitado, roles basicos, admin asignando roles, carga de proyectos, publicacion moderada, feed ordenado por votos, un unico voto activo por identidad de invitado con posibilidad de cambiarlo, actualizacion de votos/ranking en tiempo real, calificacion de jurado de 1 a 5 estrellas y ranking de jurado visible solo para admin.
+            </div>
+            <h3>Fuera del MVP inicial</h3>
+            <ul>
+              <li>Notificaciones por email.</li>
+              <li>Asignacion avanzada de jurados.</li>
+              <li>Reportes PDF.</li>
+              <li>Comentarios publicos.</li>
+            </ul>
+          </section>
+
+          <section id="decisiones">
+            <h2>12. Decisiones MVP cerradas</h2>
+            <ul>
+              <li>QR publico para acceder a la edicion activa.</li>
+              <li>Google Login obligatorio para emitir voto de invitado.</li>
+              <li>Un unico voto activo por invitado y edicion, con posibilidad de cambiarlo.</li>
+              <li>Ranking publico visible para todos y actualizado en tiempo real.</li>
+              <li>Ranking de jurado visible solo para administradores.</li>
+              <li>Frontend en Next.js y backend en Node.js con Express.</li>
+              <li>Deploy en CapRover con frontend y backend como apps separadas.</li>
+              <li>Archivos en MinIO autohosteado dentro de CapRover.</li>
+              <li>Soporte de ediciones/versiones, como Edicion 2026.</li>
+              <li>PostgreSQL dentro de CapRover.</li>
+              <li>Todos los jurados evaluan todos los proyectos de la edicion.</li>
+              <li>Ventana de votacion configurable por administrador en cada edicion.</li>
+            </ul>
+            <div class="note">
+              <strong>Documentos derivados:</strong> ver <a href="modelo-entidad-relacion.html">modelo entidad-relacion</a> y <a href="contratos-api.html">contratos de API</a>.
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

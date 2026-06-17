@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modelo entidad-relacion - UADE StartUP</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #1d2433;
+        --muted: #5f6b7a;
+        --border: #d8dee8;
+        --accent: #146c94;
+        --accent-soft: #e7f5fb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0 64px; }
+      header, section {
+        margin-bottom: 20px;
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      h1, h2, h3 { line-height: 1.2; }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+      h2 { margin: 0 0 16px; }
+      h3 { margin: 20px 0 8px; }
+      p { margin: 0 0 14px; color: var(--muted); }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.95rem; }
+      th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); }
+      code { padding: 2px 5px; border-radius: 5px; background: #eef1f6; font-family: "Cascadia Code", Consolas, monospace; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .card { padding: 18px; border: 1px solid var(--border); border-radius: 8px; background: #fbfcfe; }
+      .note { padding: 14px 16px; border-left: 4px solid var(--accent); background: var(--accent-soft); color: var(--text); }
+      @media (max-width: 800px) { main { width: min(100% - 20px, 720px); } .grid { grid-template-columns: 1fr; } section, header { padding: 20px; overflow-x: auto; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Modelo entidad-relacion - UADE StartUP</h1>
+        <p>Modelo inicial para el MVP con ediciones, proyectos, votacion publica, evaluacion de jurados, administracion y archivos.</p>
+      </header>
+
+      <section>
+        <h2>Resumen de relaciones</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Ediciones</h3>
+            <p>Una edicion contiene proyectos, votos, evaluaciones de todos los jurados y configuracion de votacion.</p>
+          </article>
+          <article class="card">
+            <h3>Votos</h3>
+            <p>Cada invitado autenticado con Google puede tener un unico voto activo por edicion. Puede cambiarlo a otro proyecto.</p>
+          </article>
+          <article class="card">
+            <h3>Jurado</h3>
+            <p>Cada jurado puede evaluar proyectos de una edicion con estrellas del 1 al 5. El ranking consolidado solo lo ve admin.</p>
+          </article>
+          <article class="card">
+            <h3>Archivos</h3>
+            <p>Los archivos se guardan en MinIO autohosteado dentro de CapRover. La base solo conserva metadata y URLs/keys.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Entidades</h2>
+
+        <h3>users</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>name</code></td><td>varchar</td><td>Nombre visible.</td></tr>
+            <tr><td><code>email</code></td><td>varchar</td><td>Unico cuando aplica.</td></tr>
+            <tr><td><code>password_hash</code></td><td>varchar nullable</td><td>Para admin, jurado y expositor. Los invitados votan con Google y no necesitan password local.</td></tr>
+            <tr><td><code>role</code></td><td>enum</td><td><code>admin</code>, <code>exhibitor</code>, <code>jury</code>, <code>guest</code>.</td></tr>
+            <tr><td><code>status</code></td><td>enum</td><td><code>active</code>, <code>pending</code>, <code>blocked</code>.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de creacion.</td></tr>
+            <tr><td><code>updated_at</code></td><td>timestamp</td><td>Fecha de actualizacion.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>social_identities</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
+            <tr><td><code>provider</code></td><td>varchar</td><td>Para MVP: <code>google</code>.</td></tr>
+            <tr><td><code>provider_user_id</code></td><td>varchar</td><td>ID estable del proveedor.</td></tr>
+            <tr><td><code>email</code></td><td>varchar</td><td>Email entregado por Google.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de vinculacion.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>editions</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>name</code></td><td>varchar</td><td>Ejemplo: Edicion 2026.</td></tr>
+            <tr><td><code>year</code></td><td>integer</td><td>Anio de la edicion.</td></tr>
+            <tr><td><code>slug</code></td><td>varchar</td><td>Unico. Ejemplo: <code>edicion-2026</code>.</td></tr>
+            <tr><td><code>status</code></td><td>enum</td><td><code>draft</code>, <code>active</code>, <code>closed</code>, <code>archived</code>.</td></tr>
+            <tr><td><code>voting_open</code></td><td>boolean</td><td>Controla si se aceptan votos.</td></tr>
+            <tr><td><code>starts_at</code></td><td>timestamp nullable</td><td>Inicio de la edicion.</td></tr>
+            <tr><td><code>ends_at</code></td><td>timestamp nullable</td><td>Cierre de la edicion.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>teams</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>edition_id</code></td><td>uuid</td><td>FK a <code>editions.id</code>.</td></tr>
+            <tr><td><code>name</code></td><td>varchar</td><td>Nombre del equipo.</td></tr>
+            <tr><td><code>institution</code></td><td>varchar nullable</td><td>Facultad, carrera o curso.</td></tr>
+            <tr><td><code>owner_user_id</code></td><td>uuid</td><td>Usuario expositor responsable.</td></tr>
+            <tr><td><code>members</code></td><td>jsonb</td><td>Integrantes del equipo.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>projects</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>edition_id</code></td><td>uuid</td><td>FK a <code>editions.id</code>.</td></tr>
+            <tr><td><code>team_id</code></td><td>uuid</td><td>FK a <code>teams.id</code>.</td></tr>
+            <tr><td><code>title</code></td><td>varchar</td><td>Nombre del proyecto.</td></tr>
+            <tr><td><code>short_summary</code></td><td>varchar</td><td>Resumen corto para cards.</td></tr>
+            <tr><td><code>description</code></td><td>text</td><td>Descripcion completa.</td></tr>
+            <tr><td><code>problem</code></td><td>text nullable</td><td>Problema detectado.</td></tr>
+            <tr><td><code>solution</code></td><td>text nullable</td><td>Solucion propuesta.</td></tr>
+            <tr><td><code>category</code></td><td>varchar nullable</td><td>Categoria.</td></tr>
+            <tr><td><code>stage</code></td><td>enum</td><td><code>idea</code>, <code>prototype</code>, <code>mvp</code>, <code>live</code>.</td></tr>
+            <tr><td><code>logo_file_id</code></td><td>uuid nullable</td><td>FK a <code>files.id</code>.</td></tr>
+            <tr><td><code>demo_url</code></td><td>varchar nullable</td><td>Link demo.</td></tr>
+            <tr><td><code>repository_url</code></td><td>varchar nullable</td><td>Link repo.</td></tr>
+            <tr><td><code>status</code></td><td>enum</td><td><code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</td></tr>
+            <tr><td><code>vote_count</code></td><td>integer</td><td>Contador desnormalizado para ranking en vivo.</td></tr>
+            <tr><td><code>reached_vote_count_at</code></td><td>timestamp nullable</td><td>Fecha en la que llego al contador actual, usada para desempate.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>votes</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>edition_id</code></td><td>uuid</td><td>FK a <code>editions.id</code>.</td></tr>
+            <tr><td><code>guest_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>, usuario creado/vinculado por Google.</td></tr>
+            <tr><td><code>project_id</code></td><td>uuid</td><td>FK a <code>projects.id</code>.</td></tr>
+            <tr><td><code>status</code></td><td>enum</td><td><code>active</code>, <code>changed</code>, <code>removed</code>.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Primer voto.</td></tr>
+            <tr><td><code>updated_at</code></td><td>timestamp</td><td>Ultimo cambio.</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Restriccion: un solo voto activo por <code>edition_id</code> + <code>guest_user_id</code>.</p>
+
+        <h3>jury_evaluations</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>edition_id</code></td><td>uuid</td><td>FK a <code>editions.id</code>.</td></tr>
+            <tr><td><code>jury_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
+            <tr><td><code>project_id</code></td><td>uuid</td><td>FK a <code>projects.id</code>.</td></tr>
+            <tr><td><code>score</code></td><td>integer</td><td>1 a 5 estrellas.</td></tr>
+            <tr><td><code>private_comment</code></td><td>text nullable</td><td>Visible para admin y jurado que lo escribio.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de carga.</td></tr>
+            <tr><td><code>updated_at</code></td><td>timestamp</td><td>Fecha de edicion.</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Restriccion: una evaluacion por <code>edition_id</code> + <code>jury_user_id</code> + <code>project_id</code>.</p>
+
+        <h3>files</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>edition_id</code></td><td>uuid nullable</td><td>FK a <code>editions.id</code>.</td></tr>
+            <tr><td><code>project_id</code></td><td>uuid nullable</td><td>FK a <code>projects.id</code>.</td></tr>
+            <tr><td><code>uploaded_by_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
+            <tr><td><code>bucket</code></td><td>varchar</td><td>Bucket MinIO.</td></tr>
+            <tr><td><code>object_key</code></td><td>varchar</td><td>Key/path del archivo.</td></tr>
+            <tr><td><code>public_url</code></td><td>varchar nullable</td><td>URL publica o CDN.</td></tr>
+            <tr><td><code>mime_type</code></td><td>varchar</td><td>Tipo MIME.</td></tr>
+            <tr><td><code>size_bytes</code></td><td>integer</td><td>Peso.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Reglas de integridad</h2>
+        <ul>
+          <li>Solo puede existir una edicion con estado <code>active</code> si la operacion del MVP asume una edicion activa a la vez.</li>
+          <li>Un proyecto pertenece a una sola edicion y a un solo equipo.</li>
+          <li>Un invitado puede tener un unico voto activo por edicion.</li>
+          <li>Todos los jurados evaluan todos los proyectos publicados de la edicion.</li>
+          <li>La ventana de votacion se define por edicion desde administracion.</li>
+          <li>Cambiar voto debe ejecutarse en transaccion: restar al proyecto anterior, sumar al nuevo y emitir evento realtime.</li>
+          <li>El ranking publico ordena por <code>vote_count DESC</code> y <code>reached_vote_count_at ASC</code>.</li>
+          <li>El ranking de jurado solo se expone a administradores.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
