@@ -14,3 +14,5 @@ Documento inicial:
 - [Plan para aprobacion](docs/plan-para-aprobacion.html)
 - [Modelo entidad-relacion](docs/modelo-entidad-relacion.html)
 - [Contratos de API](docs/contratos-api.html)
+- [TODO backend](docs/todo-backend.html)
+- [TODO frontend](docs/todo-frontend.html)

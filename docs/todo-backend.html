@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TODO Backend por sprints - UADE StartUP</title>
+    <style>
+      :root { --bg:#f7f8fb; --surface:#fff; --text:#1d2433; --muted:#5f6b7a; --border:#d8dee8; --accent:#146c94; --accent-soft:#e7f5fb; --warn:#9a6a12; }
+      * { box-sizing: border-box; }
+      body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.6; }
+      main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:36px 0 64px; counter-reset:sprint; }
+      header, section { margin-bottom:20px; padding:28px; border:1px solid var(--border); border-radius:8px; background:var(--surface); }
+      h1,h2,h3 { line-height:1.2; }
+      h1 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+      h2 { margin:0 0 16px; }
+      h3 { margin:20px 0 8px; }
+      p { margin:0 0 14px; color:var(--muted); }
+      ul { margin-top:0; padding-left:24px; }
+      li + li { margin-top:6px; }
+      code { padding:2px 5px; border-radius:5px; background:#eef1f6; font-family:"Cascadia Code",Consolas,monospace; }
+      label { display:block; }
+      input[type="checkbox"] { width:16px; height:16px; margin-right:8px; transform:translateY(2px); }
+      .sprint { counter-increment:sprint; }
+      .sprint h2::before { content:"Sprint " counter(sprint) " - "; color:var(--accent); }
+      .note { padding:14px 16px; border-left:4px solid var(--accent); background:var(--accent-soft); color:var(--text); }
+      .warn { border-left-color:var(--warn); background:#fff7e6; }
+      .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+      .card { padding:18px; border:1px solid var(--border); border-radius:8px; background:#fbfcfe; }
+      @media (max-width:800px) { main { width:min(100% - 20px,720px); } header,section { padding:20px; } .grid { grid-template-columns:1fr; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>TODO Backend por sprints - UADE StartUP</h1>
+        <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
+      </header>
+
+      <section>
+        <h2>Criterio general</h2>
+        <p>El backend se construye de menor a mayor riesgo: base del proyecto, datos, permisos, proyectos, votos, tiempo real, jurado, archivos y deploy. Cada sprint debe cerrar con algo ejecutable y verificable.</p>
+        <div class="note warn">
+          <strong>Orden recomendado:</strong> no arrancar por Google OAuth, WebSockets o MinIO. Son piezas importantes, pero necesitan una base estable para no volverse barro.
+        </div>
+      </section>
+
+      <section class="sprint">
+        <h2>Base tecnica</h2>
+        <p>Objetivo: tener un backend Express listo para desarrollar con TypeScript, estructura clara y healthcheck.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear repo backend separado.</label></li>
+          <li><label><input type="checkbox" />Inicializar Node.js + TypeScript.</label></li>
+          <li><label><input type="checkbox" />Configurar Express.</label></li>
+          <li><label><input type="checkbox" />Configurar scripts: <code>dev</code>, <code>build</code>, <code>start</code>, <code>lint</code>.</label></li>
+          <li><label><input type="checkbox" />Configurar ESLint y Prettier.</label></li>
+          <li><label><input type="checkbox" />Crear estructura <code>src/config</code>, <code>src/modules</code>, <code>src/shared</code>, <code>src/server.ts</code>.</label></li>
+          <li><label><input type="checkbox" />Agregar validacion de variables de entorno.</label></li>
+          <li><label><input type="checkbox" />Agregar middleware central de errores.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /health</code>.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Servidor levanta localmente.</li>
+          <li><code>GET /health</code> responde OK.</li>
+          <li>Proyecto compila sin errores.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Base de datos y ediciones</h2>
+        <p>Objetivo: conectar PostgreSQL, crear migraciones base y exponer ediciones publicas.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Elegir ORM. Recomendado: Prisma.</label></li>
+          <li><label><input type="checkbox" />Configurar PostgreSQL local con Docker Compose.</label></li>
+          <li><label><input type="checkbox" />Crear modelos iniciales: <code>users</code>, <code>social_identities</code>, <code>editions</code>.</label></li>
+          <li><label><input type="checkbox" />Crear migracion inicial.</label></li>
+          <li><label><input type="checkbox" />Crear seed de admin y <code>Edicion 2026</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /editions</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /editions/:slug</code>.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Base local funcionando.</li>
+          <li>Seed ejecutable.</li>
+          <li>Edicion 2026 consultable sin login.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Auth interna y roles</h2>
+        <p>Objetivo: permitir login interno para administradores, expositores y jurados, con permisos por rol.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Implementar hash de passwords.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /auth/login</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar sesion o JWT.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /me</code>.</label></li>
+          <li><label><input type="checkbox" />Crear middleware <code>requireAuth</code>.</label></li>
+          <li><label><input type="checkbox" />Crear middleware <code>requireRole</code>.</label></li>
+          <li><label><input type="checkbox" />Probar accesos por admin, jurado y expositor.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Login interno funcional.</li>
+          <li>Rutas protegidas por rol.</li>
+          <li>Invitados siguen pudiendo ver contenido publico sin login.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Admin, usuarios y equipos</h2>
+        <p>Objetivo: que el admin pueda gestionar usuarios internos, roles, equipos y expositores.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Implementar <code>GET /admin/users</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>PATCH /admin/users/:id/role</code>.</label></li>
+          <li><label><input type="checkbox" />Crear modelo <code>teams</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /admin/exhibitors</code>.</label></li>
+          <li><label><input type="checkbox" />Asociar equipo a edicion y usuario expositor responsable.</label></li>
+          <li><label><input type="checkbox" />Validar que solo admin pueda dar de alta expositores.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Admin puede crear/habilitar expositores.</li>
+          <li>Equipos quedan vinculados a una edicion.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Proyectos y publicacion</h2>
+        <p>Objetivo: crear, editar, revisar y publicar proyectos.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear modelo <code>projects</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /projects</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>PATCH /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /projects/:id</code> publico.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /editions/:slug/projects</code> publico.</label></li>
+          <li><label><input type="checkbox" />Implementar estados: <code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/submit</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/publish</code> solo admin.</label></li>
+          <li><label><input type="checkbox" />Validar campos obligatorios iniciales: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Expositor puede cargar proyecto.</li>
+          <li>Admin puede publicarlo.</li>
+          <li>Publico puede ver proyectos publicados sin login.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Google Login para invitados</h2>
+        <p>Objetivo: permitir que los invitados se autentiquen con Google solamente cuando intentan votar.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Configurar OAuth de Google en desarrollo.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /auth/google</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /auth/google/callback</code>.</label></li>
+          <li><label><input type="checkbox" />Crear/vincular usuario <code>guest</code> desde Google.</label></li>
+          <li><label><input type="checkbox" />Guardar identidad en <code>social_identities</code>.</label></li>
+          <li><label><input type="checkbox" />Probar flujo desde celular y navegador desktop.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Un invitado puede autenticarse con Google.</li>
+          <li>Ver proyectos sigue sin requerir login.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Votacion y ranking publico</h2>
+        <p>Objetivo: implementar voto unico por invitado/edicion, cambio de voto y ranking publico.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear modelo <code>votes</code>.</label></li>
+          <li><label><input type="checkbox" />Agregar <code>vote_count</code> y <code>reached_vote_count_at</code> a proyectos.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/vote</code>.</label></li>
+          <li><label><input type="checkbox" />Requerir Google Login para votar.</label></li>
+          <li><label><input type="checkbox" />Validar ventana de votacion abierta en la edicion.</label></li>
+          <li><label><input type="checkbox" />Garantizar un unico voto activo por <code>guest_user_id</code> + <code>edition_id</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar cambio de voto en transaccion.</label></li>
+          <li><label><input type="checkbox" />Implementar desempate por quien llego antes a la cantidad de votos.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /rankings/public</code>.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Votar funciona.</li>
+          <li>Cambiar voto resta y suma correctamente.</li>
+          <li>Ranking publico ordena igual que la regla del producto.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Tiempo real</h2>
+        <p>Objetivo: que el ranking cambie en vivo para todos los usuarios conectados.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Configurar WebSockets.</label></li>
+          <li><label><input type="checkbox" />Crear canal/sala por edicion.</label></li>
+          <li><label><input type="checkbox" />Emitir <code>ranking.updated</code> despues de votar o cambiar voto.</label></li>
+          <li><label><input type="checkbox" />Enviar proyectos afectados, votos y posiciones nuevas.</label></li>
+          <li><label><input type="checkbox" />Probar dos navegadores viendo el ranking al mismo tiempo.</label></li>
+          <li><label><input type="checkbox" />Agregar manejo de reconexion basico.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Ranking en vivo funcionando.</li>
+          <li>Evento realtime documentado y probado.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Evaluacion de jurados</h2>
+        <p>Objetivo: que todos los jurados evalúen todos los proyectos de la edicion y que el resultado sea privado para admin.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear modelo <code>jury_evaluations</code>.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /jury/projects</code>.</label></li>
+          <li><label><input type="checkbox" />Devolver todos los proyectos publicados de la edicion.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /jury/projects/:id/evaluation</code>.</label></li>
+          <li><label><input type="checkbox" />Validar score de 1 a 5.</label></li>
+          <li><label><input type="checkbox" />Permitir comentario privado opcional.</label></li>
+          <li><label><input type="checkbox" />Permitir editar hasta cierre de evaluacion.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>GET /admin/rankings/jury</code>.</label></li>
+          <li><label><input type="checkbox" />Probar que invitados/expositores no vean notas de jurado.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Jurado puede evaluar.</li>
+          <li>Admin ve ranking privado.</li>
+          <li>Permisos de jurado blindados.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Archivos con MinIO</h2>
+        <p>Objetivo: subir logos e imagenes a MinIO y guardar metadata en base.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Levantar MinIO local para desarrollo.</label></li>
+          <li><label><input type="checkbox" />Crear modelo <code>files</code>.</label></li>
+          <li><label><input type="checkbox" />Configurar bucket inicial.</label></li>
+          <li><label><input type="checkbox" />Implementar <code>POST /files/presign</code>.</label></li>
+          <li><label><input type="checkbox" />Validar MIME type y peso maximo.</label></li>
+          <li><label><input type="checkbox" />Guardar metadata de archivo.</label></li>
+          <li><label><input type="checkbox" />Asociar logo a proyecto.</label></li>
+          <li><label><input type="checkbox" />Definir URL publica o endpoint proxy para servir archivos.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Logo de proyecto subible y consultable.</li>
+          <li>Archivos no dependen del contenedor de la API.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Seguridad, auditoria y calidad</h2>
+        <p>Objetivo: endurecer reglas criticas antes de deploy.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Agregar rate limit a login, OAuth callback y voto.</label></li>
+          <li><label><input type="checkbox" />Configurar CORS para frontend.</label></li>
+          <li><label><input type="checkbox" />Configurar cookies seguras/HTTP-only si se usa sesion por cookie.</label></li>
+          <li><label><input type="checkbox" />Agregar logs estructurados.</label></li>
+          <li><label><input type="checkbox" />Auditar acciones admin: publicar proyecto, abrir/cerrar votacion, cambiar roles.</label></li>
+          <li><label><input type="checkbox" />Tests de voto unico y cambio de voto.</label></li>
+          <li><label><input type="checkbox" />Tests de permisos por rol.</label></li>
+          <li><label><input type="checkbox" />Tests de privacidad del ranking de jurado.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Reglas criticas cubiertas.</li>
+          <li>Permisos verificados.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Deploy backend en CapRover</h2>
+        <p>Objetivo: dejar la API corriendo en servidor con PostgreSQL y MinIO dentro de CapRover.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear Dockerfile del backend.</label></li>
+          <li><label><input type="checkbox" />Configurar app backend en CapRover.</label></li>
+          <li><label><input type="checkbox" />Configurar PostgreSQL dentro de CapRover.</label></li>
+          <li><label><input type="checkbox" />Configurar MinIO dentro de CapRover con volumen persistente.</label></li>
+          <li><label><input type="checkbox" />Configurar variables de entorno productivas.</label></li>
+          <li><label><input type="checkbox" />Configurar subdominio tipo <code>api.dominio.com</code> cuando exista dominio final.</label></li>
+          <li><label><input type="checkbox" />Ejecutar migraciones en servidor.</label></li>
+          <li><label><input type="checkbox" />Probar flujo completo: publicar proyecto, votar, realtime, jurado y subida de logo.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Backend desplegado.</li>
+          <li>Base y storage conectados.</li>
+          <li>Flujo end-to-end validado.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

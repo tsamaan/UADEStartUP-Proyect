@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TODO Frontend por sprints - UADE StartUP</title>
+    <style>
+      :root { --bg:#f7f8fb; --surface:#fff; --text:#1d2433; --muted:#5f6b7a; --border:#d8dee8; --accent:#146c94; --accent-soft:#e7f5fb; --warn:#9a6a12; }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.6; }
+      main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:36px 0 64px; counter-reset:sprint; }
+      header, section { margin-bottom:20px; padding:28px; border:1px solid var(--border); border-radius:8px; background:var(--surface); }
+      h1,h2,h3 { line-height:1.2; }
+      h1 { margin:0; font-size:clamp(2rem,4vw,3rem); }
+      h2 { margin:0 0 16px; }
+      h3 { margin:20px 0 8px; }
+      p { margin:0 0 14px; color:var(--muted); }
+      ul { margin-top:0; padding-left:24px; }
+      li + li { margin-top:6px; }
+      code { padding:2px 5px; border-radius:5px; background:#eef1f6; font-family:"Cascadia Code",Consolas,monospace; }
+      label { display:block; }
+      input[type="checkbox"] { width:16px; height:16px; margin-right:8px; transform:translateY(2px); }
+      .sprint { counter-increment:sprint; }
+      .sprint h2::before { content:"Sprint " counter(sprint) " - "; color:var(--accent); }
+      .note { padding:14px 16px; border-left:4px solid var(--accent); background:var(--accent-soft); color:var(--text); }
+      .warn { border-left-color:var(--warn); background:#fff7e6; }
+      @media (max-width:800px) { main { width:min(100% - 20px,720px); } header,section { padding:20px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>TODO Frontend por sprints - UADE StartUP</h1>
+        <p>Roadmap para construir el frontend en Next.js: experiencia publica, login con Google al votar, paneles por rol, ranking en tiempo real y deploy en CapRover.</p>
+      </header>
+
+      <section>
+        <h2>Criterio general</h2>
+        <p>El frontend debe permitir mirar proyectos sin login y pedir Google Login solo cuando el invitado intenta votar. La pantalla principal no es una landing: es el feed de la edicion activa.</p>
+        <div class="note warn">
+          <strong>Orden recomendado:</strong> primero layouts, rutas publicas y datos mockeados; despues integracion real, auth, formularios, realtime y paneles privados.
+        </div>
+      </section>
+
+      <section class="sprint">
+        <h2>Base Next.js</h2>
+        <p>Objetivo: tener el proyecto frontend listo para desarrollar.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear repo frontend separado.</label></li>
+          <li><label><input type="checkbox" />Inicializar Next.js con TypeScript.</label></li>
+          <li><label><input type="checkbox" />Configurar ESLint y Prettier.</label></li>
+          <li><label><input type="checkbox" />Configurar variables <code>NEXT_PUBLIC_API_URL</code> y <code>NEXT_PUBLIC_WS_URL</code>.</label></li>
+          <li><label><input type="checkbox" />Crear estructura base: <code>app</code>, <code>components</code>, <code>features</code>, <code>lib</code>, <code>styles</code>.</label></li>
+          <li><label><input type="checkbox" />Crear cliente HTTP para la API.</label></li>
+          <li><label><input type="checkbox" />Crear layout general responsive.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>App levanta localmente.</li>
+          <li>Layout base listo.</li>
+          <li>Cliente API configurado.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Diseño base y componentes</h2>
+        <p>Objetivo: definir una UI consistente para feed, tarjetas, formularios y paneles.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Definir paleta, tipografia y espaciados.</label></li>
+          <li><label><input type="checkbox" />Crear componentes: boton, input, textarea, select, badge, modal, tabs, toast.</label></li>
+          <li><label><input type="checkbox" />Crear componente <code>ProjectCard</code>.</label></li>
+          <li><label><input type="checkbox" />Crear componente <code>ProjectDetail</code>.</label></li>
+          <li><label><input type="checkbox" />Crear componente de ranking/posicion.</label></li>
+          <li><label><input type="checkbox" />Crear estados de carga, vacio y error.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>UI kit minimo.</li>
+          <li>Cards de proyecto listas con datos mock.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Vista publica de ediciones</h2>
+        <p>Objetivo: que cualquier usuario pueda ver la edicion activa y consultar historicos.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear ruta de edicion activa.</label></li>
+          <li><label><input type="checkbox" />Crear ruta <code>/ediciones</code>.</label></li>
+          <li><label><input type="checkbox" />Crear ruta <code>/ediciones/[slug]</code>.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>GET /editions</code>.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>GET /editions/:slug</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar estado de edicion: activa, cerrada, historica.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Edicion activa visible sin login.</li>
+          <li>Historicos navegables.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Feed publico de proyectos</h2>
+        <p>Objetivo: mostrar proyectos publicados y detalle sin requerir login.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Consumir <code>GET /editions/:slug/projects</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar feed ordenado por ranking publico.</label></li>
+          <li><label><input type="checkbox" />Crear filtros simples por categoria/etapa si el backend ya los soporta.</label></li>
+          <li><label><input type="checkbox" />Crear ruta <code>/proyectos/[id]</code>.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>GET /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar logo, descripcion, equipo, links y votos.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Feed usable sin login.</li>
+          <li>Detalle publico usable sin login.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Voto con Google Login</h2>
+        <p>Objetivo: permitir votar solo con Google, sin bloquear la navegacion publica.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear estado de usuario actual consumiendo <code>GET /me</code>.</label></li>
+          <li><label><input type="checkbox" />Agregar boton de voto en cards y detalle.</label></li>
+          <li><label><input type="checkbox" />Si el usuario no esta autenticado, redirigir a <code>GET /auth/google</code>.</label></li>
+          <li><label><input type="checkbox" />Si esta autenticado, llamar <code>POST /projects/:id/vote</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar estado visual del proyecto votado.</label></li>
+          <li><label><input type="checkbox" />Soportar cambio de voto con confirmacion discreta.</label></li>
+          <li><label><input type="checkbox" />Manejar errores: votacion cerrada, usuario no autorizado, proyecto no publicado.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Flujo votar funciona desde invitado no logueado.</li>
+          <li>Google aparece solo al votar.</li>
+          <li>Cambio de voto claro para el usuario.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Ranking en tiempo real</h2>
+        <p>Objetivo: actualizar feed y posiciones sin refrescar la pagina.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear cliente WebSocket.</label></li>
+          <li><label><input type="checkbox" />Conectarse al canal de la edicion activa.</label></li>
+          <li><label><input type="checkbox" />Escuchar evento <code>ranking.updated</code>.</label></li>
+          <li><label><input type="checkbox" />Actualizar votos y posiciones de proyectos afectados.</label></li>
+          <li><label><input type="checkbox" />Reordenar feed sin romper el scroll de manera brusca.</label></li>
+          <li><label><input type="checkbox" />Agregar estado de reconexion.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Dos navegadores ven el ranking actualizarse en vivo.</li>
+          <li>La experiencia se siente estable y entendible.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Login interno y shell privado</h2>
+        <p>Objetivo: crear acceso para admin, jurado y expositor.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear pantalla de login interno.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>POST /auth/login</code>.</label></li>
+          <li><label><input type="checkbox" />Crear layout privado con navegacion por rol.</label></li>
+          <li><label><input type="checkbox" />Proteger rutas privadas en frontend.</label></li>
+          <li><label><input type="checkbox" />Crear pantalla <code>/panel</code> que redirija segun rol.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Usuarios internos pueden entrar.</li>
+          <li>La UI muestra opciones segun rol.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Panel expositor</h2>
+        <p>Objetivo: permitir cargar y editar proyecto del equipo.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear dashboard de expositor.</label></li>
+          <li><label><input type="checkbox" />Crear formulario de proyecto.</label></li>
+          <li><label><input type="checkbox" />Validar campos obligatorios.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>POST /projects</code> y <code>PATCH /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" />Crear vista previa del proyecto.</label></li>
+          <li><label><input type="checkbox" />Agregar accion enviar a revision.</label></li>
+          <li><label><input type="checkbox" />Mostrar estado: borrador, pendiente, publicado, oculto.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Expositor carga proyecto completo.</li>
+          <li>Puede enviarlo a revision.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Subida de archivos</h2>
+        <p>Objetivo: subir logo e imagenes usando URL firmada de MinIO.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear componente de upload para logo.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>POST /files/presign</code>.</label></li>
+          <li><label><input type="checkbox" />Subir archivo directo a MinIO con URL firmada.</label></li>
+          <li><label><input type="checkbox" />Mostrar progreso y errores.</label></li>
+          <li><label><input type="checkbox" />Validar formato y peso antes de subir.</label></li>
+          <li><label><input type="checkbox" />Asociar archivo al proyecto.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Logo visible en feed y detalle.</li>
+          <li>Errores de archivo claros.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Panel jurado</h2>
+        <p>Objetivo: que cada jurado evalúe todos los proyectos de la edicion.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear dashboard de jurado.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>GET /jury/projects</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar progreso de evaluaciones.</label></li>
+          <li><label><input type="checkbox" />Crear control de estrellas 1 a 5.</label></li>
+          <li><label><input type="checkbox" />Agregar comentario privado opcional.</label></li>
+          <li><label><input type="checkbox" />Consumir <code>POST /jury/projects/:id/evaluation</code>.</label></li>
+          <li><label><input type="checkbox" />Permitir editar evaluacion hasta cierre.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Jurado evalua todos los proyectos.</li>
+          <li>Progreso visible.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Panel admin</h2>
+        <p>Objetivo: gestionar ediciones, usuarios, equipos, moderacion y resultados.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear dashboard admin.</label></li>
+          <li><label><input type="checkbox" />Crear gestion de ediciones.</label></li>
+          <li><label><input type="checkbox" />Permitir abrir/cerrar ventana de votacion.</label></li>
+          <li><label><input type="checkbox" />Crear gestion de usuarios y roles.</label></li>
+          <li><label><input type="checkbox" />Crear alta de expositores/equipos.</label></li>
+          <li><label><input type="checkbox" />Crear moderacion de proyectos.</label></li>
+          <li><label><input type="checkbox" />Crear vista de ranking publico.</label></li>
+          <li><label><input type="checkbox" />Crear vista privada de ranking de jurado.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Admin opera la edicion desde UI.</li>
+          <li>Resultados disponibles segun permisos.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Pulido, accesibilidad y responsive</h2>
+        <p>Objetivo: dejar la experiencia usable en celulares durante la muestra.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Revisar mobile para feed, detalle, voto y panel jurado.</label></li>
+          <li><label><input type="checkbox" />Revisar estados loading/error/vacio en todas las pantallas.</label></li>
+          <li><label><input type="checkbox" />Agregar feedback visual de voto cambiado.</label></li>
+          <li><label><input type="checkbox" />Revisar contraste y navegacion con teclado.</label></li>
+          <li><label><input type="checkbox" />Probar en Chrome mobile y desktop.</label></li>
+          <li><label><input type="checkbox" />Probar QR real apuntando a la edicion activa.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Experiencia lista para demo.</li>
+          <li>Flujos principales probados en celular.</li>
+        </ul>
+      </section>
+
+      <section class="sprint">
+        <h2>Deploy frontend en CapRover</h2>
+        <p>Objetivo: desplegar Next.js conectado al backend real.</p>
+        <h3>Tareas</h3>
+        <ul>
+          <li><label><input type="checkbox" />Crear Dockerfile del frontend.</label></li>
+          <li><label><input type="checkbox" />Configurar app frontend en CapRover.</label></li>
+          <li><label><input type="checkbox" />Configurar variables productivas.</label></li>
+          <li><label><input type="checkbox" />Configurar subdominio tipo <code>app.dominio.com</code> cuando exista dominio final.</label></li>
+          <li><label><input type="checkbox" />Validar CORS con backend.</label></li>
+          <li><label><input type="checkbox" />Probar OAuth Google con dominio productivo.</label></li>
+          <li><label><input type="checkbox" />Probar flujo end-to-end con backend desplegado.</label></li>
+        </ul>
+        <h3>Entrega</h3>
+        <ul>
+          <li>Frontend desplegado.</li>
+          <li>Flujo publico, voto, realtime y paneles funcionando en servidor.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
