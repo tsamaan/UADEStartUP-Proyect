@@ -1,5 +1,7 @@
 param(
-  [switch]$WithBackend
+  [switch]$WithBackend,
+  [switch]$WithFrontend,
+  [switch]$WithApp
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,24 +24,50 @@ function Get-EnvValue {
   return ($line -replace "^\s*$Name\s*=\s*", "").Trim('"').Trim("'")
 }
 
-function Ensure-BackendRepo {
-  $backendPath = Get-EnvValue -Name "BACKEND_PATH" -DefaultValue "../UADEStartUP-Backend"
-  $backendRepoUrl = Get-EnvValue -Name "BACKEND_REPO_URL" -DefaultValue "https://github.com/tomasbondUade/UADEStartUP-Backend.git"
-  $backendFullPath = (Join-Path (Get-Location) $backendPath)
+function Ensure-Repo {
+  param(
+    [string]$Name,
+    [string]$PathEnvName,
+    [string]$DefaultPath,
+    [string]$RepoUrlEnvName,
+    [string]$DefaultRepoUrl
+  )
 
-  if (Test-Path $backendFullPath) {
-    Write-Host "Backend repo found at $backendPath"
+  $repoPath = Get-EnvValue -Name $PathEnvName -DefaultValue $DefaultPath
+  $repoUrl = Get-EnvValue -Name $RepoUrlEnvName -DefaultValue $DefaultRepoUrl
+  $repoFullPath = (Join-Path (Get-Location) $repoPath)
+
+  if (Test-Path $repoFullPath) {
+    Write-Host "$Name repo found at $repoPath"
     return
   }
 
-  $backendParent = Split-Path $backendFullPath -Parent
-  if (-not (Test-Path $backendParent)) {
-    New-Item -ItemType Directory -Path $backendParent | Out-Null
+  $repoParent = Split-Path $repoFullPath -Parent
+  if (-not (Test-Path $repoParent)) {
+    New-Item -ItemType Directory -Path $repoParent | Out-Null
   }
 
-  Write-Host "Backend repo not found at $backendPath"
-  Write-Host "Cloning $backendRepoUrl"
-  git clone $backendRepoUrl $backendFullPath
+  Write-Host "$Name repo not found at $repoPath"
+  Write-Host "Cloning $repoUrl"
+  git clone $repoUrl $repoFullPath
+}
+
+function Ensure-BackendRepo {
+  Ensure-Repo `
+    -Name "Backend" `
+    -PathEnvName "BACKEND_PATH" `
+    -DefaultPath "../UADEStartUP-Backend" `
+    -RepoUrlEnvName "BACKEND_REPO_URL" `
+    -DefaultRepoUrl "https://github.com/tomasbondUade/UADEStartUP-Backend.git"
+}
+
+function Ensure-FrontendRepo {
+  Ensure-Repo `
+    -Name "Frontend" `
+    -PathEnvName "FRONTEND_PATH" `
+    -DefaultPath "../UADEStartUP-Frontend" `
+    -RepoUrlEnvName "FRONTEND_REPO_URL" `
+    -DefaultRepoUrl "https://github.com/tsamaan/UADEStartUP-Frontend.git"
 }
 
 if (-not (Test-Path ".env")) {
@@ -47,9 +75,16 @@ if (-not (Test-Path ".env")) {
   Write-Host "Created .env from .env.example"
 }
 
-if ($WithBackend) {
+if ($WithApp) {
+  Ensure-BackendRepo
+  Ensure-FrontendRepo
+  docker compose --profile app up backend frontend
+} elseif ($WithBackend) {
   Ensure-BackendRepo
   docker compose --profile app up backend
+} elseif ($WithFrontend) {
+  Ensure-FrontendRepo
+  docker compose --profile app up frontend
 } else {
   docker compose up -d postgres minio minio-init
 }

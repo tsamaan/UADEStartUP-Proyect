@@ -42,11 +42,11 @@
 
       <section>
         <h2>Estructura esperada</h2>
-        <pre><code>proyectosTeo/
+<pre><code>proyectosTeo/
   UADEStartUP-Proyect/   # infra + docs
   UADEStartUP-Backend/   # backend Express
-  UADEStartUP-Frontend/  # futuro frontend Next.js</code></pre>
-        <p>Por defecto, el Compose busca el backend en <code>../UADEStartUP-Backend</code>. Si esta en otra ruta, cambiar <code>BACKEND_PATH</code> en <code>.env</code>. Si se usa el script <code>.\scripts\dev-up.ps1 -WithBackend</code> y el backend no existe, se clona desde <code>BACKEND_REPO_URL</code>.</p>
+  UADEStartUP-Frontend/  # frontend Next.js</code></pre>
+        <p>Por defecto, el Compose busca el backend en <code>../UADEStartUP-Backend</code> y el frontend en <code>../UADEStartUP-Frontend</code>. Si estan en otra ruta, cambiar <code>BACKEND_PATH</code> o <code>FRONTEND_PATH</code> en <code>.env</code>. Si se usan los scripts con <code>-WithBackend</code>, <code>-WithFrontend</code> o <code>-WithApp</code> y alguno de los repos no existe, se clona automaticamente desde su URL configurada.</p>
       </section>
 
       <section>
@@ -55,15 +55,17 @@
           <li>Entrar al repo de infra.</li>
           <li>Copiar variables de ejemplo.</li>
           <li>Levantar servicios base.</li>
-          <li>Levantar backend.</li>
+          <li>Levantar backend y frontend.</li>
         </ol>
         <pre><code>cd C:\Users\bond\Desktop\proyectosTeo\UADEStartUP-Proyect
 Copy-Item .env.example .env
 docker compose up -d postgres minio minio-init
-docker compose --profile app up backend</code></pre>
-        <p>Tambien se pueden usar los scripts incluidos. La variante <code>-WithBackend</code> verifica si existe el repo backend y lo clona automaticamente si falta.</p>
+docker compose --profile app up backend frontend</code></pre>
+        <p>Tambien se pueden usar los scripts incluidos. Las variantes <code>-WithBackend</code> y <code>-WithFrontend</code> verifican si existen los repos correspondientes y los clonan automaticamente si faltan. La variante <code>-WithApp</code> levanta backend y frontend juntos.</p>
         <pre><code>.\scripts\dev-up.ps1
-.\scripts\dev-up.ps1 -WithBackend</code></pre>
+.\scripts\dev-up.ps1 -WithBackend
+.\scripts\dev-up.ps1 -WithFrontend
+.\scripts\dev-up.ps1 -WithApp</code></pre>
       </section>
 
       <section>
@@ -73,6 +75,7 @@ docker compose --profile app up backend</code></pre>
             <tr><th>Servicio</th><th>URL / puerto</th><th>Uso</th></tr>
           </thead>
           <tbody>
+            <tr><td>Frontend</td><td><code>http://localhost:3001</code></td><td>App Next.js.</td></tr>
             <tr><td>Backend</td><td><code>http://localhost:3000</code></td><td>API Express.</td></tr>
             <tr><td>Healthcheck</td><td><code>http://localhost:3000/health</code></td><td>Verificar API.</td></tr>
             <tr><td>PostgreSQL</td><td><code>localhost:5432</code></td><td>Base de datos local.</td></tr>
@@ -108,11 +111,13 @@ Invoke-RestMethod http://localhost:3000/editions/edicion-2026</code></pre>
           </thead>
           <tbody>
             <tr><td><code>docker compose ps</code></td><td>Ver servicios activos.</td></tr>
+            <tr><td><code>docker compose logs -f frontend</code></td><td>Ver logs del frontend.</td></tr>
             <tr><td><code>docker compose logs -f backend</code></td><td>Ver logs del backend.</td></tr>
             <tr><td><code>docker compose logs -f postgres</code></td><td>Ver logs de PostgreSQL.</td></tr>
             <tr><td><code>docker compose down</code></td><td>Apagar contenedores sin borrar datos.</td></tr>
             <tr><td><code>docker compose down -v</code></td><td>Apagar y borrar volumenes. Reinicia la base desde cero.</td></tr>
             <tr><td><code>.\scripts\dev-logs.ps1 backend</code></td><td>Ver logs de un servicio con script.</td></tr>
+            <tr><td><code>.\scripts\dev-logs.ps1 frontend</code></td><td>Ver logs del frontend con script.</td></tr>
             <tr><td><code>.\scripts\dev-down.ps1</code></td><td>Apagar el entorno con script.</td></tr>
             <tr><td><code>.\scripts\dev-reset.ps1</code></td><td>Resetear volumenes con confirmacion.</td></tr>
           </tbody>
@@ -121,10 +126,10 @@ Invoke-RestMethod http://localhost:3000/editions/edicion-2026</code></pre>
 
       <section>
         <h2>Puertos ocupados</h2>
-        <p>Si ya hay otro PostgreSQL, MinIO o backend corriendo en la PC, puede haber conflicto de puertos. Hay dos caminos:</p>
+        <p>Si ya hay otro PostgreSQL, MinIO, backend o frontend corriendo en la PC, puede haber conflicto de puertos. Hay dos caminos:</p>
         <ul>
           <li>Apagar el entorno anterior con <code>docker compose down</code> desde el repo que lo levanto.</li>
-          <li>Cambiar puertos en <code>.env</code>, por ejemplo <code>POSTGRES_PORT=5433</code> o <code>BACKEND_PORT=3001</code>.</li>
+          <li>Cambiar puertos en <code>.env</code>, por ejemplo <code>POSTGRES_PORT=5433</code>, <code>BACKEND_PORT=3002</code> o <code>FRONTEND_PORT=3003</code>.</li>
         </ul>
         <div class="note">
           <strong>Tip:</strong> si se usa este repo de infra como entrada principal, conviene levantar PostgreSQL y MinIO solo desde aca para evitar duplicados.
@@ -140,8 +145,8 @@ Invoke-RestMethod http://localhost:3000/editions/edicion-2026</code></pre>
       </section>
 
       <section>
-        <h2>Cuando exista frontend</h2>
-        <p>Se agregara un servicio <code>frontend</code> al Compose para levantar Next.js desde el repo <code>UADEStartUP-Frontend</code>.</p>
+        <h2>Frontend</h2>
+        <p>El servicio <code>frontend</code> levanta Next.js desde el repo <code>UADEStartUP-Frontend</code>. Por defecto expone la app en <code>http://localhost:3001</code> y configura <code>NEXT_PUBLIC_API_URL=http://localhost:3000</code> para consumir el backend local.</p>
       </section>
     </main>
   </body>

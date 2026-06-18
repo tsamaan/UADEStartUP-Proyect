@@ -18,7 +18,7 @@ Estructura recomendada:
 proyectosTeo/
   UADEStartUP-Proyect/   # infra + docs
   UADEStartUP-Backend/   # backend Express
-  UADEStartUP-Frontend/  # frontend Next.js, cuando se cree
+  UADEStartUP-Frontend/  # frontend Next.js
 ```
 
 ## Producto
@@ -74,12 +74,17 @@ Atajo equivalente con scripts:
 ```powershell
 .\scripts\dev-up.ps1
 .\scripts\dev-up.ps1 -WithBackend
+.\scripts\dev-up.ps1 -WithFrontend
+.\scripts\dev-up.ps1 -WithApp
 ```
 
 Cuando se usa `.\scripts\dev-up.ps1 -WithBackend`, el script verifica `BACKEND_PATH` en `.env`. Si el repo backend no existe en esa ruta, lo clona automaticamente desde `BACKEND_REPO_URL` antes de iniciar el servicio.
 
+Lo mismo aplica para `.\scripts\dev-up.ps1 -WithFrontend`: verifica `FRONTEND_PATH` y, si falta, clona desde `FRONTEND_REPO_URL`. Para levantar backend y frontend juntos, usar `.\scripts\dev-up.ps1 -WithApp`.
+
 Servicios locales:
 
+- Frontend: http://localhost:3001
 - Backend: http://localhost:3000
 - Healthcheck: http://localhost:3000/health
 - PostgreSQL: localhost:5432
@@ -111,6 +116,8 @@ Para resetear datos locales:
 ## Estado Actual
 
 El backend ya tiene base tecnica, PostgreSQL, Prisma, ediciones, autenticacion inicial por email/password para desarrollo, roles, equipos y flujo de proyectos hasta publicacion.
+
+El frontend ya existe como repo separado en Next.js y puede levantarse desde este repo de infra con Docker Compose.
 
 Proximos bloques importantes:
 

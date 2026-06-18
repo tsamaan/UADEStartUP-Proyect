@@ -195,6 +195,7 @@
             <tr><td><code>edition_id</code></td><td>uuid nullable</td><td>FK a <code>editions.id</code>.</td></tr>
             <tr><td><code>project_id</code></td><td>uuid nullable</td><td>FK a <code>projects.id</code>.</td></tr>
             <tr><td><code>uploaded_by_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
+            <tr><td><code>kind</code></td><td>varchar</td><td>Uso del archivo: logo, image, video, deck o attachment.</td></tr>
             <tr><td><code>bucket</code></td><td>varchar</td><td>Bucket MinIO.</td></tr>
             <tr><td><code>object_key</code></td><td>varchar</td><td>Key/path del archivo.</td></tr>
             <tr><td><code>public_url</code></td><td>varchar nullable</td><td>URL publica o CDN.</td></tr>
@@ -213,6 +214,7 @@
           <li>Todos los jurados evaluan todos los proyectos publicados de la edicion.</li>
           <li>La ventana de votacion se define por edicion desde administracion.</li>
           <li>Cambiar voto debe ejecutarse en transaccion: restar al proyecto anterior, sumar al nuevo y emitir evento realtime.</li>
+          <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>files</code> y binarios en MinIO.</li>
           <li>El ranking publico ordena por <code>vote_count DESC</code> y <code>reached_vote_count_at ASC</code>.</li>
           <li>El ranking de jurado solo se expone a administradores.</li>
         </ul>
