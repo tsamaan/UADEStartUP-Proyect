@@ -46,7 +46,7 @@
   UADEStartUP-Proyect/   # infra + docs
   UADEStartUP-Backend/   # backend Express
   UADEStartUP-Frontend/  # futuro frontend Next.js</code></pre>
-        <p>Por defecto, el Compose busca el backend en <code>../UADEStartUP-Backend</code>. Si esta en otra ruta, cambiar <code>BACKEND_PATH</code> en <code>.env</code>.</p>
+        <p>Por defecto, el Compose busca el backend en <code>../UADEStartUP-Backend</code>. Si esta en otra ruta, cambiar <code>BACKEND_PATH</code> en <code>.env</code>. Si se usa el script <code>.\scripts\dev-up.ps1 -WithBackend</code> y el backend no existe, se clona desde <code>BACKEND_REPO_URL</code>.</p>
       </section>
 
       <section>
@@ -61,7 +61,7 @@
 Copy-Item .env.example .env
 docker compose up -d postgres minio minio-init
 docker compose --profile app up backend</code></pre>
-        <p>Tambien se pueden usar los scripts incluidos:</p>
+        <p>Tambien se pueden usar los scripts incluidos. La variante <code>-WithBackend</code> verifica si existe el repo backend y lo clona automaticamente si falta.</p>
         <pre><code>.\scripts\dev-up.ps1
 .\scripts\dev-up.ps1 -WithBackend</code></pre>
       </section>

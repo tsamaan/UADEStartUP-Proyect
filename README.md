@@ -76,6 +76,8 @@ Atajo equivalente con scripts:
 .\scripts\dev-up.ps1 -WithBackend
 ```
 
+Cuando se usa `.\scripts\dev-up.ps1 -WithBackend`, el script verifica `BACKEND_PATH` en `.env`. Si el repo backend no existe en esa ruta, lo clona automaticamente desde `BACKEND_REPO_URL` antes de iniciar el servicio.
+
 Servicios locales:
 
 - Backend: http://localhost:3000

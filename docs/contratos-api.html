@@ -38,20 +38,32 @@
     <main>
       <header>
         <h1>Contratos de API - UADE StartUP</h1>
-        <p>Contratos iniciales REST + WebSocket para el MVP. Base pensada para backend Node.js con Express y frontend Next.js.</p>
+        <p>Contratos REST + WebSocket para el MVP. Los endpoints de auth interna, ediciones, admin y proyectos reflejan el backend Express actual; votacion, jurado, archivos y realtime quedan como contratos planificados.</p>
       </header>
 
       <section>
         <h2>Convenciones</h2>
         <table>
           <tbody>
-            <tr><th>Base URL</th><td><code>/api/v1</code></td></tr>
+            <tr><th>Base URL actual</th><td><code>/</code>. El backend actual expone rutas sin prefijo <code>/api/v1</code>.</td></tr>
             <tr><th>Formato</th><td>JSON.</td></tr>
             <tr><th>Auth interna</th><td>Sesion HTTP-only o Bearer token para admin, jurado y expositor.</td></tr>
-            <tr><th>Auth invitados</th><td>No se requiere login para ver ediciones, proyectos y ranking publico. Google Login solo es obligatorio para votar.</td></tr>
+            <tr><th>Auth invitados</th><td>No se requiere login para ver ediciones, proyectos y ranking publico. Microsoft OAuth / Entra ID con cuenta UADE solo es obligatorio para votar.</td></tr>
             <tr><th>Errores</th><td><code>{ "error": { "code": "string", "message": "string", "details": {} } }</code></td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section>
+        <h2>Healthcheck</h2>
+        <article class="endpoint">
+          <h3>GET /health</h3>
+          <p>Verifica que la API este levantada.</p>
+<pre><code>{
+  "status": "ok",
+  "service": "uade-startup-backend"
+}</code></pre>
+        </article>
       </section>
 
       <section>
@@ -64,6 +76,7 @@
   "password": "********"
 }</code></pre>
 <pre><code>{
+  "token": "jwt",
   "user": {
     "id": "uuid",
     "name": "Admin",
@@ -74,23 +87,25 @@
         </article>
 
         <article class="endpoint">
-          <h3>GET /auth/google</h3>
-          <p>Redirecciona al flujo OAuth de Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
+          <h3>GET /auth/microsoft</h3>
+          <p>Planificado. Redirecciona al flujo OAuth Microsoft / Entra ID. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
         </article>
 
         <article class="endpoint">
-          <h3>GET /auth/google/callback</h3>
-          <p>Callback OAuth. Crea o recupera usuario invitado y lo deja autenticado.</p>
+          <h3>GET /auth/microsoft/callback</h3>
+          <p>Planificado. Callback OAuth. Crea o recupera usuario invitado, valida que use correo institucional UADE y lo deja autenticado.</p>
         </article>
 
         <article class="endpoint">
-          <h3>GET /me</h3>
-          <p>Devuelve usuario actual.</p>
+          <h3>GET /auth/me</h3>
+          <p>Devuelve usuario actual. Requiere Bearer token.</p>
 <pre><code>{
-  "id": "uuid",
-  "name": "Invitado",
-  "email": "persona@gmail.com",
-  "role": "guest"
+  "user": {
+    "id": "uuid",
+    "name": "Admin",
+    "email": "admin@uadestartup.local",
+    "role": "admin"
+  }
 }</code></pre>
         </article>
       </section>
@@ -137,8 +152,7 @@
   "description": "Descripcion completa",
   "category": "Impacto social",
   "logoUrl": "https://cdn.example.com/logo.png",
-  "voteCount": 27,
-  "currentUserVoted": false
+  "voteCount": 27
 }</code></pre>
         </article>
 
@@ -154,7 +168,12 @@
   "problem": "Problema",
   "solution": "Solucion",
   "category": "Categoria",
-  "stage": "mvp"
+  "stage": "mvp",
+  "contactEmail": "equipo@uade.edu.ar",
+  "demoUrl": "https://example.com/demo",
+  "repositoryUrl": "https://github.com/org/repo",
+  "videoUrl": "https://example.com/video",
+  "logoUrl": "https://cdn.example.com/logo.png"
 }</code></pre>
         </article>
 
@@ -178,7 +197,7 @@
         <h2>Votos</h2>
         <article class="endpoint">
           <h3>POST /projects/:id/vote</h3>
-          <p>Emite o cambia el voto activo del invitado autenticado con Google para la edicion del proyecto. Requiere Google Login.</p>
+          <p>Emite o cambia el voto activo del invitado autenticado con Microsoft/UADE para la edicion del proyecto. Requiere Microsoft/UADE Login.</p>
 <pre><code>{
   "previousProjectId": "uuid-or-null",
   "currentProjectId": "uuid",
@@ -234,12 +253,12 @@
         <table>
           <thead><tr><th>Endpoint</th><th>Uso</th></tr></thead>
           <tbody>
-            <tr><td><code>POST /admin/editions</code></td><td>Crear edicion.</td></tr>
-            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Editar estado, fechas y ventana de votacion.</td></tr>
-            <tr><td><code>GET /admin/users</code></td><td>Listar usuarios.</td></tr>
-            <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Asignar rol.</td></tr>
-            <tr><td><code>POST /admin/exhibitors</code></td><td>Dar de alta expositor/equipo.</td></tr>
-            <tr><td><code>GET /admin/results?editionId=uuid</code></td><td>Resultados publicos y de jurado.</td></tr>
+            <tr><td><code>GET /admin/users</code></td><td>Actual. Listar usuarios. Rol: admin.</td></tr>
+            <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Actual. Asignar rol. Body: <code>{ "role": "admin|exhibitor|jury|guest" }</code>.</td></tr>
+            <tr><td><code>POST /admin/exhibitors</code></td><td>Actual. Dar de alta expositor/equipo. Crea o actualiza usuario expositor y equipo asociado a una edicion.</td></tr>
+            <tr><td><code>POST /admin/editions</code></td><td>Planificado. Crear edicion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar estado, fechas y ventana de votacion.</td></tr>
+            <tr><td><code>GET /admin/results?editionId=uuid</code></td><td>Planificado. Resultados publicos y de jurado.</td></tr>
           </tbody>
         </table>
       </section>
