@@ -288,14 +288,25 @@
       <section>
         <h2>Realtime</h2>
         <article class="endpoint">
-          <h3>WS /realtime</h3>
-          <p>Canal WebSocket para eventos de ranking publico.</p>
+          <h3>Socket.IO /realtime</h3>
+          <p>Actual. Canal Socket.IO para eventos de ranking publico.</p>
+          <p>Al conectarse, el cliente debe unirse a una sala de edicion:</p>
+<pre><code>{
+  "event": "edition.join",
+  "payload": {
+    "editionId": "uuid"
+  }
+}</code></pre>
+          <p>Cuando cambia un voto, el servidor emite:</p>
 <pre><code>{
   "type": "ranking.updated",
   "editionId": "uuid",
   "changedProjects": [
     { "projectId": "uuid", "voteCount": 28, "position": 1 },
     { "projectId": "uuid", "voteCount": 27, "position": 2 }
+  ],
+  "ranking": [
+    { "id": "uuid", "title": "Proyecto Demo", "voteCount": 28, "position": 1 }
   ]
 }</code></pre>
         </article>

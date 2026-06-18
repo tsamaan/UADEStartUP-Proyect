@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6 y Sprint 7 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login y votacion/ranking publico ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7 y Sprint 8 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico y realtime ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -223,18 +223,21 @@
         <p>Objetivo: que el ranking cambie en vivo para todos los usuarios conectados.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Configurar WebSockets.</label></li>
-          <li><label><input type="checkbox" />Crear canal/sala por edicion.</label></li>
-          <li><label><input type="checkbox" />Emitir <code>ranking.updated</code> despues de votar o cambiar voto.</label></li>
-          <li><label><input type="checkbox" />Enviar proyectos afectados, votos y posiciones nuevas.</label></li>
-          <li><label><input type="checkbox" />Probar dos navegadores viendo el ranking al mismo tiempo.</label></li>
-          <li><label><input type="checkbox" />Agregar manejo de reconexion basico.</label></li>
+          <li><label><input type="checkbox" checked />Configurar WebSockets con Socket.IO.</label></li>
+          <li><label><input type="checkbox" checked />Crear canal/sala por edicion.</label></li>
+          <li><label><input type="checkbox" checked />Emitir <code>ranking.updated</code> despues de votar o cambiar voto.</label></li>
+          <li><label><input type="checkbox" checked />Enviar proyectos afectados, votos y posiciones nuevas.</label></li>
+          <li><label><input type="checkbox" checked />Probar dos clientes viendo el ranking al mismo tiempo.</label></li>
+          <li><label><input type="checkbox" checked />Agregar manejo de reconexion basico del lado Socket.IO.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Ranking en vivo funcionando.</li>
           <li>Evento realtime documentado y probado.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se monto Socket.IO en <code>/realtime</code>, se implemento <code>edition.join</code>, se emite <code>ranking.updated</code> al votar y se probo con dos clientes conectados a la misma edicion.
+        </div>
       </section>
 
       <section class="sprint">
