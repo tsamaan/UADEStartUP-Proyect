@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7 y Sprint 8 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico y realtime ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8 y Sprint 9 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime y evaluacion de jurados ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -242,18 +242,18 @@
 
       <section class="sprint">
         <h2>Evaluacion de jurados</h2>
-        <p>Objetivo: que todos los jurados evalúen todos los proyectos de la edicion y que el resultado sea privado para admin.</p>
+        <p>Objetivo: que todos los jurados evaluen todos los proyectos de la edicion y que el resultado sea privado para admin.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear modelo <code>jury_evaluations</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /jury/projects</code>.</label></li>
-          <li><label><input type="checkbox" />Devolver todos los proyectos publicados de la edicion.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /jury/projects/:id/evaluation</code>.</label></li>
-          <li><label><input type="checkbox" />Validar score de 1 a 5.</label></li>
-          <li><label><input type="checkbox" />Permitir comentario privado opcional.</label></li>
-          <li><label><input type="checkbox" />Permitir editar hasta cierre de evaluacion.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /admin/rankings/jury</code>.</label></li>
-          <li><label><input type="checkbox" />Probar que invitados/expositores no vean notas de jurado.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>jury_evaluations</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /jury/projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Devolver todos los proyectos publicados de la edicion.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /jury/projects/:id/evaluation</code>.</label></li>
+          <li><label><input type="checkbox" checked />Validar score de 1 a 5.</label></li>
+          <li><label><input type="checkbox" checked />Permitir comentario privado opcional.</label></li>
+          <li><label><input type="checkbox" checked />Permitir editar hasta cierre de evaluacion.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /admin/rankings/jury</code>.</label></li>
+          <li><label><input type="checkbox" checked />Probar que invitados/expositores no vean notas de jurado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -261,6 +261,9 @@
           <li>Admin ve ranking privado.</li>
           <li>Permisos de jurado blindados.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo login de jurado, listado de proyectos publicados, alta y edicion de evaluacion, ranking privado de admin y bloqueo 403 para usuarios sin rol correspondiente.
+        </div>
       </section>
 
       <section class="sprint">
