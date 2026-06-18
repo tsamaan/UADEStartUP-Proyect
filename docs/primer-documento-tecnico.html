@@ -292,7 +292,7 @@
                   <li>Votar positivamente proyectos.</li>
                   <li>Cambiar su voto activo a otro proyecto.</li>
                 </ul>
-                <p>Accede al feed escaneando un QR publico del evento. Puede ver proyectos sin login, pero para votar debe ingresar con Microsoft OAuth / Entra ID usando correo institucional UADE.</p>
+                <p>Accede al feed escaneando un QR publico del evento. Puede ver proyectos sin login, pero para votar debe iniciar sesion con Google.</p>
               </article>
               <article class="card">
                 <h3>Expositor</h3>
@@ -325,7 +325,7 @@
               </article>
             </div>
             <div class="note">
-              <strong>Decision MVP:</strong> el QR publico permite entrar a la edicion activa y ver proyectos/ranking. Para votar, el invitado debe ingresar con Microsoft OAuth / Entra ID usando correo institucional UADE. De esta forma el acceso sigue siendo simple y el voto se limita por cuenta institucional.
+              <strong>Decision MVP:</strong> el QR publico permite entrar a la edicion activa y ver proyectos/ranking. Para votar, el invitado debe iniciar sesion con Google. De esta forma el acceso sigue siendo simple y el voto se limita por cuenta Google.
             </div>
             <div class="note">
               <strong>Decision tomada:</strong> los expositores son dados de alta por un administrador. El admin crea o habilita el usuario/equipo expositor y le asigna el rol correspondiente.
@@ -350,7 +350,7 @@
 
             <h3>Voto de invitado</h3>
             <p><span class="tag">guest_user_id</span><span class="tag">edicion_id</span><span class="tag">proyecto_id</span><span class="tag">valor: 1</span><span class="tag">estado</span><span class="tag">fecha_creacion</span><span class="tag">fecha_actualizacion</span></p>
-            <p>Cada invitado autenticado con Microsoft/UADE puede tener un solo voto activo por edicion. Si vota a otro proyecto, el sistema mueve su voto anterior al nuevo proyecto.</p>
+            <p>Cada invitado autenticado con Google puede tener un solo voto activo por edicion. Si vota a otro proyecto, el sistema mueve su voto anterior al nuevo proyecto.</p>
 
             <h3>Evaluacion de jurado</h3>
             <p><span class="tag">jurado_id</span><span class="tag">proyecto_id</span><span class="tag">puntaje: 1 a 5</span><span class="tag">comentario_privado</span></p>
@@ -359,8 +359,8 @@
             <p><span class="tag">codigo</span><span class="tag">tipo</span><span class="tag">usos_maximos</span><span class="tag">fecha_expiracion</span><span class="tag">estado</span></p>
 
             <h3>Identidad social de invitado</h3>
-            <p><span class="tag">provider: microsoft</span><span class="tag">provider_user_id</span><span class="tag">email</span><span class="tag">nombre</span><span class="tag">fecha_ultimo_acceso</span></p>
-            <p>Identidad usada para votar. El invitado puede navegar sin login, pero al votar entra con Microsoft OAuth / Entra ID, sin crear contrasena local, y el sistema limita el voto por cuenta institucional y edicion.</p>
+            <p><span class="tag">provider: google</span><span class="tag">provider_user_id</span><span class="tag">email</span><span class="tag">nombre</span><span class="tag">fecha_ultimo_acceso</span></p>
+            <p>Identidad usada para votar. El invitado puede navegar sin login, pero al votar inicia sesion con Google, sin crear contrasena local, y el sistema limita el voto por cuenta Google y edicion.</p>
           </section>
 
           <section id="flujos">
@@ -390,7 +390,7 @@
               <li>El invitado escanea el QR publico del evento o entra al link de votacion.</li>
               <li>Puede navegar proyectos sin login.</li>
               <li>Explora proyectos.</li>
-              <li>Cuando quiere votar con la flecha hacia arriba, si no esta autenticado se solicita Microsoft OAuth / Entra ID.</li>
+              <li>Cuando quiere votar con la flecha hacia arriba, si no esta autenticado se muestra el boton de iniciar sesion con Google.</li>
               <li>El backend verifica que el correo sea institucional UADE y si esa cuenta ya tiene un voto activo en la edicion.</li>
               <li>Si no tenia voto, el proyecto elegido aumenta su score.</li>
               <li>Si ya tenia voto en otro proyecto, el voto se resta del proyecto anterior y se suma al nuevo.</li>
@@ -438,7 +438,7 @@
             <div class="grid">
               <article class="card">
                 <h3>Publico/invitado</h3>
-                <p>Feed de proyectos de la edicion activa, detalle, acceso por QR publico, login con Microsoft OAuth / Entra ID para votar, ranking publico y consulta de ediciones anteriores.</p>
+                <p>Feed de proyectos de la edicion activa, detalle, acceso por QR publico, inicio de sesion con Google para votar, ranking publico y consulta de ediciones anteriores.</p>
               </article>
               <article class="card">
                 <h3>Expositor</h3>
@@ -462,8 +462,8 @@
             <h2>8. API inicial</h2>
             <ul>
               <li><code>POST /auth/login</code></li>
-              <li><code>GET /auth/microsoft</code></li>
-              <li><code>GET /auth/microsoft/callback</code></li>
+              <li><code>GET /auth/google</code></li>
+              <li><code>GET /auth/google/callback</code></li>
               <li><code>GET /auth/me</code></li>
               <li><code>GET /editions</code></li>
               <li><code>GET /editions/:slug</code></li>
@@ -554,7 +554,7 @@
           <section id="mvp">
             <h2>11. MVP propuesto</h2>
             <div class="note success">
-              <strong>Alcance recomendado:</strong> frontend en Next.js, backend en Node.js con Express, deploy en CapRover, MinIO autohosteado para archivos, soporte por ediciones, registro/login para perfiles internos, QR publico para entrar a la edicion activa y ver proyectos sin login, Microsoft OAuth / Entra ID con correo UADE solo para votar como invitado, roles basicos, admin asignando roles, carga de proyectos, publicacion moderada, feed ordenado por votos, un unico voto activo por identidad de invitado con posibilidad de cambiarlo, actualizacion de votos/ranking en tiempo real, calificacion de jurado de 1 a 5 estrellas y ranking de jurado visible solo para admin.
+              <strong>Alcance recomendado:</strong> frontend en Next.js, backend en Node.js con Express, deploy en CapRover, MinIO autohosteado para archivos, soporte por ediciones, registro/login para perfiles internos, QR publico para entrar a la edicion activa y ver proyectos sin login, inicio de sesion con Google solo para votar como invitado, roles basicos, admin asignando roles, carga de proyectos, publicacion moderada, feed ordenado por votos, un unico voto activo por identidad de invitado con posibilidad de cambiarlo, actualizacion de votos/ranking en tiempo real, calificacion de jurado de 1 a 5 estrellas y ranking de jurado visible solo para admin.
             </div>
             <h3>Fuera del MVP inicial</h3>
             <ul>
@@ -569,7 +569,7 @@
             <h2>12. Decisiones MVP cerradas</h2>
             <ul>
               <li>QR publico para acceder a la edicion activa.</li>
-              <li>Microsoft OAuth / Entra ID con correo UADE obligatorio para emitir voto de invitado.</li>
+              <li>Inicio de sesion con Google obligatorio para emitir voto de invitado.</li>
               <li>Un unico voto activo por invitado y edicion, con posibilidad de cambiarlo.</li>
               <li>Ranking publico visible para todos y actualizado en tiempo real.</li>
               <li>Ranking de jurado visible solo para administradores.</li>

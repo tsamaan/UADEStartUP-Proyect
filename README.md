@@ -25,11 +25,11 @@ proyectosTeo/
 
 UADE StartUP se organiza por **ediciones**. Por ejemplo, una edicion puede ser `Edicion 2026`, y a futuro se podran consultar ediciones anteriores como versiones historicas del evento.
 
-Los usuarios publicos pueden entrar por QR y ver los proyectos sin iniciar sesion. Para votar, la decision actual es usar login institucional con cuenta UADE/Microsoft, de forma que se reduzca el riesgo de votos duplicados y se pueda limitar la participacion a correos del dominio UADE.
+Los usuarios publicos pueden entrar por QR y ver los proyectos sin iniciar sesion. Para votar, la decision actual es usar inicio de sesion con Google, de forma que se reduzca el riesgo de votos duplicados sin obligar a registrarse manualmente.
 
 Roles principales:
 
-- **Invitado:** ve proyectos y ranking publico. Para votar debe autenticarse con cuenta institucional.
+- **Invitado:** ve proyectos y ranking publico. Para votar debe autenticarse con cuenta Google.
 - **Expositor:** pertenece a un equipo y carga la informacion del proyecto.
 - **Jurado:** evalua todos los proyectos de una edicion con puntaje de 1 a 5.
 - **Admin:** gestiona ediciones, usuarios, equipos, proyectos, publicaciones y resultados privados.
@@ -41,7 +41,7 @@ Roles principales:
 - **Base de datos:** PostgreSQL.
 - **ORM:** Prisma.
 - **Archivos:** MinIO compatible con S3, autohosteado.
-- **Autenticacion prevista para votacion:** Microsoft OAuth / Entra ID, restringido a cuentas UADE o dominio institucional.
+- **Autenticacion prevista para votacion:** Google OAuth, solicitado solo al votar.
 - **Tiempo real:** el ranking publico debe actualizarse en vivo durante la votacion.
 - **Deploy productivo:** aplicaciones separadas en CapRover.
 - **Entorno local:** Docker Compose desde este repo.
@@ -121,7 +121,7 @@ El frontend ya existe como repo separado en Next.js y puede levantarse desde est
 
 Proximos bloques importantes:
 
-- Autenticacion institucional Microsoft/UADE para usuarios que votan.
+- Autenticacion con Google para usuarios que votan.
 - Carga de archivos en MinIO.
 - Votacion publica con regla de un voto por usuario y proyecto/equipo.
 - Ranking publico en tiempo real.

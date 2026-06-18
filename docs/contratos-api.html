@@ -48,7 +48,7 @@
             <tr><th>Base URL actual</th><td><code>/</code>. El backend actual expone rutas sin prefijo <code>/api/v1</code>.</td></tr>
             <tr><th>Formato</th><td>JSON.</td></tr>
             <tr><th>Auth interna</th><td>Sesion HTTP-only o Bearer token para admin, jurado y expositor.</td></tr>
-            <tr><th>Auth invitados</th><td>No se requiere login para ver ediciones, proyectos y ranking publico. Microsoft OAuth / Entra ID con cuenta UADE solo es obligatorio para votar.</td></tr>
+            <tr><th>Auth invitados</th><td>No se requiere login para ver ediciones, proyectos y ranking publico. Google OAuth solo es obligatorio para votar.</td></tr>
             <tr><th>Errores</th><td><code>{ "error": { "code": "string", "message": "string", "details": {} } }</code></td></tr>
           </tbody>
         </table>
@@ -87,13 +87,13 @@
         </article>
 
         <article class="endpoint">
-          <h3>GET /auth/microsoft</h3>
-          <p>Planificado. Redirecciona al flujo OAuth Microsoft / Entra ID. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
+          <h3>GET /auth/google</h3>
+          <p>Planificado. Redirecciona al flujo OAuth Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
         </article>
 
         <article class="endpoint">
-          <h3>GET /auth/microsoft/callback</h3>
-          <p>Planificado. Callback OAuth. Crea o recupera usuario invitado, valida que use correo institucional UADE y lo deja autenticado.</p>
+          <h3>GET /auth/google/callback</h3>
+          <p>Planificado. Callback OAuth. Crea o recupera usuario invitado, valida que use cuenta Google y lo deja autenticado.</p>
         </article>
 
         <article class="endpoint">
@@ -197,7 +197,7 @@
         <h2>Votos</h2>
         <article class="endpoint">
           <h3>POST /projects/:id/vote</h3>
-          <p>Emite o cambia el voto activo del invitado autenticado con Microsoft/UADE para la edicion del proyecto. Requiere Microsoft/UADE Login.</p>
+          <p>Emite o cambia el voto activo del invitado autenticado con Google para la edicion del proyecto. Requiere Google Login.</p>
 <pre><code>{
   "previousProjectId": "uuid-or-null",
   "currentProjectId": "uuid",

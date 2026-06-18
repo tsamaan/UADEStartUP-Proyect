@@ -31,12 +31,12 @@
     <main>
       <header>
         <h1>TODO Frontend por sprints - UADE StartUP</h1>
-        <p>Roadmap para construir el frontend en Next.js: experiencia publica, login con Microsoft/UADE al votar, paneles por rol, ranking en tiempo real y deploy en CapRover.</p>
+        <p>Roadmap para construir el frontend en Next.js: experiencia publica, login con Google al votar, paneles por rol, ranking en tiempo real y deploy en CapRover.</p>
       </header>
 
       <section>
         <h2>Criterio general</h2>
-        <p>El frontend debe permitir mirar proyectos sin login y pedir Microsoft/UADE Login solo cuando el invitado intenta votar. La pantalla principal no es una landing: es el feed de la edicion activa.</p>
+        <p>El frontend debe permitir mirar proyectos sin login y pedir Google Login solo cuando el invitado intenta votar. La pantalla principal no es una landing: es el feed de la edicion activa.</p>
         <div class="note warn">
           <strong>Orden recomendado:</strong> primero layouts, rutas publicas y datos mockeados; despues integracion real, auth, formularios, realtime y paneles privados.
         </div>
@@ -121,14 +121,14 @@
       </section>
 
       <section class="sprint">
-        <h2>Voto con Microsoft/UADE Login</h2>
-        <p>Objetivo: permitir votar solo con Microsoft/UADE, sin bloquear la navegacion publica.</p>
+        <h2>Voto con Google Login</h2>
+        <p>Objetivo: permitir votar solo con Google, sin bloquear la navegacion publica.</p>
         <h3>Tareas</h3>
         <ul>
           <li><label><input type="checkbox" />Crear estado de usuario actual consumiendo <code>GET /auth/me</code>.</label></li>
           <li><label><input type="checkbox" />Agregar boton de voto en cards y detalle.</label></li>
-          <li><label><input type="checkbox" />Si el usuario no esta autenticado, redirigir a <code>GET /auth/microsoft</code>.</label></li>
-          <li><label><input type="checkbox" />Mostrar error claro si la cuenta no pertenece al dominio institucional UADE permitido.</label></li>
+          <li><label><input type="checkbox" />Si el usuario no esta autenticado, redirigir a <code>GET /auth/google</code>.</label></li>
+          <li><label><input type="checkbox" />Mostrar error claro si Google no devuelve un email verificado.</label></li>
           <li><label><input type="checkbox" />Si esta autenticado, llamar <code>POST /projects/:id/vote</code>.</label></li>
           <li><label><input type="checkbox" />Mostrar estado visual del proyecto votado.</label></li>
           <li><label><input type="checkbox" />Soportar cambio de voto con confirmacion discreta.</label></li>
@@ -137,7 +137,7 @@
         <h3>Entrega</h3>
         <ul>
           <li>Flujo votar funciona desde invitado no logueado.</li>
-          <li>Microsoft/UADE aparece solo al votar.</li>
+          <li>El boton de iniciar sesion con Google aparece solo al votar.</li>
           <li>Cambio de voto claro para el usuario.</li>
         </ul>
       </section>
@@ -289,7 +289,7 @@
           <li><label><input type="checkbox" />Configurar variables productivas.</label></li>
           <li><label><input type="checkbox" />Configurar subdominio tipo <code>app.dominio.com</code> cuando exista dominio final.</label></li>
           <li><label><input type="checkbox" />Validar CORS con backend.</label></li>
-          <li><label><input type="checkbox" />Probar Microsoft OAuth / Entra ID con dominio productivo y correos institucionales UADE.</label></li>
+          <li><label><input type="checkbox" />Probar Google OAuth con dominio productivo.</label></li>
           <li><label><input type="checkbox" />Probar flujo end-to-end con backend desplegado.</label></li>
         </ul>
         <h3>Entrega</h3>

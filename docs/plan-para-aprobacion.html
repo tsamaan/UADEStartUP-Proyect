@@ -50,7 +50,7 @@
         <h2>Resumen ejecutivo</h2>
         <p>UADE StartUP sera una plataforma web para mostrar proyectos por edicion, permitir votacion publica en tiempo real y registrar evaluaciones privadas de jurados. El producto queda preparado para crecer por ediciones, por ejemplo Edicion 2026, y conservar historicos consultables.</p>
         <div class="note ok">
-          <strong>Propuesta MVP:</strong> una app publica para ver proyectos y ranking en vivo, Microsoft OAuth / Entra ID con correo UADE solo para votar, paneles para expositores/jurados/admin, backend Express, frontend Next.js, deploy en CapRover y archivos en MinIO.
+          <strong>Propuesta MVP:</strong> una app publica para ver proyectos y ranking en vivo, inicio de sesion con Google solo para votar, paneles para expositores/jurados/admin, backend Express, frontend Next.js, deploy en CapRover y archivos en MinIO.
         </div>
       </section>
 
@@ -62,7 +62,7 @@
             <ul>
               <li>Acceso por QR publico a la edicion activa.</li>
               <li>Ver proyectos, detalles y ranking sin login.</li>
-              <li>Microsoft OAuth / Entra ID con correo UADE solo al votar.</li>
+              <li>Inicio de sesion con Google solo al votar.</li>
               <li>Un voto activo por invitado y edicion, con posibilidad de cambiarlo.</li>
             </ul>
           </article>
@@ -110,7 +110,7 @@
             <tr><td>Archivos</td><td>MinIO autohosteado dentro de CapRover, con volumen persistente y backups.</td></tr>
             <tr><td>Base de datos</td><td>PostgreSQL dentro de CapRover.</td></tr>
             <tr><td>Votacion</td><td>Ranking publico en tiempo real por WebSockets.</td></tr>
-            <tr><td>Login invitado</td><td>No requiere login para mirar; Microsoft OAuth / Entra ID con correo UADE solo para votar.</td></tr>
+            <tr><td>Login invitado</td><td>No requiere login para mirar; inicio de sesion con Google solo para votar.</td></tr>
             <tr><td>Ranking publico</td><td>Orden por mayor cantidad de votos; empate por quien llego antes a esa cantidad.</td></tr>
             <tr><td>Ranking jurado</td><td>Promedio de estrellas, visible solo para administradores.</td></tr>
             <tr><td>Evaluacion jurado</td><td>Todos los jurados evaluan todos los proyectos de la edicion.</td></tr>
@@ -141,7 +141,7 @@
           <tbody>
             <tr><td>Disponibilidad del servidor durante la muestra</td><td>Alto</td><td>Prueba de carga previa, monitoreo basico, reinicio controlado de apps y backups.</td></tr>
             <tr><td>MinIO autohosteado sin backups</td><td>Alto</td><td>Volumen persistente, backup programado y prueba de restauracion antes del evento.</td></tr>
-            <tr><td>Problemas con Microsoft OAuth / Entra ID el dia del evento</td><td>Medio</td><td>Configurar credenciales y dominio final con anticipacion; probar desde celulares y redes distintas.</td></tr>
+            <tr><td>Problemas con Google OAuth el dia del evento</td><td>Medio</td><td>Configurar credenciales y dominio final con anticipacion; probar desde celulares y redes distintas.</td></tr>
             <tr><td>Ranking en tiempo real con muchos usuarios</td><td>Medio</td><td>WebSockets con eventos chicos, contador desnormalizado y prueba de concurrencia.</td></tr>
             <tr><td>Datos de jurado expuestos por error</td><td>Alto</td><td>Autorizacion por rol en backend y pruebas especificas de permisos.</td></tr>
           </tbody>
@@ -154,7 +154,7 @@
           <li>Confirmar dominio final. Mientras tanto, planificar subdominios con el patron CapRover <code>nombreapp.dominio.com</code>, por ejemplo frontend, backend y MinIO.</li>
           <li>Confirmar datos obligatorios finales del formulario de proyecto. Propuesta inicial: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto del equipo.</li>
           <li>Definir fecha estimada de la Edicion 2026.</li>
-          <li>Preparar credenciales Microsoft OAuth / Entra ID para ambiente de desarrollo y produccion.</li>
+          <li>Preparar credenciales Google OAuth para ambiente de desarrollo y produccion.</li>
         </ul>
       </section>
 

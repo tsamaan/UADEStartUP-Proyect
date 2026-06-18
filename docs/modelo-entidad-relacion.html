@@ -61,7 +61,7 @@
           </article>
           <article class="card">
             <h3>Votos</h3>
-            <p>Cada invitado autenticado con Microsoft/UADE puede tener un unico voto activo por edicion. Puede cambiarlo a otro proyecto.</p>
+            <p>Cada invitado autenticado con Google puede tener un unico voto activo por edicion. Puede cambiarlo a otro proyecto.</p>
           </article>
           <article class="card">
             <h3>Jurado</h3>
@@ -84,7 +84,7 @@
             <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
             <tr><td><code>name</code></td><td>varchar</td><td>Nombre visible.</td></tr>
             <tr><td><code>email</code></td><td>varchar</td><td>Unico cuando aplica.</td></tr>
-            <tr><td><code>password_hash</code></td><td>varchar nullable</td><td>Para admin, jurado y expositor. Los invitados votan con Microsoft/UADE y no necesitan password local.</td></tr>
+            <tr><td><code>password_hash</code></td><td>varchar nullable</td><td>Para admin, jurado y expositor. Los invitados votan con Google y no necesitan password local.</td></tr>
             <tr><td><code>role</code></td><td>enum</td><td><code>admin</code>, <code>exhibitor</code>, <code>jury</code>, <code>guest</code>.</td></tr>
             <tr><td><code>status</code></td><td>enum</td><td><code>active</code>, <code>pending</code>, <code>blocked</code>.</td></tr>
             <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de creacion.</td></tr>
@@ -98,8 +98,8 @@
           <tbody>
             <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
             <tr><td><code>user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
-            <tr><td><code>provider</code></td><td>varchar</td><td>Para MVP: <code>microsoft</code> / Entra ID.</td></tr>
-            <tr><td><code>provider_user_id</code></td><td>varchar</td><td>ID estable del proveedor, por ejemplo el subject/object id de Entra ID.</td></tr>
+            <tr><td><code>provider</code></td><td>varchar</td><td>Para MVP: <code>google</code>.</td></tr>
+            <tr><td><code>provider_user_id</code></td><td>varchar</td><td>ID estable del proveedor, por ejemplo el subject id de Google.</td></tr>
             <tr><td><code>email</code></td><td>varchar</td><td>Email institucional validado. Debe pertenecer al dominio UADE definido para la votacion.</td></tr>
             <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de vinculacion.</td></tr>
           </tbody>
@@ -162,7 +162,7 @@
           <tbody>
             <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
             <tr><td><code>edition_id</code></td><td>uuid</td><td>FK a <code>editions.id</code>.</td></tr>
-            <tr><td><code>guest_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>, usuario creado/vinculado por Microsoft/UADE.</td></tr>
+            <tr><td><code>guest_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>, usuario creado/vinculado por Google.</td></tr>
             <tr><td><code>project_id</code></td><td>uuid</td><td>FK a <code>projects.id</code>.</td></tr>
             <tr><td><code>status</code></td><td>enum</td><td><code>active</code>, <code>changed</code>, <code>removed</code>.</td></tr>
             <tr><td><code>created_at</code></td><td>timestamp</td><td>Primer voto.</td></tr>
