@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5 y Sprint 6 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion y Google Login para invitados ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6 y Sprint 7 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login y votacion/ranking publico ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -197,15 +197,15 @@
         <p>Objetivo: implementar voto unico por invitado/edicion, cambio de voto y ranking publico.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear modelo <code>votes</code>.</label></li>
-          <li><label><input type="checkbox" />Agregar <code>vote_count</code> y <code>reached_vote_count_at</code> a proyectos.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /projects/:id/vote</code>.</label></li>
-          <li><label><input type="checkbox" />Requerir Google Login para votar.</label></li>
-          <li><label><input type="checkbox" />Validar ventana de votacion abierta en la edicion.</label></li>
-          <li><label><input type="checkbox" />Garantizar un unico voto activo por <code>guest_user_id</code> + <code>edition_id</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar cambio de voto en transaccion.</label></li>
-          <li><label><input type="checkbox" />Implementar desempate por quien llego antes a la cantidad de votos.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /rankings/public</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>votes</code>.</label></li>
+          <li><label><input type="checkbox" checked />Agregar <code>vote_count</code> y <code>reached_vote_count_at</code> a proyectos.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /projects/:id/vote</code>.</label></li>
+          <li><label><input type="checkbox" checked />Requerir Google Login para votar.</label></li>
+          <li><label><input type="checkbox" checked />Validar ventana de votacion abierta en la edicion.</label></li>
+          <li><label><input type="checkbox" checked />Garantizar un unico voto activo por <code>guest_user_id</code> + <code>edition_id</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar cambio de voto en transaccion.</label></li>
+          <li><label><input type="checkbox" checked />Implementar desempate por quien llego antes a la cantidad de votos.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /rankings/public</code>.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -213,6 +213,9 @@
           <li>Cambiar voto resta y suma correctamente.</li>
           <li>Ranking publico ordena igual que la regla del producto.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo ranking inicial, voto con usuario <code>guest</code>, cambio de voto entre proyectos, idempotencia al votar el mismo proyecto y bloqueo cuando la votacion esta cerrada.
+        </div>
       </section>
 
       <section class="sprint">
