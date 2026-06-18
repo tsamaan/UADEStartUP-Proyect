@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8, Sprint 9 y Sprint 10 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime, evaluacion de jurados y archivos con MinIO ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8, Sprint 9, Sprint 10 y Sprint 11 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime, evaluacion de jurados, archivos con MinIO y seguridad inicial ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -295,20 +295,23 @@
         <p>Objetivo: endurecer reglas criticas antes de deploy.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Agregar rate limit a login, OAuth callback y voto.</label></li>
-          <li><label><input type="checkbox" />Configurar CORS para frontend.</label></li>
-          <li><label><input type="checkbox" />Configurar cookies seguras/HTTP-only si se usa sesion por cookie.</label></li>
-          <li><label><input type="checkbox" />Agregar logs estructurados.</label></li>
-          <li><label><input type="checkbox" />Auditar acciones admin: publicar proyecto, abrir/cerrar votacion, cambiar roles.</label></li>
-          <li><label><input type="checkbox" />Tests de voto unico y cambio de voto.</label></li>
-          <li><label><input type="checkbox" />Tests de permisos por rol.</label></li>
-          <li><label><input type="checkbox" />Tests de privacidad del ranking de jurado.</label></li>
+          <li><label><input type="checkbox" checked />Agregar rate limit a login, OAuth callback y voto.</label></li>
+          <li><label><input type="checkbox" checked />Configurar CORS para frontend.</label></li>
+          <li><label><input type="checkbox" checked />Configurar cookies seguras/HTTP-only si se usa sesion por cookie.</label></li>
+          <li><label><input type="checkbox" checked />Agregar logs estructurados.</label></li>
+          <li><label><input type="checkbox" checked />Auditar acciones admin: publicar proyecto, abrir/cerrar votacion, cambiar roles.</label></li>
+          <li><label><input type="checkbox" checked />Tests de voto unico y cambio de voto.</label></li>
+          <li><label><input type="checkbox" checked />Tests de permisos por rol.</label></li>
+          <li><label><input type="checkbox" checked />Tests de privacidad del ranking de jurado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Reglas criticas cubiertas.</li>
           <li>Permisos verificados.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se agregaron rate limits, CORS configurable, limite de JSON, logs estructurados con request id, auditoria persistente, endpoint admin para ventana de votacion y tests de integracion para reglas criticas. No se usan cookies de sesion en el MVP; la API usa Bearer JWT.
+        </div>
       </section>
 
       <section class="sprint">

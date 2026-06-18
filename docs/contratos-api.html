@@ -257,7 +257,8 @@
             <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Actual. Asignar rol. Body: <code>{ "role": "admin|exhibitor|jury|guest" }</code>.</td></tr>
             <tr><td><code>POST /admin/exhibitors</code></td><td>Actual. Dar de alta expositor/equipo. Crea o actualiza usuario expositor y equipo asociado a una edicion.</td></tr>
             <tr><td><code>POST /admin/editions</code></td><td>Planificado. Crear edicion.</td></tr>
-            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar estado, fechas y ventana de votacion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar datos generales de edicion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id/voting</code></td><td>Actual. Abrir/cerrar votacion y configurar ventana. Body: <code>{ "votingOpen": true, "votingStart": null, "votingEnd": null }</code>.</td></tr>
             <tr><td><code>GET /admin/results?editionId=uuid</code></td><td>Planificado. Resultados publicos y de jurado.</td></tr>
           </tbody>
         </table>

@@ -71,6 +71,10 @@
             <h3>Archivos</h3>
             <p>Los archivos se guardan en MinIO autohosteado dentro de CapRover. La base solo conserva metadata y URLs/keys.</p>
           </article>
+          <article class="card">
+            <h3>Auditoria</h3>
+            <p>Las acciones administrativas sensibles se registran en <code>audit_logs</code> para trazabilidad operativa.</p>
+          </article>
         </div>
       </section>
 
@@ -207,6 +211,20 @@
             <tr><td><code>updated_at</code></td><td>timestamp</td><td>Fecha de actualizacion.</td></tr>
           </tbody>
         </table>
+
+        <h3>audit_logs</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>actor_user_id</code></td><td>uuid nullable</td><td>FK a <code>users.id</code>. Puede quedar null si el usuario se elimina.</td></tr>
+            <tr><td><code>action</code></td><td>enum</td><td><code>user_role_changed</code>, <code>exhibitor_created</code>, <code>project_published</code>, <code>edition_voting_updated</code>.</td></tr>
+            <tr><td><code>entity_type</code></td><td>varchar</td><td>Tipo de entidad afectada.</td></tr>
+            <tr><td><code>entity_id</code></td><td>varchar</td><td>ID de la entidad afectada.</td></tr>
+            <tr><td><code>metadata</code></td><td>jsonb nullable</td><td>Detalle minimo del cambio.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha del evento auditado.</td></tr>
+          </tbody>
+        </table>
       </section>
 
       <section>
@@ -221,6 +239,7 @@
           <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>project_files</code> y binarios en MinIO.</li>
           <li>El ranking publico ordena por <code>vote_count DESC</code> y <code>reached_vote_count_at ASC</code>.</li>
           <li>El ranking de jurado solo se expone a administradores.</li>
+          <li>Las acciones administrativas sensibles deben dejar rastro en <code>audit_logs</code>.</li>
         </ul>
       </section>
     </main>
