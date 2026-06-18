@@ -57,7 +57,7 @@
         <div class="grid">
           <article class="card">
             <h3>Ediciones</h3>
-            <p>Una edicion contiene proyectos, votos, evaluaciones de todos los jurados y configuracion de votacion.</p>
+            <p>Una edicion corresponde a un anio y cuatrimestre. Contiene proyectos, votos, evaluaciones de todos los jurados y configuracion de votacion.</p>
           </article>
           <article class="card">
             <h3>Votos</h3>
@@ -114,9 +114,10 @@
           <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
           <tbody>
             <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
-            <tr><td><code>name</code></td><td>varchar</td><td>Ejemplo: Edicion 2026.</td></tr>
+            <tr><td><code>name</code></td><td>varchar</td><td>Ejemplo: Edicion 2026 - Primer Cuatrimestre.</td></tr>
             <tr><td><code>year</code></td><td>integer</td><td>Anio de la edicion.</td></tr>
-            <tr><td><code>slug</code></td><td>varchar</td><td>Unico. Ejemplo: <code>edicion-2026</code>.</td></tr>
+            <tr><td><code>term</code></td><td>enum</td><td><code>first_cuatrimestre</code> o <code>second_cuatrimestre</code>.</td></tr>
+            <tr><td><code>slug</code></td><td>varchar</td><td>Unico. Ejemplo: <code>edicion-2026-primer-cuatrimestre</code>.</td></tr>
             <tr><td><code>status</code></td><td>enum</td><td><code>draft</code>, <code>active</code>, <code>closed</code>, <code>archived</code>.</td></tr>
             <tr><td><code>voting_open</code></td><td>boolean</td><td>Controla si se aceptan votos.</td></tr>
             <tr><td><code>starts_at</code></td><td>timestamp nullable</td><td>Inicio de la edicion.</td></tr>
@@ -152,7 +153,7 @@
             <tr><td><code>category</code></td><td>varchar nullable</td><td>Categoria.</td></tr>
             <tr><td><code>stage</code></td><td>enum</td><td><code>idea</code>, <code>prototype</code>, <code>mvp</code>, <code>live</code>.</td></tr>
             <tr><td><code>logo_url</code></td><td>varchar nullable</td><td>URL publica del logo principal. Se actualiza desde archivos de tipo <code>logo</code>.</td></tr>
-            <tr><td><code>video_url</code></td><td>varchar nullable</td><td>URL externa opcional. Los videos subidos por la app se guardan en <code>project_files</code>.</td></tr>
+            <tr><td><code>video_url</code></td><td>varchar nullable</td><td>Campo legacy. Los videos del proyecto se guardan en <code>project_files</code> y no se aceptan como links externos.</td></tr>
             <tr><td><code>demo_url</code></td><td>varchar nullable</td><td>Link demo.</td></tr>
             <tr><td><code>repository_url</code></td><td>varchar nullable</td><td>Link repo.</td></tr>
             <tr><td><code>status</code></td><td>enum</td><td><code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</td></tr>
@@ -231,12 +232,13 @@
         <h2>Reglas de integridad</h2>
         <ul>
           <li>Solo puede existir una edicion con estado <code>active</code> si la operacion del MVP asume una edicion activa a la vez.</li>
+          <li>No puede existir mas de una edicion con el mismo <code>year</code> y <code>term</code>.</li>
           <li>Un proyecto pertenece a una sola edicion y a un solo equipo.</li>
           <li>Un invitado puede tener un unico voto activo por edicion.</li>
           <li>Todos los jurados evaluan todos los proyectos publicados de la edicion.</li>
           <li>La ventana de votacion se define por edicion desde administracion.</li>
           <li>Cambiar voto debe ejecutarse en transaccion: restar al proyecto anterior, sumar al nuevo y emitir evento realtime.</li>
-          <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>project_files</code> y binarios en MinIO.</li>
+          <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>project_files</code> y binarios en MinIO. Logo, imagenes y videos no se aceptan como links externos.</li>
           <li>El ranking publico ordena por <code>vote_count DESC</code> y <code>reached_vote_count_at ASC</code>.</li>
           <li>El ranking de jurado solo se expone a administradores.</li>
           <li>Las acciones administrativas sensibles deben dejar rastro en <code>audit_logs</code>.</li>
