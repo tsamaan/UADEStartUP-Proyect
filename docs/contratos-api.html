@@ -219,12 +219,12 @@
         <h2>Jurado</h2>
         <article class="endpoint">
           <h3>GET /jury/projects?editionId=uuid</h3>
-          <p>Lista proyectos para evaluar. Rol: jurado.</p>
+          <p>Actual. Lista proyectos publicados para evaluar. Rol: jurado.</p>
         </article>
 
         <article class="endpoint">
           <h3>POST /jury/projects/:id/evaluation</h3>
-          <p>Crea o actualiza evaluacion de jurado.</p>
+          <p>Actual. Crea o actualiza evaluacion de jurado.</p>
 <pre><code>{
   "score": 5,
   "privateComment": "Muy buena presentacion."
@@ -233,7 +233,7 @@
 
         <article class="endpoint">
           <h3>GET /admin/rankings/jury?editionId=uuid</h3>
-          <p>Ranking consolidado de jurado. Rol: admin.</p>
+          <p>Actual. Ranking consolidado de jurado. Rol: admin.</p>
 <pre><code>{
   "items": [
     {
@@ -257,7 +257,8 @@
             <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Actual. Asignar rol. Body: <code>{ "role": "admin|exhibitor|jury|guest" }</code>.</td></tr>
             <tr><td><code>POST /admin/exhibitors</code></td><td>Actual. Dar de alta expositor/equipo. Crea o actualiza usuario expositor y equipo asociado a una edicion.</td></tr>
             <tr><td><code>POST /admin/editions</code></td><td>Planificado. Crear edicion.</td></tr>
-            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar estado, fechas y ventana de votacion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar datos generales de edicion.</td></tr>
+            <tr><td><code>PATCH /admin/editions/:id/voting</code></td><td>Actual. Abrir/cerrar votacion y configurar ventana. Body: <code>{ "votingOpen": true, "votingStart": null, "votingEnd": null }</code>.</td></tr>
             <tr><td><code>GET /admin/results?editionId=uuid</code></td><td>Planificado. Resultados publicos y de jurado.</td></tr>
           </tbody>
         </table>
@@ -267,9 +268,8 @@
         <h2>Archivos</h2>
         <article class="endpoint">
           <h3>POST /files/presign</h3>
-          <p>Genera URL firmada para subir archivos a MinIO. MinIO usa API compatible con S3.</p>
+          <p>Actual. Genera URL firmada para subir archivos a MinIO. Rol: admin o expositor propietario del proyecto.</p>
 <pre><code>{
-  "editionId": "uuid",
   "projectId": "uuid",
   "kind": "logo",
   "fileName": "logo.png",
@@ -277,25 +277,51 @@
   "sizeBytes": 120000
 }</code></pre>
 <pre><code>{
-  "fileId": "uuid",
-  "uploadUrl": "https://minio.uadestartup.example.com/...",
-  "objectKey": "editions/2026/projects/uuid/logo.png"
+  "file": {
+    "id": "uuid",
+    "kind": "logo",
+    "originalName": "logo.png",
+    "bucket": "uade-startup",
+    "objectKey": "editions/edicion-2026/projects/uuid/logo/uuid-logo.png",
+    "publicUrl": "http://localhost:9000/uade-startup/editions/...",
+    "mimeType": "image/png",
+    "sizeBytes": 120000
+  },
+  "upload": {
+    "method": "PUT",
+    "url": "https://minio.uadestartup.example.com/...",
+    "expiresInSeconds": 900,
+    "headers": {
+      "Content-Type": "image/png"
+    }
+  }
 }</code></pre>
-          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El campo <code>videoUrl</code> de proyectos queda reservado para videos externos; los videos subidos por la app se manejan como archivos en MinIO.</p>
+          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El cliente sube el binario con <code>PUT</code> a <code>upload.url</code>. El campo <code>videoUrl</code> de proyectos queda reservado para videos externos; los videos subidos por la app se manejan como archivos en MinIO.</p>
         </article>
       </section>
 
       <section>
         <h2>Realtime</h2>
         <article class="endpoint">
-          <h3>WS /realtime</h3>
-          <p>Canal WebSocket para eventos de ranking publico.</p>
+          <h3>Socket.IO /realtime</h3>
+          <p>Actual. Canal Socket.IO para eventos de ranking publico.</p>
+          <p>Al conectarse, el cliente debe unirse a una sala de edicion:</p>
+<pre><code>{
+  "event": "edition.join",
+  "payload": {
+    "editionId": "uuid"
+  }
+}</code></pre>
+          <p>Cuando cambia un voto, el servidor emite:</p>
 <pre><code>{
   "type": "ranking.updated",
   "editionId": "uuid",
   "changedProjects": [
     { "projectId": "uuid", "voteCount": 28, "position": 1 },
     { "projectId": "uuid", "voteCount": 27, "position": 2 }
+  ],
+  "ranking": [
+    { "id": "uuid", "title": "Proyecto Demo", "voteCount": 28, "position": 1 }
   ]
 }</code></pre>
         </article>

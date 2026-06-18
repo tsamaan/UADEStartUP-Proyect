@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6 y Sprint 7 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login y votacion/ranking publico ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8, Sprint 9, Sprint 10 y Sprint 11 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime, evaluacion de jurados, archivos con MinIO y seguridad inicial ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -223,34 +223,37 @@
         <p>Objetivo: que el ranking cambie en vivo para todos los usuarios conectados.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Configurar WebSockets.</label></li>
-          <li><label><input type="checkbox" />Crear canal/sala por edicion.</label></li>
-          <li><label><input type="checkbox" />Emitir <code>ranking.updated</code> despues de votar o cambiar voto.</label></li>
-          <li><label><input type="checkbox" />Enviar proyectos afectados, votos y posiciones nuevas.</label></li>
-          <li><label><input type="checkbox" />Probar dos navegadores viendo el ranking al mismo tiempo.</label></li>
-          <li><label><input type="checkbox" />Agregar manejo de reconexion basico.</label></li>
+          <li><label><input type="checkbox" checked />Configurar WebSockets con Socket.IO.</label></li>
+          <li><label><input type="checkbox" checked />Crear canal/sala por edicion.</label></li>
+          <li><label><input type="checkbox" checked />Emitir <code>ranking.updated</code> despues de votar o cambiar voto.</label></li>
+          <li><label><input type="checkbox" checked />Enviar proyectos afectados, votos y posiciones nuevas.</label></li>
+          <li><label><input type="checkbox" checked />Probar dos clientes viendo el ranking al mismo tiempo.</label></li>
+          <li><label><input type="checkbox" checked />Agregar manejo de reconexion basico del lado Socket.IO.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Ranking en vivo funcionando.</li>
           <li>Evento realtime documentado y probado.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se monto Socket.IO en <code>/realtime</code>, se implemento <code>edition.join</code>, se emite <code>ranking.updated</code> al votar y se probo con dos clientes conectados a la misma edicion.
+        </div>
       </section>
 
       <section class="sprint">
         <h2>Evaluacion de jurados</h2>
-        <p>Objetivo: que todos los jurados evalúen todos los proyectos de la edicion y que el resultado sea privado para admin.</p>
+        <p>Objetivo: que todos los jurados evaluen todos los proyectos de la edicion y que el resultado sea privado para admin.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear modelo <code>jury_evaluations</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /jury/projects</code>.</label></li>
-          <li><label><input type="checkbox" />Devolver todos los proyectos publicados de la edicion.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /jury/projects/:id/evaluation</code>.</label></li>
-          <li><label><input type="checkbox" />Validar score de 1 a 5.</label></li>
-          <li><label><input type="checkbox" />Permitir comentario privado opcional.</label></li>
-          <li><label><input type="checkbox" />Permitir editar hasta cierre de evaluacion.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /admin/rankings/jury</code>.</label></li>
-          <li><label><input type="checkbox" />Probar que invitados/expositores no vean notas de jurado.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>jury_evaluations</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /jury/projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Devolver todos los proyectos publicados de la edicion.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /jury/projects/:id/evaluation</code>.</label></li>
+          <li><label><input type="checkbox" checked />Validar score de 1 a 5.</label></li>
+          <li><label><input type="checkbox" checked />Permitir comentario privado opcional.</label></li>
+          <li><label><input type="checkbox" checked />Permitir editar hasta cierre de evaluacion.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /admin/rankings/jury</code>.</label></li>
+          <li><label><input type="checkbox" checked />Probar que invitados/expositores no vean notas de jurado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -258,6 +261,9 @@
           <li>Admin ve ranking privado.</li>
           <li>Permisos de jurado blindados.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se probo login de jurado, listado de proyectos publicados, alta y edicion de evaluacion, ranking privado de admin y bloqueo 403 para usuarios sin rol correspondiente.
+        </div>
       </section>
 
       <section class="sprint">
@@ -265,20 +271,23 @@
         <p>Objetivo: subir logos, imagenes y videos a MinIO y guardar metadata en base.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Levantar MinIO local para desarrollo.</label></li>
-          <li><label><input type="checkbox" />Crear modelo <code>files</code>.</label></li>
-          <li><label><input type="checkbox" />Configurar bucket inicial.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /files/presign</code>.</label></li>
-          <li><label><input type="checkbox" />Validar MIME type y peso maximo.</label></li>
-          <li><label><input type="checkbox" />Guardar metadata de archivo.</label></li>
-          <li><label><input type="checkbox" />Asociar logo, galeria de imagenes y videos a proyecto.</label></li>
-          <li><label><input type="checkbox" />Definir URL publica o endpoint proxy para servir archivos.</label></li>
+          <li><label><input type="checkbox" checked />Levantar MinIO local para desarrollo.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>project_files</code>.</label></li>
+          <li><label><input type="checkbox" checked />Configurar bucket inicial.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /files/presign</code>.</label></li>
+          <li><label><input type="checkbox" checked />Validar MIME type y peso maximo.</label></li>
+          <li><label><input type="checkbox" checked />Guardar metadata de archivo.</label></li>
+          <li><label><input type="checkbox" checked />Asociar logo, galeria de imagenes y videos a proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Definir URL publica o endpoint proxy para servir archivos.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Logo, imagenes y videos de proyecto subibles y consultables.</li>
           <li>Archivos no dependen del contenedor de la API.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se configuro MinIO local, se creo <code>project_files</code>, se implemento <code>POST /files/presign</code>, se validaron tipo/peso/permisos y se probo subida real de logo con URL firmada.
+        </div>
       </section>
 
       <section class="sprint">
@@ -286,20 +295,23 @@
         <p>Objetivo: endurecer reglas criticas antes de deploy.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Agregar rate limit a login, OAuth callback y voto.</label></li>
-          <li><label><input type="checkbox" />Configurar CORS para frontend.</label></li>
-          <li><label><input type="checkbox" />Configurar cookies seguras/HTTP-only si se usa sesion por cookie.</label></li>
-          <li><label><input type="checkbox" />Agregar logs estructurados.</label></li>
-          <li><label><input type="checkbox" />Auditar acciones admin: publicar proyecto, abrir/cerrar votacion, cambiar roles.</label></li>
-          <li><label><input type="checkbox" />Tests de voto unico y cambio de voto.</label></li>
-          <li><label><input type="checkbox" />Tests de permisos por rol.</label></li>
-          <li><label><input type="checkbox" />Tests de privacidad del ranking de jurado.</label></li>
+          <li><label><input type="checkbox" checked />Agregar rate limit a login, OAuth callback y voto.</label></li>
+          <li><label><input type="checkbox" checked />Configurar CORS para frontend.</label></li>
+          <li><label><input type="checkbox" checked />Configurar cookies seguras/HTTP-only si se usa sesion por cookie.</label></li>
+          <li><label><input type="checkbox" checked />Agregar logs estructurados.</label></li>
+          <li><label><input type="checkbox" checked />Auditar acciones admin: publicar proyecto, abrir/cerrar votacion, cambiar roles.</label></li>
+          <li><label><input type="checkbox" checked />Tests de voto unico y cambio de voto.</label></li>
+          <li><label><input type="checkbox" checked />Tests de permisos por rol.</label></li>
+          <li><label><input type="checkbox" checked />Tests de privacidad del ranking de jurado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Reglas criticas cubiertas.</li>
           <li>Permisos verificados.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se agregaron rate limits, CORS configurable, limite de JSON, logs estructurados con request id, auditoria persistente, endpoint admin para ventana de votacion y tests de integracion para reglas criticas. No se usan cookies de sesion en el MVP; la API usa Bearer JWT.
+        </div>
       </section>
 
       <section class="sprint">

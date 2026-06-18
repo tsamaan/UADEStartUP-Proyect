@@ -71,6 +71,10 @@
             <h3>Archivos</h3>
             <p>Los archivos se guardan en MinIO autohosteado dentro de CapRover. La base solo conserva metadata y URLs/keys.</p>
           </article>
+          <article class="card">
+            <h3>Auditoria</h3>
+            <p>Las acciones administrativas sensibles se registran en <code>audit_logs</code> para trazabilidad operativa.</p>
+          </article>
         </div>
       </section>
 
@@ -147,7 +151,8 @@
             <tr><td><code>solution</code></td><td>text nullable</td><td>Solucion propuesta.</td></tr>
             <tr><td><code>category</code></td><td>varchar nullable</td><td>Categoria.</td></tr>
             <tr><td><code>stage</code></td><td>enum</td><td><code>idea</code>, <code>prototype</code>, <code>mvp</code>, <code>live</code>.</td></tr>
-            <tr><td><code>logo_file_id</code></td><td>uuid nullable</td><td>FK a <code>files.id</code>.</td></tr>
+            <tr><td><code>logo_url</code></td><td>varchar nullable</td><td>URL publica del logo principal. Se actualiza desde archivos de tipo <code>logo</code>.</td></tr>
+            <tr><td><code>video_url</code></td><td>varchar nullable</td><td>URL externa opcional. Los videos subidos por la app se guardan en <code>project_files</code>.</td></tr>
             <tr><td><code>demo_url</code></td><td>varchar nullable</td><td>Link demo.</td></tr>
             <tr><td><code>repository_url</code></td><td>varchar nullable</td><td>Link repo.</td></tr>
             <tr><td><code>status</code></td><td>enum</td><td><code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</td></tr>
@@ -187,7 +192,7 @@
         </table>
         <p class="note">Restriccion: una evaluacion por <code>edition_id</code> + <code>jury_user_id</code> + <code>project_id</code>.</p>
 
-        <h3>files</h3>
+        <h3>project_files</h3>
         <table>
           <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
           <tbody>
@@ -195,12 +200,29 @@
             <tr><td><code>edition_id</code></td><td>uuid nullable</td><td>FK a <code>editions.id</code>.</td></tr>
             <tr><td><code>project_id</code></td><td>uuid nullable</td><td>FK a <code>projects.id</code>.</td></tr>
             <tr><td><code>uploaded_by_user_id</code></td><td>uuid</td><td>FK a <code>users.id</code>.</td></tr>
-            <tr><td><code>kind</code></td><td>varchar</td><td>Uso del archivo: logo, image, video, deck o attachment.</td></tr>
+            <tr><td><code>kind</code></td><td>enum</td><td>Uso del archivo: logo, image, video, deck o attachment.</td></tr>
+            <tr><td><code>original_name</code></td><td>varchar</td><td>Nombre original enviado por el cliente.</td></tr>
             <tr><td><code>bucket</code></td><td>varchar</td><td>Bucket MinIO.</td></tr>
             <tr><td><code>object_key</code></td><td>varchar</td><td>Key/path del archivo.</td></tr>
-            <tr><td><code>public_url</code></td><td>varchar nullable</td><td>URL publica o CDN.</td></tr>
+            <tr><td><code>public_url</code></td><td>varchar</td><td>URL publica o CDN.</td></tr>
             <tr><td><code>mime_type</code></td><td>varchar</td><td>Tipo MIME.</td></tr>
             <tr><td><code>size_bytes</code></td><td>integer</td><td>Peso.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha de alta de metadata.</td></tr>
+            <tr><td><code>updated_at</code></td><td>timestamp</td><td>Fecha de actualizacion.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>audit_logs</h3>
+        <table>
+          <thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>uuid</td><td>PK.</td></tr>
+            <tr><td><code>actor_user_id</code></td><td>uuid nullable</td><td>FK a <code>users.id</code>. Puede quedar null si el usuario se elimina.</td></tr>
+            <tr><td><code>action</code></td><td>enum</td><td><code>user_role_changed</code>, <code>exhibitor_created</code>, <code>project_published</code>, <code>edition_voting_updated</code>.</td></tr>
+            <tr><td><code>entity_type</code></td><td>varchar</td><td>Tipo de entidad afectada.</td></tr>
+            <tr><td><code>entity_id</code></td><td>varchar</td><td>ID de la entidad afectada.</td></tr>
+            <tr><td><code>metadata</code></td><td>jsonb nullable</td><td>Detalle minimo del cambio.</td></tr>
+            <tr><td><code>created_at</code></td><td>timestamp</td><td>Fecha del evento auditado.</td></tr>
           </tbody>
         </table>
       </section>
@@ -214,9 +236,10 @@
           <li>Todos los jurados evaluan todos los proyectos publicados de la edicion.</li>
           <li>La ventana de votacion se define por edicion desde administracion.</li>
           <li>Cambiar voto debe ejecutarse en transaccion: restar al proyecto anterior, sumar al nuevo y emitir evento realtime.</li>
-          <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>files</code> y binarios en MinIO.</li>
+          <li>Los logos, imagenes, videos y adjuntos subidos por equipos se guardan como metadata en <code>project_files</code> y binarios en MinIO.</li>
           <li>El ranking publico ordena por <code>vote_count DESC</code> y <code>reached_vote_count_at ASC</code>.</li>
           <li>El ranking de jurado solo se expone a administradores.</li>
+          <li>Las acciones administrativas sensibles deben dejar rastro en <code>audit_logs</code>.</li>
         </ul>
       </section>
     </main>
