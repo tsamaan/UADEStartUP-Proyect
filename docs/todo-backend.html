@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8 y Sprint 9 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime y evaluacion de jurados ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5, Sprint 6, Sprint 7, Sprint 8, Sprint 9 y Sprint 10 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion, Google Login, votacion/ranking publico, realtime, evaluacion de jurados y archivos con MinIO ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -271,20 +271,23 @@
         <p>Objetivo: subir logos, imagenes y videos a MinIO y guardar metadata en base.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Levantar MinIO local para desarrollo.</label></li>
-          <li><label><input type="checkbox" />Crear modelo <code>files</code>.</label></li>
-          <li><label><input type="checkbox" />Configurar bucket inicial.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>POST /files/presign</code>.</label></li>
-          <li><label><input type="checkbox" />Validar MIME type y peso maximo.</label></li>
-          <li><label><input type="checkbox" />Guardar metadata de archivo.</label></li>
-          <li><label><input type="checkbox" />Asociar logo, galeria de imagenes y videos a proyecto.</label></li>
-          <li><label><input type="checkbox" />Definir URL publica o endpoint proxy para servir archivos.</label></li>
+          <li><label><input type="checkbox" checked />Levantar MinIO local para desarrollo.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelo <code>project_files</code>.</label></li>
+          <li><label><input type="checkbox" checked />Configurar bucket inicial.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /files/presign</code>.</label></li>
+          <li><label><input type="checkbox" checked />Validar MIME type y peso maximo.</label></li>
+          <li><label><input type="checkbox" checked />Guardar metadata de archivo.</label></li>
+          <li><label><input type="checkbox" checked />Asociar logo, galeria de imagenes y videos a proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Definir URL publica o endpoint proxy para servir archivos.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Logo, imagenes y videos de proyecto subibles y consultables.</li>
           <li>Archivos no dependen del contenedor de la API.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se configuro MinIO local, se creo <code>project_files</code>, se implemento <code>POST /files/presign</code>, se validaron tipo/peso/permisos y se probo subida real de logo con URL firmada.
+        </div>
       </section>
 
       <section class="sprint">
