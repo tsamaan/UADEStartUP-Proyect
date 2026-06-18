@@ -34,7 +34,7 @@
       <header>
         <h1>TODO Backend por sprints - UADE StartUP</h1>
         <p>Roadmap para construir el backend en Node.js con Express, PostgreSQL en CapRover, MinIO, Google Login para votar y WebSockets para ranking en vivo.</p>
-        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4 y Sprint 5 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial y proyectos/publicacion ya fueron verificados localmente.</p>
+        <p>Estado actualizado: Sprint 1, Sprint 2, Sprint 3, Sprint 4, Sprint 5 y Sprint 6 completos. Base tecnica, PostgreSQL/Prisma/ediciones, auth interna, administracion inicial, proyectos/publicacion y Google Login para invitados ya fueron verificados localmente.</p>
       </header>
 
       <section>
@@ -174,19 +174,22 @@
         <p>Objetivo: permitir que los invitados se autentiquen con Google solamente cuando intentan votar.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Configurar OAuth de Google en desarrollo.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /auth/google</code>.</label></li>
-          <li><label><input type="checkbox" />Implementar <code>GET /auth/google/callback</code>.</label></li>
-          <li><label><input type="checkbox" />Crear/vincular usuario <code>guest</code> desde Google.</label></li>
-          <li><label><input type="checkbox" />Validar que Google devuelva un email verificado.</label></li>
-          <li><label><input type="checkbox" />Guardar identidad en <code>social_identities</code>.</label></li>
-          <li><label><input type="checkbox" />Probar flujo desde celular y navegador desktop.</label></li>
+          <li><label><input type="checkbox" checked />Configurar OAuth de Google en desarrollo.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /auth/google</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /auth/google/callback</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear/vincular usuario <code>guest</code> desde Google.</label></li>
+          <li><label><input type="checkbox" checked />Validar que Google devuelva un email verificado.</label></li>
+          <li><label><input type="checkbox" checked />Guardar identidad en <code>social_identities</code>.</label></li>
+          <li><label><input type="checkbox" checked />Probar flujo desde navegador desktop.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li>Un invitado puede autenticarse con Google.</li>
           <li>Ver proyectos sigue sin requerir login.</li>
         </ul>
+        <div class="note">
+          <strong>Sprint cerrado:</strong> se cargo OAuth de Google en desarrollo, se probo redireccion a Google, callback real, creacion/vinculacion de usuario <code>guest</code>, emision de JWT y <code>GET /auth/me</code> con el token generado.
+        </div>
       </section>
 
       <section class="sprint">

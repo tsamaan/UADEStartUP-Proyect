@@ -64,6 +64,9 @@ services:
       PORT: 3000
       JWT_SECRET: ${JWT_SECRET:-change-me-in-development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://uade_startup:uade_startup@postgres:5432/uade_startup?schema=public}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:3000/auth/google/callback}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-uade_startup_minio}
