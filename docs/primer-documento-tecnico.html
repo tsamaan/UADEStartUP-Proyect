@@ -258,7 +258,7 @@
               <li>El feed de proyectos se ordena dinamicamente segun popularidad.</li>
               <li>Los jurados evaluan presentaciones con una calificacion del 1 al 5.</li>
               <li>Los administradores gestionan usuarios, roles, proyectos, codigos de acceso y configuracion de cada edicion.</li>
-              <li>El producto mantiene historico por ediciones, por ejemplo Edicion 2026, para consultar resultados y proyectos anteriores.</li>
+              <li>El producto mantiene historico por ediciones cuatrimestrales, por ejemplo Edicion 2026 - Primer Cuatrimestre, para consultar resultados y proyectos anteriores.</li>
             </ul>
             <p>Este repositorio funcionara como base de infraestructura y documentacion. El frontend y el backend viviran en repositorios separados para mantener responsabilidades claras.</p>
           </section>
@@ -342,7 +342,7 @@
 
             <h3>Edicion</h3>
             <p><span class="tag">id</span><span class="tag">nombre</span><span class="tag">anio</span><span class="tag">slug</span><span class="tag">estado</span><span class="tag">fecha_inicio</span><span class="tag">fecha_fin</span><span class="tag">votacion_abierta</span></p>
-            <p>Representa una version anual o periodica de UADE StartUP, por ejemplo Edicion 2026. Proyectos, votos, jurados, evaluaciones y resultados quedan asociados a una edicion.</p>
+            <p>Representa una version por anio y cuatrimestre de UADE StartUP, por ejemplo Edicion 2026 - Primer Cuatrimestre. Proyectos, votos, jurados, evaluaciones y resultados quedan asociados a una edicion.</p>
 
             <h3>Proyecto</h3>
             <p><span class="tag">edicion_id</span><span class="tag">titulo</span><span class="tag">resumen_corto</span><span class="tag">descripcion</span><span class="tag">problema</span><span class="tag">solucion</span><span class="tag">categoria</span><span class="tag">logo_url</span><span class="tag">demo_url</span><span class="tag">estado</span></p>
@@ -379,7 +379,7 @@
             <ol>
               <li>Completa titulo, resumen y descripcion.</li>
               <li>Carga logo, imagenes y videos.</li>
-              <li>Agrega links opcionales: demo, video, repositorio o deck.</li>
+              <li>Agrega links opcionales solo para demo o repositorio. Logo, imagenes, videos y deck se suben como archivos.</li>
               <li>Define categoria y tags.</li>
               <li>Guarda borrador o envia a revision.</li>
               <li>El administrador aprueba la publicacion.</li>
@@ -454,7 +454,7 @@
               </article>
             </div>
             <div class="note">
-              <strong>Decision tomada:</strong> UADE StartUP tendra ediciones/versiones consultables, como Edicion 2026. La pantalla publica podra mostrar la edicion activa y permitir navegar historicos cuando existan.
+              <strong>Decision tomada:</strong> UADE StartUP tendra ediciones/versiones consultables por cuatrimestre, como Edicion 2026 - Primer Cuatrimestre. La pantalla publica podra mostrar la edicion activa y permitir navegar historicos cuando existan.
             </div>
           </section>
 
@@ -576,7 +576,7 @@
               <li>Frontend en Next.js y backend en Node.js con Express.</li>
               <li>Deploy en CapRover con frontend y backend como apps separadas.</li>
               <li>Archivos en MinIO autohosteado dentro de CapRover.</li>
-              <li>Soporte de ediciones/versiones, como Edicion 2026.</li>
+              <li>Soporte de ediciones/versiones cuatrimestrales, como Edicion 2026 - Primer Cuatrimestre.</li>
               <li>PostgreSQL dentro de CapRover.</li>
               <li>Todos los jurados evaluan todos los proyectos de la edicion.</li>
               <li>Ventana de votacion configurable por administrador en cada edicion.</li>

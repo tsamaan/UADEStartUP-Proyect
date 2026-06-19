@@ -23,7 +23,7 @@ proyectosTeo/
 
 ## Producto
 
-UADE StartUP se organiza por **ediciones**. Por ejemplo, una edicion puede ser `Edicion 2026`, y a futuro se podran consultar ediciones anteriores como versiones historicas del evento.
+UADE StartUP se organiza por **ediciones por cuatrimestre**. Por ejemplo, `Edicion 2026 - Primer Cuatrimestre` y `Edicion 2026 - Segundo Cuatrimestre`, y a futuro se podran consultar ediciones anteriores como versiones historicas del evento.
 
 Los usuarios publicos pueden entrar por QR y ver los proyectos sin iniciar sesion. Para votar, la decision actual es usar inicio de sesion con Google, de forma que se reduzca el riesgo de votos duplicados sin obligar a registrarse manualmente.
 
@@ -53,9 +53,9 @@ Los equipos expositores deben poder cargar contenido visual del proyecto:
 - Logo del proyecto.
 - Imagenes de presentacion o capturas.
 - Video del pitch, demo o presentacion.
-- Links externos opcionales, como demo, repositorio o video publicado.
+- Links externos opcionales solo para demo o repositorio.
 
-Para archivos subidos desde la app se usara MinIO. La API deberia exponer un flujo seguro de carga, idealmente con URLs prefirmadas, validacion de tipo de archivo, tamano maximo y asociacion del archivo al proyecto correspondiente.
+Logo, imagenes y videos se deben subir desde la app a MinIO. No se aceptan links externos para imagenes o videos del proyecto. La API expone un flujo seguro con URLs prefirmadas, validacion de tipo de archivo, tamano maximo y asociacion del archivo al proyecto correspondiente.
 
 ## Entorno Local Con Docker
 
