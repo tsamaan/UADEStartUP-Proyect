@@ -64,6 +64,7 @@ services:
       PORT: 3000
       JWT_SECRET: ${JWT_SECRET:-change-me-in-development}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3001}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3001}
       JSON_BODY_LIMIT: ${JSON_BODY_LIMIT:-1mb}
       TRUST_PROXY: ${TRUST_PROXY:-false}
       DATABASE_URL: ${DATABASE_URL:-postgresql://uade_startup:uade_startup@postgres:5432/uade_startup?schema=public}

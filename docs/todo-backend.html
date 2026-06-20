@@ -80,9 +80,9 @@
         <ul>
           <li><label><input type="checkbox" checked />Elegir ORM. Recomendado: Prisma.</label></li>
           <li><label><input type="checkbox" checked />Configurar PostgreSQL local con Docker Compose.</label></li>
-          <li><label><input type="checkbox" checked />Crear modelos iniciales: <code>users</code>, <code>social_identities</code>, <code>editions</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear modelos iniciales: <code>users</code>, <code>social_identities</code>, <code>editions</code> con separacion por cuatrimestre.</label></li>
           <li><label><input type="checkbox" checked />Crear migracion inicial.</label></li>
-          <li><label><input type="checkbox" checked />Crear seed de admin y <code>Edicion 2026</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear seed de admin y <code>Edicion 2026 - Primer/Segundo Cuatrimestre</code>.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>GET /editions</code>.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>GET /editions/:slug</code>.</label></li>
         </ul>
@@ -90,10 +90,10 @@
         <ul>
           <li><label><input type="checkbox" checked />Base local funcionando.</label></li>
           <li><label><input type="checkbox" checked />Seed ejecutable.</label></li>
-          <li><label><input type="checkbox" checked />Edicion 2026 consultable sin login.</label></li>
+          <li><label><input type="checkbox" checked />Edicion 2026 por cuatrimestre consultable sin login.</label></li>
         </ul>
         <div class="note">
-          <strong>Sprint cerrado:</strong> PostgreSQL quedo levantado con Docker, se aplico la migracion inicial, se ejecuto el seed y se probaron <code>GET /editions</code> y <code>GET /editions/edicion-2026</code>.
+          <strong>Sprint cerrado:</strong> PostgreSQL quedo levantado con Docker, se aplico la migracion inicial, se ejecuto el seed y se probaron <code>GET /editions</code> y <code>GET /editions/edicion-2026-primer-cuatrimestre</code>.
         </div>
       </section>
 
@@ -282,7 +282,7 @@
         </ul>
         <h3>Entrega</h3>
         <ul>
-          <li>Logo, imagenes y videos de proyecto subibles y consultables.</li>
+          <li>Logo, imagenes y videos de proyecto subibles y consultables, sin links externos para medios.</li>
           <li>Archivos no dependen del contenedor de la API.</li>
         </ul>
         <div class="note">

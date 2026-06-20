@@ -88,12 +88,15 @@
 
         <article class="endpoint">
           <h3>GET /auth/google</h3>
-          <p>Planificado. Redirecciona al flujo OAuth Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
+          <p>Actual. Redirecciona al flujo OAuth Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
         </article>
 
         <article class="endpoint">
           <h3>GET /auth/google/callback</h3>
-          <p>Planificado. Callback OAuth. Crea o recupera usuario invitado, valida que use cuenta Google y lo deja autenticado.</p>
+          <p>Actual. Callback OAuth. Crea o recupera usuario invitado, valida que use cuenta Google y redirige al frontend con Bearer token.</p>
+<pre><code>HTTP 302
+Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
+          <p class="note">La URL base del frontend se configura con <code>FRONTEND_URL</code>. En desarrollo: <code>http://localhost:3001</code>.</p>
         </article>
 
         <article class="endpoint">
@@ -119,9 +122,10 @@
   "items": [
     {
       "id": "uuid",
-      "name": "Edicion 2026",
+      "name": "Edicion 2026 - Primer Cuatrimestre",
       "year": 2026,
-      "slug": "edicion-2026",
+      "term": "first_cuatrimestre",
+      "slug": "edicion-2026-primer-cuatrimestre",
       "status": "active"
     }
   ]
@@ -151,7 +155,12 @@
   "shortSummary": "Resumen corto",
   "description": "Descripcion completa",
   "category": "Impacto social",
-  "logoUrl": "https://cdn.example.com/logo.png",
+  "logoUrl": "https://minio.example.com/uade-startup/...",
+  "files": [
+    { "id": "uuid", "kind": "logo", "publicUrl": "https://minio.example.com/..." },
+    { "id": "uuid", "kind": "image", "publicUrl": "https://minio.example.com/..." },
+    { "id": "uuid", "kind": "video", "publicUrl": "https://minio.example.com/..." }
+  ],
   "voteCount": 27
 }</code></pre>
         </article>
@@ -171,10 +180,9 @@
   "stage": "mvp",
   "contactEmail": "equipo@uade.edu.ar",
   "demoUrl": "https://example.com/demo",
-  "repositoryUrl": "https://github.com/org/repo",
-  "videoUrl": "https://example.com/video",
-  "logoUrl": "https://cdn.example.com/logo.png"
+  "repositoryUrl": "https://github.com/org/repo"
 }</code></pre>
+          <p class="note">Logo, imagenes y videos no se envian como links en este body. Se suben con <code>POST /files/presign</code> usando <code>kind</code>: <code>logo</code>, <code>image</code> o <code>video</code>.</p>
         </article>
 
         <article class="endpoint">
@@ -210,7 +218,7 @@
         </article>
 
         <article class="endpoint">
-          <h3>GET /rankings/public?editionSlug=edicion-2026</h3>
+          <h3>GET /rankings/public?editionSlug=edicion-2026-primer-cuatrimestre</h3>
           <p>Actual. Ranking publico visible para todos.</p>
         </article>
       </section>
@@ -282,7 +290,7 @@
     "kind": "logo",
     "originalName": "logo.png",
     "bucket": "uade-startup",
-    "objectKey": "editions/edicion-2026/projects/uuid/logo/uuid-logo.png",
+    "objectKey": "editions/edicion-2026-primer-cuatrimestre/projects/uuid/logo/uuid-logo.png",
     "publicUrl": "http://localhost:9000/uade-startup/editions/...",
     "mimeType": "image/png",
     "sizeBytes": 120000
@@ -296,7 +304,7 @@
     }
   }
 }</code></pre>
-          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El cliente sube el binario con <code>PUT</code> a <code>upload.url</code>. El campo <code>videoUrl</code> de proyectos queda reservado para videos externos; los videos subidos por la app se manejan como archivos en MinIO.</p>
+          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El cliente sube el binario con <code>PUT</code> a <code>upload.url</code>. Logo, imagenes y videos del proyecto deben cargarse por este flujo; no se aceptan links externos para esos medios.</p>
         </article>
       </section>
 
