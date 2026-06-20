@@ -88,12 +88,15 @@
 
         <article class="endpoint">
           <h3>GET /auth/google</h3>
-          <p>Planificado. Redirecciona al flujo OAuth Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
+          <p>Actual. Redirecciona al flujo OAuth Google. Se dispara cuando un invitado intenta votar sin estar autenticado.</p>
         </article>
 
         <article class="endpoint">
           <h3>GET /auth/google/callback</h3>
-          <p>Planificado. Callback OAuth. Crea o recupera usuario invitado, valida que use cuenta Google y lo deja autenticado.</p>
+          <p>Actual. Callback OAuth. Crea o recupera usuario invitado, valida que use cuenta Google y redirige al frontend con Bearer token.</p>
+<pre><code>HTTP 302
+Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
+          <p class="note">La URL base del frontend se configura con <code>FRONTEND_URL</code>. En desarrollo: <code>http://localhost:3001</code>.</p>
         </article>
 
         <article class="endpoint">
