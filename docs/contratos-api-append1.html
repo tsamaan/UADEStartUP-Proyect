@@ -1,0 +1,49 @@
+<!--
+  APPEND A contratos-api.html
+  Agregar este bloque dentro de la sección <h2>Proyectos</h2>,
+  después del endpoint POST /projects existente.
+-->
+
+<article class="endpoint">
+  <h3>POST /projects — campo members (extensión documentada)</h3>
+  <p>
+    El payload de creación de proyecto acepta un campo adicional <code>members</code>
+    que representa los integrantes del equipo. Este campo se persiste en
+    <code>teams.members</code> (tipo <code>jsonb</code>) según el modelo entidad-relación.
+  </p>
+  <p>
+    Este campo fue agregado al formulario de frontend en la pantalla
+    <code>/panel/expositor</code> (componente <code>CargarProyectoForm.tsx</code>).
+    El backend debe aceptarlo en el body del <code>POST /projects</code> o en un
+    endpoint separado <code>PATCH /teams/:id</code> para actualizar los integrantes.
+  </p>
+  <pre><code>{
+  "editionId": "uuid",
+  "teamId": "uuid",
+  "title": "Proyecto Demo",
+  "shortSummary": "Resumen corto",
+  "description": "Descripcion completa",
+  "problem": "Problema",
+  "solution": "Solucion",
+  "category": "Tecnologia",
+  "stage": "mvp",
+  "contactEmail": "equipo@uade.edu.ar",
+  "demoUrl": "https://demo.miproyecto.com",
+  "repositoryUrl": "https://github.com/org/repo",
+  "members": [
+    { "name": "Juan Garcia", "legajo": "12345" },
+    { "name": "Maria Lopez", "legajo": "67890" }
+  ]
+}</code></pre>
+  <p>
+    Cada integrante tiene:
+    <code>name</code> (string, nombre y apellido completo) y
+    <code>legajo</code> (string, número de legajo universitario).
+    El array puede contener 1 o más integrantes sin límite fijo.
+  </p>
+  <p class="note">
+    <strong>Estado:</strong> el frontend ya envía este campo. El backend debe
+    mapearlo a <code>teams.members</code> al crear o actualizar el equipo.
+    Pendiente validación en backend Sprint correspondiente.
+  </p>
+</article>
