@@ -202,6 +202,39 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
       </section>
 
       <section>
+        <h2>Expositor</h2>
+        <article class="endpoint">
+          <h3>GET /exhibitor/me</h3>
+          <p>Actual. Devuelve el contexto del expositor autenticado para que el frontend no hardcodee <code>editionId</code> ni <code>teamId</code>. Rol: expositor o admin.</p>
+<pre><code>{
+  "user": {
+    "id": "uuid",
+    "name": "Expositor Demo",
+    "email": "expositor@uadestartup.local",
+    "role": "exhibitor"
+  },
+  "team": {
+    "id": "uuid",
+    "editionId": "uuid",
+    "name": "Equipo Demo",
+    "institution": "UADE",
+    "members": ["Integrante 1"],
+    "edition": {
+      "id": "uuid",
+      "name": "Edicion 2026 - Primer Cuatrimestre",
+      "year": 2026,
+      "term": "first_cuatrimestre",
+      "slug": "edicion-2026-primer-cuatrimestre",
+      "status": "active"
+    }
+  },
+  "project": null
+}</code></pre>
+          <p class="note">Si <code>team</code> es <code>null</code>, el frontend debe mostrar que el expositor todavia no tiene equipo asignado y no debe renderizar el formulario de proyecto.</p>
+        </article>
+      </section>
+
+      <section>
         <h2>Votos</h2>
         <article class="endpoint">
           <h3>POST /projects/:id/vote</h3>
