@@ -132,14 +132,16 @@
           <li><label><input type="checkbox" checked />Implementar <code>POST /admin/exhibitors</code>.</label></li>
           <li><label><input type="checkbox" checked />Asociar equipo a edicion y usuario expositor responsable.</label></li>
           <li><label><input type="checkbox" checked />Validar que solo admin pueda dar de alta expositores.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /exhibitor/me</code> para que el frontend obtenga equipo, edicion y proyecto del expositor autenticado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li><label><input type="checkbox" checked />Admin puede crear/habilitar expositores.</label></li>
           <li><label><input type="checkbox" checked />Equipos quedan vinculados a una edicion.</label></li>
+          <li><label><input type="checkbox" checked />Frontend puede cargar proyecto sin IDs hardcodeados.</label></li>
         </ul>
         <div class="note">
-          <strong>Sprint cerrado:</strong> se probo listado de usuarios con admin, alta de expositor/equipo, login del expositor creado y bloqueo 403 al intentar acceder a rutas admin con rol expositor.
+          <strong>Sprint cerrado:</strong> se probo listado de usuarios con admin, alta de expositor/equipo, login del expositor creado, contexto del expositor con <code>GET /exhibitor/me</code> y bloqueo 403 al intentar acceder a rutas admin con rol expositor.
         </div>
       </section>
 
