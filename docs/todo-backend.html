@@ -130,13 +130,15 @@
           <li><label><input type="checkbox" checked />Implementar <code>PATCH /admin/users/:id/role</code>.</label></li>
           <li><label><input type="checkbox" checked />Crear modelo <code>teams</code>.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>POST /admin/exhibitors</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /admin/teams</code>.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>POST /admin/teams</code> para asignar un guest existente a equipo y rol expositor.</label></li>
           <li><label><input type="checkbox" checked />Asociar equipo a edicion y usuario expositor responsable.</label></li>
           <li><label><input type="checkbox" checked />Validar que solo admin pueda dar de alta expositores.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>GET /exhibitor/me</code> para que el frontend obtenga equipo, edicion y proyecto del expositor autenticado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
-          <li><label><input type="checkbox" checked />Admin puede crear/habilitar expositores.</label></li>
+          <li><label><input type="checkbox" checked />Admin puede convertir un guest existente en expositor al asignarle equipo.</label></li>
           <li><label><input type="checkbox" checked />Equipos quedan vinculados a una edicion.</label></li>
           <li><label><input type="checkbox" checked />Frontend puede cargar proyecto sin IDs hardcodeados.</label></li>
         </ul>
@@ -158,12 +160,13 @@
           <li><label><input type="checkbox" checked />Implementar estados: <code>draft</code>, <code>pending_review</code>, <code>published</code>, <code>hidden</code>.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>POST /projects/:id/submit</code>.</label></li>
           <li><label><input type="checkbox" checked />Implementar <code>POST /projects/:id/publish</code> solo admin.</label></li>
+          <li><label><input type="checkbox" checked />Implementar <code>GET /admin/projects</code> para listar proyectos por edicion/estado y alimentar la moderacion del panel admin.</label></li>
           <li><label><input type="checkbox" checked />Validar campos obligatorios iniciales: titulo, resumen, descripcion, problema, solucion, categoria, etapa, integrantes, logo y contacto.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
           <li><label><input type="checkbox" checked />Expositor puede cargar proyecto.</label></li>
-          <li><label><input type="checkbox" checked />Admin puede publicarlo.</label></li>
+          <li><label><input type="checkbox" checked />Admin puede verlo en revision y aceptarlo/publicarlo.</label></li>
           <li><label><input type="checkbox" checked />Publico puede ver proyectos publicados sin login.</label></li>
         </ul>
         <div class="note">
@@ -280,6 +283,7 @@
           <li><label><input type="checkbox" checked />Validar MIME type y peso maximo.</label></li>
           <li><label><input type="checkbox" checked />Guardar metadata de archivo.</label></li>
           <li><label><input type="checkbox" checked />Asociar logo, galeria de imagenes y videos a proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Firmar uploads con <code>MINIO_PUBLIC_ENDPOINT</code> para que el navegador use <code>localhost</code> o dominio publico, no el host interno Docker <code>minio</code>.</label></li>
           <li><label><input type="checkbox" checked />Definir URL publica o endpoint proxy para servir archivos.</label></li>
         </ul>
         <h3>Entrega</h3>
@@ -288,7 +292,7 @@
           <li>Archivos no dependen del contenedor de la API.</li>
         </ul>
         <div class="note">
-          <strong>Sprint cerrado:</strong> se configuro MinIO local, se creo <code>project_files</code>, se implemento <code>POST /files/presign</code>, se validaron tipo/peso/permisos y se probo subida real de logo con URL firmada.
+          <strong>Sprint cerrado:</strong> se configuro MinIO local, se creo <code>project_files</code>, se implemento <code>POST /files/presign</code>, se validaron tipo/peso/permisos y se probo subida real de logo, multiples imagenes y videos con URL firmada publica.
         </div>
       </section>
 

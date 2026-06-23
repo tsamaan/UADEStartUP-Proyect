@@ -106,12 +106,12 @@
         <p>Objetivo: mostrar proyectos publicados y detalle sin requerir login.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Consumir <code>GET /editions/:slug/projects</code>.</label></li>
-          <li><label><input type="checkbox" />Mostrar feed ordenado por ranking publico.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>GET /editions/:slug/projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Mostrar feed ordenado por ranking publico.</label></li>
           <li><label><input type="checkbox" />Crear filtros simples por categoria/etapa si el backend ya los soporta.</label></li>
           <li><label><input type="checkbox" />Crear ruta <code>/proyectos/[id]</code>.</label></li>
-          <li><label><input type="checkbox" />Consumir <code>GET /projects/:id</code>.</label></li>
-          <li><label><input type="checkbox" />Mostrar logo, galeria multimedia subida, descripcion, equipo, links de demo/repositorio y votos.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>GET /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" checked />Mostrar logo, galeria multimedia subida, descripcion, equipo, links de demo/repositorio y votos.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -125,14 +125,14 @@
         <p>Objetivo: permitir votar solo con Google, sin bloquear la navegacion publica.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear estado de usuario actual consumiendo <code>GET /auth/me</code>.</label></li>
-          <li><label><input type="checkbox" />Agregar boton de voto en cards y detalle.</label></li>
-          <li><label><input type="checkbox" />Si el usuario no esta autenticado, redirigir a <code>GET /auth/google</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear estado de usuario actual consumiendo <code>GET /auth/me</code>.</label></li>
+          <li><label><input type="checkbox" checked />Agregar boton de voto en cards y detalle.</label></li>
+          <li><label><input type="checkbox" checked />Si el usuario no esta autenticado, redirigir a <code>GET /auth/google</code>.</label></li>
           <li><label><input type="checkbox" />Mostrar error claro si Google no devuelve un email verificado.</label></li>
-          <li><label><input type="checkbox" />Si esta autenticado, llamar <code>POST /projects/:id/vote</code>.</label></li>
-          <li><label><input type="checkbox" />Mostrar estado visual del proyecto votado.</label></li>
+          <li><label><input type="checkbox" checked />Si esta autenticado como <code>guest</code>, llamar <code>POST /projects/:id/vote</code>.</label></li>
+          <li><label><input type="checkbox" checked />Mostrar estado visual del proyecto votado.</label></li>
           <li><label><input type="checkbox" />Soportar cambio de voto con confirmacion discreta.</label></li>
-          <li><label><input type="checkbox" />Manejar errores: votacion cerrada, usuario no autorizado, proyecto no publicado.</label></li>
+          <li><label><input type="checkbox" checked />Manejar errores: votacion cerrada, usuario no autorizado, proyecto no publicado.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -184,13 +184,13 @@
         <p>Objetivo: permitir cargar y editar proyecto del equipo.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear dashboard de expositor.</label></li>
-          <li><label><input type="checkbox" />Crear formulario de proyecto.</label></li>
-          <li><label><input type="checkbox" />Validar campos obligatorios.</label></li>
-          <li><label><input type="checkbox" />Consumir <code>POST /projects</code> y <code>PATCH /projects/:id</code>.</label></li>
+          <li><label><input type="checkbox" checked />Crear dashboard de expositor.</label></li>
+          <li><label><input type="checkbox" checked />Crear formulario de proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Validar campos obligatorios.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>POST /projects</code> y <code>PATCH /projects/:id</code>.</label></li>
           <li><label><input type="checkbox" />Crear vista previa del proyecto.</label></li>
-          <li><label><input type="checkbox" />Agregar accion enviar a revision.</label></li>
-          <li><label><input type="checkbox" />Mostrar estado: borrador, pendiente, publicado, oculto.</label></li>
+          <li><label><input type="checkbox" checked />Agregar accion enviar a revision.</label></li>
+          <li><label><input type="checkbox" checked />Mostrar estado: borrador, pendiente, publicado, oculto.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -204,13 +204,14 @@
         <p>Objetivo: subir logo, imagenes y videos usando URL firmada de MinIO.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear componente de upload para logo.</label></li>
-          <li><label><input type="checkbox" />Crear componente de galeria para imagenes y videos.</label></li>
-          <li><label><input type="checkbox" />Consumir <code>POST /files/presign</code>.</label></li>
-          <li><label><input type="checkbox" />Subir archivo directo a MinIO con URL firmada.</label></li>
+          <li><label><input type="checkbox" checked />Crear componente de upload para logo.</label></li>
+          <li><label><input type="checkbox" checked />Crear componente de galeria para imagenes y videos.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>POST /files/presign</code>.</label></li>
+          <li><label><input type="checkbox" checked />Subir archivo directo a MinIO con URL firmada.</label></li>
           <li><label><input type="checkbox" />Mostrar progreso y errores.</label></li>
-          <li><label><input type="checkbox" />Validar formato y peso antes de subir.</label></li>
-          <li><label><input type="checkbox" />Asociar archivo al proyecto.</label></li>
+          <li><label><input type="checkbox" checked />Permitir multiples imagenes y multiples videos; mantener logo unico.</label></li>
+          <li><label><input type="checkbox" checked />Validar formato y peso antes de subir.</label></li>
+          <li><label><input type="checkbox" checked />Asociar archivo al proyecto.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -224,13 +225,13 @@
         <p>Objetivo: que cada jurado evalúe todos los proyectos de la edicion.</p>
         <h3>Tareas</h3>
         <ul>
-          <li><label><input type="checkbox" />Crear dashboard de jurado.</label></li>
-          <li><label><input type="checkbox" />Consumir <code>GET /jury/projects</code>.</label></li>
-          <li><label><input type="checkbox" />Mostrar progreso de evaluaciones.</label></li>
-          <li><label><input type="checkbox" />Crear control de estrellas 1 a 5.</label></li>
-          <li><label><input type="checkbox" />Agregar comentario privado opcional.</label></li>
-          <li><label><input type="checkbox" />Consumir <code>POST /jury/projects/:id/evaluation</code>.</label></li>
-          <li><label><input type="checkbox" />Permitir editar evaluacion hasta cierre.</label></li>
+          <li><label><input type="checkbox" checked />Crear dashboard de jurado.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>GET /jury/projects</code>.</label></li>
+          <li><label><input type="checkbox" checked />Mostrar progreso de evaluaciones.</label></li>
+          <li><label><input type="checkbox" checked />Crear control visual de puntaje 1 a 5.</label></li>
+          <li><label><input type="checkbox" checked />Agregar comentario privado opcional.</label></li>
+          <li><label><input type="checkbox" checked />Consumir <code>POST /jury/projects/:id/evaluation</code>.</label></li>
+          <li><label><input type="checkbox" checked />Permitir editar evaluacion hasta cierre.</label></li>
         </ul>
         <h3>Entrega</h3>
         <ul>
@@ -246,10 +247,10 @@
         <ul>
           <li><label><input type="checkbox" />Crear dashboard admin.</label></li>
           <li><label><input type="checkbox" />Crear gestion de ediciones.</label></li>
-          <li><label><input type="checkbox" />Permitir abrir/cerrar ventana de votacion.</label></li>
-          <li><label><input type="checkbox" />Crear gestion de usuarios y roles.</label></li>
-          <li><label><input type="checkbox" />Crear alta de expositores/equipos.</label></li>
-          <li><label><input type="checkbox" />Crear moderacion de proyectos.</label></li>
+          <li><label><input type="checkbox" checked />Permitir abrir/cerrar ventana de votacion.</label></li>
+          <li><label><input type="checkbox" checked />Crear gestion de usuarios y roles.</label></li>
+          <li><label><input type="checkbox" checked />Crear asignacion de guest existente a equipo expositor.</label></li>
+          <li><label><input type="checkbox" checked />Crear moderacion de proyectos en revision y accion aceptar/publicar.</label></li>
           <li><label><input type="checkbox" />Crear vista de ranking publico.</label></li>
           <li><label><input type="checkbox" />Crear vista privada de ranking de jurado.</label></li>
         </ul>

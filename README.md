@@ -32,7 +32,7 @@ Roles principales:
 - **Invitado:** ve proyectos y ranking publico. Para votar debe autenticarse con cuenta Google.
 - **Expositor:** pertenece a un equipo y carga la informacion del proyecto.
 - **Jurado:** evalua todos los proyectos de una edicion con puntaje de 1 a 5.
-- **Admin:** gestiona ediciones, usuarios, equipos, proyectos, publicaciones y resultados privados.
+- **Admin:** gestiona usuarios, equipos, proyectos en revision, apertura/cierre de votacion y resultados privados.
 
 ## Decisiones tecnicas
 
@@ -56,6 +56,8 @@ Los equipos expositores deben poder cargar contenido visual del proyecto:
 - Links externos opcionales solo para demo o repositorio.
 
 Logo, imagenes y videos se deben subir desde la app a MinIO. No se aceptan links externos para imagenes o videos del proyecto. La API expone un flujo seguro con URLs prefirmadas, validacion de tipo de archivo, tamano maximo y asociacion del archivo al proyecto correspondiente.
+
+En local, las URLs firmadas que recibe el navegador deben usar `MINIO_PUBLIC_ENDPOINT=http://localhost:9000`. El backend puede conectarse internamente a `http://minio:9000`, pero ese hostname solo existe dentro de Docker y no lo resuelve el navegador.
 
 ## Entorno Local Con Docker
 
@@ -115,14 +117,13 @@ Para resetear datos locales:
 
 ## Estado Actual
 
-El backend ya tiene base tecnica, PostgreSQL, Prisma, ediciones, autenticacion inicial por email/password para desarrollo, roles, equipos y flujo de proyectos hasta publicacion.
+El backend ya tiene base tecnica, PostgreSQL, Prisma, ediciones, autenticacion interna, Google OAuth para invitados, roles, equipos, contexto de expositor, proyectos, aceptacion/publicacion por admin, votacion publica, ranking realtime, jurados y archivos en MinIO.
 
-El frontend ya existe como repo separado en Next.js y puede levantarse desde este repo de infra con Docker Compose.
+El frontend ya existe como repo separado en Next.js y puede levantarse desde este repo de infra con Docker Compose. Tiene feed publico, popup con galeria de imagenes/videos, voto de invitados, panel expositor, panel jurado y panel admin operativo.
 
 Proximos bloques importantes:
 
-- Autenticacion con Google para usuarios que votan.
-- Carga de archivos en MinIO.
-- Votacion publica con regla de un voto por usuario y proyecto/equipo.
-- Ranking publico en tiempo real.
-- Evaluacion de jurados y resultados privados para administradores.
+- Pulir UI responsive y estados de error.
+- Completar gestion avanzada de ediciones.
+- Preparar deploy productivo en CapRover.
+- Agregar pruebas end-to-end del flujo completo.

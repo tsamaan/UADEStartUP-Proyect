@@ -38,7 +38,7 @@
     <main>
       <header>
         <h1>Contratos de API - UADE StartUP</h1>
-        <p>Contratos REST + WebSocket para el MVP. Los endpoints de auth interna, ediciones, admin y proyectos reflejan el backend Express actual; votacion, jurado, archivos y realtime quedan como contratos planificados.</p>
+        <p>Contratos REST + WebSocket para el MVP. Los endpoints de auth interna, ediciones, admin, proyectos, votacion, jurado, archivos y realtime reflejan el backend Express actual.</p>
       </header>
 
       <section>
@@ -197,7 +197,7 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
 
         <article class="endpoint">
           <h3>POST /projects/:id/publish</h3>
-          <p>Publica proyecto. Rol: admin.</p>
+          <p>Publica/acepta proyecto pendiente de revision. Rol: admin. El panel admin consume este endpoint desde la seccion de proyectos en revision.</p>
         </article>
       </section>
 
@@ -238,7 +238,7 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
         <h2>Votos</h2>
         <article class="endpoint">
           <h3>POST /projects/:id/vote</h3>
-          <p>Actual. Emite o cambia el voto activo del invitado autenticado con Google para la edicion del proyecto. Requiere Google Login.</p>
+          <p>Actual. Emite o cambia el voto activo del invitado autenticado con Google para la edicion del proyecto. Requiere usuario rol <code>guest</code>, normalmente creado por Google OAuth.</p>
 <pre><code>{
   "previousProjectId": "uuid-or-null",
   "currentProjectId": "uuid",
@@ -247,7 +247,7 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
     { "projectId": "uuid", "voteCount": 27, "position": 2 }
   ]
 }</code></pre>
-          <p>Reglas: requiere edicion con <code>voting_open = true</code>. Ejecutar cambio en transaccion y emitir evento WebSocket.</p>
+          <p>Reglas: requiere edicion con <code>voting_open = true</code>. Si la votacion esta cerrada devuelve <code>409 voting_closed</code>. Usuarios admin, jurado y expositor no pueden votar. Ejecuta el cambio en transaccion y emite evento WebSocket.</p>
         </article>
 
         <article class="endpoint">
@@ -260,7 +260,32 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
         <h2>Jurado</h2>
         <article class="endpoint">
           <h3>GET /jury/projects?editionId=uuid</h3>
-          <p>Actual. Lista proyectos publicados para evaluar. Rol: jurado.</p>
+          <p>Actual. Lista proyectos publicados para evaluar. Rol: jurado. Incluye equipo, integrantes y evaluacion propia si ya existe.</p>
+<pre><code>{
+  "items": [
+    {
+      "id": "uuid",
+      "editionId": "uuid",
+      "title": "Proyecto",
+      "shortSummary": "Resumen breve",
+      "category": "Fintech",
+      "stage": "mvp",
+      "logoUrl": "http://localhost:9000/uade-startup/logo.png",
+      "team": {
+        "id": "uuid",
+        "name": "Grupo 1",
+        "institution": "UADE",
+        "members": ["Integrante 1", "Integrante 2"]
+      },
+      "myEvaluation": {
+        "id": "uuid",
+        "score": 5,
+        "privateComment": "Muy buena presentacion.",
+        "updatedAt": "2026-06-22T00:00:00.000Z"
+      }
+    }
+  ]
+}</code></pre>
         </article>
 
         <article class="endpoint">
@@ -295,8 +320,11 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
           <thead><tr><th>Endpoint</th><th>Uso</th></tr></thead>
           <tbody>
             <tr><td><code>GET /admin/users</code></td><td>Actual. Listar usuarios. Rol: admin.</td></tr>
-            <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Actual. Asignar rol. Body: <code>{ "role": "admin|exhibitor|jury|guest" }</code>.</td></tr>
-            <tr><td><code>POST /admin/exhibitors</code></td><td>Actual. Dar de alta expositor/equipo. Crea o actualiza usuario expositor y equipo asociado a una edicion.</td></tr>
+            <tr><td><code>PATCH /admin/users/:id/role</code></td><td>Actual. Asignar roles generales. Para expositor usar <code>POST /admin/teams</code>, asi no quedan expositores sin equipo.</td></tr>
+            <tr><td><code>GET /admin/teams?editionId=uuid</code></td><td>Actual. Listar equipos de una edicion con responsable, integrantes y proyecto asociado si existe.</td></tr>
+            <tr><td><code>POST /admin/teams</code></td><td>Actual. Asignar un usuario <code>guest</code> o <code>exhibitor</code> existente a un equipo y habilitarlo como expositor.</td></tr>
+            <tr><td><code>GET /admin/projects?editionId=uuid&amp;status=pending_review</code></td><td>Actual. Listar proyectos para moderacion/admin. Se usa para mostrar proyectos enviados por expositores y aceptarlos desde el panel admin.</td></tr>
+            <tr><td><code>POST /admin/exhibitors</code></td><td>Legacy. Alta directa de expositor/equipo. El flujo recomendado es que el usuario ingrese como guest y admin lo asigne con <code>POST /admin/teams</code>.</td></tr>
             <tr><td><code>POST /admin/editions</code></td><td>Planificado. Crear edicion.</td></tr>
             <tr><td><code>PATCH /admin/editions/:id</code></td><td>Planificado. Editar datos generales de edicion.</td></tr>
             <tr><td><code>PATCH /admin/editions/:id/voting</code></td><td>Actual. Abrir/cerrar votacion y configurar ventana. Body: <code>{ "votingOpen": true, "votingStart": null, "votingEnd": null }</code>.</td></tr>
@@ -337,7 +365,7 @@ Location: http://localhost:3001/auth/callback?token=&lt;JWT&gt;</code></pre>
     }
   }
 }</code></pre>
-          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El cliente sube el binario con <code>PUT</code> a <code>upload.url</code>. Logo, imagenes y videos del proyecto deben cargarse por este flujo; no se aceptan links externos para esos medios.</p>
+          <p class="note">Valores esperados de <code>kind</code>: <code>logo</code>, <code>image</code>, <code>video</code>, <code>deck</code> u <code>attachment</code>. El cliente sube el binario con <code>PUT</code> a <code>upload.url</code>. El logo es unico; imagenes y videos pueden ser multiples. Logo, imagenes y videos del proyecto deben cargarse por este flujo; no se aceptan links externos para esos medios.</p>
         </article>
       </section>
 

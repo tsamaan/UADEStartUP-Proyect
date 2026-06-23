@@ -83,6 +83,7 @@ docker compose --profile app up backend frontend</code></pre>
             <tr><td>MinIO Console</td><td><code>http://localhost:9001</code></td><td>Panel web de MinIO.</td></tr>
           </tbody>
         </table>
+        <p class="note">Para uploads desde el navegador, el backend firma URLs usando <code>MINIO_PUBLIC_ENDPOINT</code>, que en local debe ser <code>http://localhost:9000</code>. <code>MINIO_ENDPOINT</code> puede ser <code>http://minio:9000</code> dentro de Docker, pero esa URL no es resoluble por Chrome/Brave en la PC.</p>
       </section>
 
       <section>
