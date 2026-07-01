@@ -127,3 +127,43 @@ Proximos bloques importantes:
 - Completar gestion avanzada de ediciones.
 - Preparar deploy productivo en CapRover.
 - Agregar pruebas end-to-end del flujo completo.
+
+## Deploy En CapRover
+
+Este repo de infraestructura no debe desplegarse como una unica app en CapRover. El deploy productivo esperado es con apps separadas:
+
+- `uadestartup-backend`: repo `UADEStartUP-Backend`, puerto HTTP del contenedor `3000`.
+- `uadestartup-frontend`: repo `UADEStartUP-Frontend`, puerto HTTP del contenedor `3001`.
+- PostgreSQL: one-click app de CapRover o servicio externo administrado.
+- MinIO: app separada o servicio S3 compatible externo.
+
+Variables minimas del backend:
+
+```env
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=postgresql://usuario:password@host:5432/db?schema=public
+JWT_SECRET=un-secreto-largo-y-random
+CORS_ORIGINS=https://app.tudominio.com
+FRONTEND_URL=https://app.tudominio.com
+TRUST_PROXY=true
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+GOOGLE_CALLBACK_URL=https://api.tudominio.com/auth/google/callback
+MINIO_ENDPOINT=http://srv-captain--minio:9000
+MINIO_PUBLIC_ENDPOINT=https://minio.tudominio.com
+MINIO_ROOT_USER=...
+MINIO_ROOT_PASSWORD=...
+MINIO_BUCKET=uade-startup
+```
+
+Variables/build args del frontend:
+
+```env
+NEXT_PUBLIC_API_URL=https://api.tudominio.com
+NEXT_PUBLIC_WS_URL=https://api.tudominio.com
+NEXT_PUBLIC_DEFAULT_EDITION_SLUG=edicion-2026-primer-cuatrimestre
+NEXT_PUBLIC_MINIO_PUBLIC_ENDPOINT=https://minio.tudominio.com
+```
+
+Importante: las variables `NEXT_PUBLIC_*` de Next.js quedan embebidas durante el build. Si se cambian en CapRover, hay que redeployar/rebuildar el frontend. No deben quedar apuntando a `localhost` en produccion.
